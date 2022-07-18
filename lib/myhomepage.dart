@@ -16,9 +16,7 @@ class _MyHomePageState extends State<MyHomePage> {
   // String weatherIcon;
   // String cityName;
   // String weatherMessage;
-  dynamic movies = {};
-  dynamic series = {};
-  dynamic downloads = {};
+
   @override
   void initState() {
     super.initState();
@@ -34,49 +32,12 @@ class _MyHomePageState extends State<MyHomePage> {
     } else {
       return menusData;
     }
-    // movies = menusData[0];
-    // series = menusData[1];
-    // downloads = menusData[2];
-    // log("movies: $movies");
+
     return menusData;
   }
 
   @override
   Widget build(BuildContext context) {
-    // var drawer2 = Drawer(
-    //   child: ListView(
-    //     children: [
-    //       GFAccordion(
-    //         title: "Movies",
-    //         contentChild: Column(children: const [
-    //           ListTile(
-    //             title: Text("Movie 1"),
-    //           ),
-    //           ListTile(
-    //             title: Text("Movie 2"),
-    //           ),
-    //           ListTile(
-    //             title: Text("Movie 3"),
-    //           ),
-    //         ]),
-    //       ),
-    //       GFAccordion(
-    //         title: "Series",
-    //         contentChild: Column(children: const [
-    //           ListTile(
-    //             title: Text("Series 1"),
-    //           ),
-    //           ListTile(
-    //             title: Text("Series 2"),
-    //           ),
-    //           ListTile(
-    //             title: Text("Series 3"),
-    //           ),
-    //         ]),
-    //       ),
-    //     ],
-    //   ),
-    // );
     return Scaffold(
       drawer: Drawer(
         child: FutureBuilder(
@@ -89,10 +50,24 @@ class _MyHomePageState extends State<MyHomePage> {
             } else {
               return ListView.builder(
                 itemCount: snapshot.data.length,
+                shrinkWrap: true,
                 itemBuilder: (context, index) {
+                  log("${snapshot.data[index]["name"]}");
                   return GFAccordion(
                     title: "${snapshot.data[index]["name"]}",
-                    contentChild: drawerNestedListTile(snapshot, index),
+                    contentChild: SizedBox(
+                      width: double.infinity,
+                      height: 200,
+                      child: ListView.builder(
+                          itemCount: snapshot.data[index]["children"].length,
+                          itemBuilder: ((context, index2) {
+                            var name = snapshot.data[index]["children"][index2]
+                                ["name"];
+                            return ListTile(
+                              title: Text("$name"),
+                            );
+                          })),
+                    ),
                   );
                 },
               );
@@ -134,24 +109,5 @@ class _MyHomePageState extends State<MyHomePage> {
             title: Text("${snapshot.data[index]["children"][index2]["name"]}"),
           );
         });
-
-    // "${snapshot.data[index]["children"][index]["name"]}"),
   }
-
-  // GFAccordion DrawerLVGFAccordion(String title, List<String> titles) {
-  //   return GFAccordion(
-  //     title: title,
-  //     contentChild: Column(children: const [
-  //       ListTile(
-  //         title: Text("${titles[0]}"),
-  //       ),
-  //       ListTile(
-  //         title: Text("Movie 2"),
-  //       ),
-  //       ListTile(
-  //         title: Text("Movie 3"),
-  //       ),
-  //     ]),
-  //   );
-  // }
 }
