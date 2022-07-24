@@ -1,5 +1,7 @@
+import 'package:cima/localization/applocal.dart';
 import 'package:flutter/material.dart';
-import 'package:cima/myhomepage.dart';
+import 'package:cima/screens/myhomepage.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() => runApp(MyApp());
 
@@ -13,7 +15,23 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      home: MyHomePage(),
+      home: const MyHomePage(),
+      localizationsDelegates: const [
+        AppLocale.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate
+      ],
+      supportedLocales: const [Locale("en", ""), Locale("ar", "")],
+      localeResolutionCallback: (currentlang, supportlang) {
+        if (currentlang != null) {
+          for (Locale locale in supportlang) {
+            if (locale.languageCode == currentlang.languageCode) {
+              return currentlang;
+            }
+          }
+        }
+        return supportlang.first;
+      },
     );
   }
 }

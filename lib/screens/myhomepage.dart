@@ -1,8 +1,8 @@
 import 'dart:developer';
-
+import 'package:cima/screens/movie_info.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:cima/apihandler.dart';
+import 'package:cima/models/apihandler.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -37,22 +37,40 @@ class _MyHomePageState extends State<MyHomePage> {
     return menusData;
   }
 
-  Future<dynamic> getSeriesPosts() async {
-    ApiHandler seriesDataHandler =
-        ApiHandler("https://mycima.tube/appweb/posts/");
-    var seriesData = await seriesDataHandler.getData();
-
-    if (seriesData.isEmpty) {
-      log("seriesData is null");
-    } else {
-      return seriesData;
-    }
-
-    return seriesData;
-  }
+  Future<dynamic> getSeriesPosts() async {}
 
   @override
   Widget build(BuildContext context) {
+    var center = Center(
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(10, 50, 10, 0),
+        child: FutureBuilder(
+            future: getSeriesPosts(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.data == null) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else {
+                return GridView.builder(
+                  itemCount: snapshot.data.length,
+                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 250.0,
+                    childAspectRatio: 6 / 8,
+                    mainAxisSpacing: 10.0,
+                    crossAxisSpacing: 10.0,
+                  ),
+                  itemBuilder: (_, index) {
+                    return bodyGridView(
+                      "${snapshot.data[index].image}",
+                      "${snapshot.data[index].info}",
+                    );
+                  },
+                );
+              }
+            }),
+      ),
+    );
     return Scaffold(
         drawer: Drawer(
           child: FutureBuilder(
@@ -93,37 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
         appBar: AppBar(
           title: const Text('Cima'),
         ),
-        body: Center(
-          child: Container(
-            padding: const EdgeInsets.fromLTRB(10, 50, 10, 0),
-            child: FutureBuilder(
-                future: getSeriesPosts(),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.data == null) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else {
-                    return GridView.builder(
-                      itemCount: snapshot.data.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithMaxCrossAxisExtent(
-                        maxCrossAxisExtent: 250.0,
-                        childAspectRatio: 6 / 8,
-                        mainAxisSpacing: 10.0,
-                        crossAxisSpacing: 10.0,
-                      ),
-                      itemBuilder: (_, index) {
-                        return bodyGridView(
-                            "${snapshot.data[index]["thumbnailUrl"]}",
-                            "${snapshot.data[index]["title"]}",
-                            "${snapshot.data[index]["year"]}");
-                      },
-                    );
-                  }
-                }),
-          ),
-        ));
+        body: center);
   }
 
   // ListView drawerNestedListTile(AsyncSnapshot<dynamic> snapshot, int index) {
@@ -136,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
   //       });
   // }
 
-  Card bodyGridView(String imageUrl, String title, String year) {
+  Card bodyGridView(String imageUrl, String title) {
     const TextStyle textStyle = TextStyle(
         fontSize: 9, fontWeight: FontWeight.bold, color: Colors.white);
     return Card(
@@ -154,7 +142,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   title,
                   style: textStyle,
                 ),
-                Text(year, style: textStyle),
               ],
             ),
           )
