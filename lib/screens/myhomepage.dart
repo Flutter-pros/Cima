@@ -16,12 +16,13 @@ class _MyHomePageState extends State<MyHomePage> {
   // String weatherIcon;
   // String cityName;
   // String weatherMessage;
+  CategoryData categoryDataHandler = CategoryData();
 
   @override
   void initState() {
     super.initState();
     getApiData();
-    getSeriesPosts();
+    getCategoryPosts(categoryDataHandler);
   }
 
   Future<dynamic> getApiData() async {
@@ -37,7 +38,15 @@ class _MyHomePageState extends State<MyHomePage> {
     return menusData;
   }
 
-  Future<dynamic> getSeriesPosts() async {}
+  Future<dynamic> getCategoryPosts(CategoryData data) async {
+    var categoryData = await data.getData();
+    log("categoryData: $categoryData");
+    if (categoryData.isEmpty) {
+      log("seriesData is null");
+    }
+
+    return categoryData;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,13 +54,14 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Container(
         padding: const EdgeInsets.fromLTRB(10, 50, 10, 0),
         child: FutureBuilder(
-            future: getSeriesPosts(),
+            future: getCategoryPosts(categoryDataHandler),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.data == null) {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
               } else {
+                log("snapshot.data: ${snapshot.data}");
                 return GridView.builder(
                   itemCount: snapshot.data.length,
                   gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
@@ -61,10 +71,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     crossAxisSpacing: 10.0,
                   ),
                   itemBuilder: (_, index) {
+                    String cleanImageURL = snapshot.data[index]["thumbnailUrl"];
                     return bodyGridView(
-                      "${snapshot.data[index].image}",
-                      "${snapshot.data[index].info}",
-                    );
+                        "${cleanImageURL.replaceAll(":2083:2096", "")}",
+                        "${snapshot.data[index]["title"]}");
                   },
                 );
               }
@@ -131,7 +141,7 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Stack(
         alignment: Alignment.topCenter,
         children: [
-          Image.network(fit: BoxFit.cover, imageUrl),
+          Image.network(fit: BoxFit.scaleDown, imageUrl),
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 0, 3, 7),
             child: Column(
