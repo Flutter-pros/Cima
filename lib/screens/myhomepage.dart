@@ -33,11 +33,6 @@ class _MyHomePageState extends State<MyHomePage> {
     } else {
       return menusData;
     }
-<<<<<<< HEAD
-// hola
-=======
-//hello ashraf
->>>>>>> f84813af4cbb3ce5f2359dda2fb7d62b457d8bad
     return menusData;
   }
 
