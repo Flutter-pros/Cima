@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'package:cima/screens/movie_info.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:cima/models/apihandler.dart';
@@ -34,7 +33,11 @@ class _MyHomePageState extends State<MyHomePage> {
     } else {
       return menusData;
     }
+<<<<<<< HEAD
+// hola
+=======
 //hello ashraf
+>>>>>>> f84813af4cbb3ce5f2359dda2fb7d62b457d8bad
     return menusData;
   }
 
@@ -73,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   itemBuilder: (_, index) {
                     String cleanImageURL = snapshot.data[index]["thumbnailUrl"];
                     return bodyGridView(
-                        "${cleanImageURL.replaceAll(":2083:2096", "")}",
+                        cleanImageURL.replaceAll(":2083:2096", ""),
                         "${snapshot.data[index]["title"]}");
                   },
                 );
