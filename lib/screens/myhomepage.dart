@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'package:cima/screens/movie_info.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:cima/models/apihandler.dart';
@@ -34,7 +33,7 @@ class _MyHomePageState extends State<MyHomePage> {
     } else {
       return menusData;
     }
-// how are u
+// hola
     return menusData;
   }
 
