@@ -34,7 +34,7 @@ class _MyHomePageState extends State<MyHomePage> {
     } else {
       return menusData;
     }
-//hello
+// how are u
     return menusData;
   }
 
@@ -73,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   itemBuilder: (_, index) {
                     String cleanImageURL = snapshot.data[index]["thumbnailUrl"];
                     return bodyGridView(
-                        "${cleanImageURL.replaceAll(":2083:2096", "")}",
+                        cleanImageURL.replaceAll(":2083:2096", ""),
                         "${snapshot.data[index]["title"]}");
                   },
                 );
