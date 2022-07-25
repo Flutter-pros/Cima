@@ -12,6 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Rest API Demo',
       theme: ThemeData(
+        bottomAppBarColor: Colors.black,
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
