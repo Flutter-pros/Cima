@@ -3,18 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:cima/screens/myhomepage.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Rest API Demo',
       theme: ThemeData(
-        bottomAppBarColor: Colors.black,
-        primarySwatch: Colors.blue,
-      ),
+          appBarTheme: const AppBarTheme(backgroundColor: Color(0xff5367ff)),
+          scaffoldBackgroundColor: const Color(0xff0c0f21),
+          drawerTheme:
+              const DrawerThemeData(backgroundColor: Color(0xff0c0f21))),
       debugShowCheckedModeBanner: false,
       home: const MyHomePage(),
       localizationsDelegates: const [
