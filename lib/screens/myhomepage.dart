@@ -2,6 +2,9 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:cima/models/apihandler.dart';
+//import other screens preparation for the bottom navigation bar
+import 'package:cima/screens/movie_info.dart';
+import 'package:cima/screens/content.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -15,6 +18,8 @@ class _MyHomePageState extends State<MyHomePage> {
   // String weatherIcon;
   // String cityName;
   // String weatherMessage;
+
+  int _selectedPage = 0;
   CategoryData categoryDataHandler = CategoryData();
   ApiHandler apiHandler = ApiHandler("https://mycima.tube/appweb/menus/");
   bool isSeries = true;
@@ -49,116 +54,149 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        drawer: Drawer(
-          child: FutureBuilder(
-            future: apiHandler.getData(),
+    var center = Center(
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(10, 50, 10, 0),
+        child: FutureBuilder(
+            future: categoryDataHandler.getData(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (snapshot.data == null || snapshot.data.isEmpty) {
+              if (snapshot.data == null) {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
               } else {
-                return ListView.builder(
+                log("snapshot.data: ${snapshot.data}");
+                return GridView.builder(
                   itemCount: snapshot.data.length,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    log("${snapshot.data[index]["name"]}");
-                    return GFAccordion(
-                      collapsedTitleBackgroundColor:
-                          Theme.of(context).appBarTheme.backgroundColor!,
-                      contentBackgroundColor: Theme.of(context)
-                          .appBarTheme
-                          .backgroundColor!
-                          .withOpacity(0.6),
-                      expandedTitleBackgroundColor:
-                          Theme.of(context).appBarTheme.backgroundColor!,
-                      title: "${snapshot.data[index]["name"]}",
-                      contentChild: SizedBox(
-                        width: double.infinity,
-                        height: 200,
-                        child: ListView.builder(
-                            itemCount: snapshot.data[index]["children"].length,
-                            itemBuilder: ((context, index2) {
-                              var name = snapshot.data[index]["children"]
-                                  [index2]["name"];
-                              return InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    categoryDataHandler = CategoryData(
-                                        termID: snapshot.data[index]["children"]
-                                            [index2]["id"]);
-                                    (index == 0)
-                                        ? isSeries = false
-                                        : isSeries = true;
-                                    Navigator.pop(context);
-                                  });
-                                },
-                                child: ListTile(
-                                  title: Text("$name"),
-                                ),
-                              );
-                            })),
-                      ),
-                    );
+                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 250.0,
+                    childAspectRatio: 6 / 8,
+                    mainAxisSpacing: 10.0,
+                    crossAxisSpacing: 10.0,
+                  ),
+                  itemBuilder: (_, index) {
+                    String imageURL = snapshot.data[index]["thumbnailUrl"];
+                    String cleanImageURL;
+                    try {
+                      cleanImageURL = (isSeries)
+                          ? imageURL.replaceAll(
+                              imageURL.substring(
+                                  imageURL.indexOf(
+                                      ':', imageURL.indexOf(':') + 1),
+                                  imageURL.indexOf(r'/wp')),
+                              "")
+                          : imageURL;
+                    } catch (e) {
+                      cleanImageURL =
+                          "images/failLoading/image_fail_loading.jpeg";
+                    }
+
+                    return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: bodyGridView(
+                            cleanImageURL, "${snapshot.data[index]["title"]}"));
                   },
                 );
               }
-            },
-          ),
-        ),
-        appBar: AppBar(
-          centerTitle: true,
-          title: const Text('سيما'),
-        ),
-        body: Center(
-          child: Container(
-            padding: const EdgeInsets.fromLTRB(10, 50, 10, 0),
-            child: FutureBuilder(
-                future: categoryDataHandler.getData(),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.data == null) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else {
-                    log("snapshot.data: ${snapshot.data}");
-                    return GridView.builder(
-                      itemCount: snapshot.data.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithMaxCrossAxisExtent(
-                        maxCrossAxisExtent: 250.0,
-                        childAspectRatio: 6 / 8,
-                        mainAxisSpacing: 10.0,
-                        crossAxisSpacing: 10.0,
-                      ),
-                      itemBuilder: (_, index) {
-                        String imageURL = snapshot.data[index]["thumbnailUrl"];
-                        String cleanImageURL;
-                        try {
-                          cleanImageURL = (isSeries)
-                              ? imageURL.replaceAll(
-                                  imageURL.substring(
-                                      imageURL.indexOf(
-                                          ':', imageURL.indexOf(':') + 1),
-                                      imageURL.indexOf(r'/wp')),
-                                  "")
-                              : imageURL;
-                        } catch (e) {
-                          cleanImageURL =
-                              "images/failLoading/image_fail_loading.jpeg";
-                        }
+            }),
+      ),
+    );
+    List<Widget> pages = [
+      center,
+      const ScreenFilms(),
+      const Content(),
+    ];
 
-                        return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 15),
-                            child: bodyGridView(cleanImageURL,
-                                "${snapshot.data[index]["title"]}"));
-                      },
-                    );
-                  }
-                }),
+    return Scaffold(
+      drawer: Drawer(
+        child: FutureBuilder(
+          future: apiHandler.getData(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.data == null || snapshot.data.isEmpty) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else {
+              return ListView.builder(
+                itemCount: snapshot.data.length,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  log("${snapshot.data[index]["name"]}");
+                  return GFAccordion(
+                    collapsedTitleBackgroundColor:
+                        Theme.of(context).appBarTheme.backgroundColor!,
+                    contentBackgroundColor: Theme.of(context)
+                        .appBarTheme
+                        .backgroundColor!
+                        .withOpacity(0.6),
+                    expandedTitleBackgroundColor:
+                        Theme.of(context).appBarTheme.backgroundColor!,
+                    title: "${snapshot.data[index]["name"]}",
+                    contentChild: SizedBox(
+                      width: double.infinity,
+                      height: 200,
+                      child: ListView.builder(
+                          itemCount: snapshot.data[index]["children"].length,
+                          itemBuilder: ((context, index2) {
+                            var name = snapshot.data[index]["children"][index2]
+                                ["name"];
+                            return InkWell(
+                              onTap: () {
+                                setState(() {
+                                  categoryDataHandler = CategoryData(
+                                      termID: snapshot.data[index]["children"]
+                                          [index2]["id"]);
+                                  (index == 0)
+                                      ? isSeries = false
+                                      : isSeries = true;
+                                  Navigator.pop(context);
+                                });
+                              },
+                              child: ListTile(
+                                title: Text("$name"),
+                              ),
+                            );
+                          })),
+                    ),
+                  );
+                },
+              );
+            }
+          },
+        ),
+      ),
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor!,
+        centerTitle: true,
+        title: const Text('سيما'),
+      ),
+      body: pages[_selectedPage],
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor!,
+        unselectedItemColor: Colors.white54,
+        selectedItemColor: Colors.white,
+        currentIndex: _selectedPage,
+        onTap: (int index) {
+          setState(() {
+            _selectedPage = index;
+          });
+        },
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.menu),
+            label: 'القائمة',
           ),
-        ));
+          BottomNavigationBarItem(
+            icon: Icon(Icons.info),
+            label: 'حول',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.video_library),
+            label: 'مشاهدة وتحميل',
+          ),
+        ],
+      ),
+    );
   }
 
   // ListView drawerNestedListTile(AsyncSnapshot<dynamic> snapshot, int index) {
