@@ -108,7 +108,6 @@ class _MyHomePageState extends State<MyHomePage> {
     ];
 
     return Scaffold(
-      // extendBodyBehin  dAppBar: true,
       drawer: Drawer(
         child: FutureBuilder(
           future: apiHandler.getData(),
@@ -167,7 +166,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       appBar: AppBar(
-        elevation: 0, // 1
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor!,
         centerTitle: true,
         title: const Text('سيما'),
       ),
