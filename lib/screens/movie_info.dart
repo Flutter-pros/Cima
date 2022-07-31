@@ -115,18 +115,16 @@ class ScreenFilms extends StatelessWidget {
                   ],
                 ),
               ),
-              Container(
-                child: Row(children: const [
-                  Expanded(
-                      child: Text(
-                    "مشاهدة مسلسل Safe موسم 1 حلقة 8 والأخيرة (2018)",
-                    style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xffffffff)),
-                  ))
-                ]),
-              ),
+              Row(children: const [
+                Expanded(
+                    child: Text(
+                  "مشاهدة مسلسل Safe موسم 1 حلقة 8 والأخيرة (2018)",
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xffffffff)),
+                ))
+              ]),
               const Divider(
                 color: Color(0xffc2cafe),
               ),

@@ -2,6 +2,7 @@ import 'package:cima/localization/applocal.dart';
 import 'package:flutter/material.dart';
 import 'package:cima/screens/myhomepage.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 
 void main() => runApp(const MyApp());
 
@@ -11,7 +12,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Rest API Demo',
       theme: ThemeData(
           appBarTheme: const AppBarTheme(backgroundColor: Color(0xff5367ff)),
