@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:cima/screens/myhomepage.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:cima/models/apihandler.dart';
+import 'package:cima/GetX/models/movie_api.dart';
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({Key? key}) : super(key: key);
