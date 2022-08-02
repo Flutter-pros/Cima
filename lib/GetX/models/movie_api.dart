@@ -10,10 +10,28 @@ class ApiHandler {
   }
 }
 
-class CategoryData extends ApiHandler {
+// class CategoryData extends ApiHandler {
+//   String taxonamy;
+//   String termID;
+//   CategoryData({this.taxonamy = "category", this.termID = "31341"})
+//       : super("https://mycima.buzz/appweb/posts/archived_$taxonamy[$termID]/");
+// }
+
+class SearchData extends ApiHandler {
+  String search;
+  SearchData({this.search = "منورة باهلها"})
+      : super("https://mycima.buzz/appweb/search/$search/");
+}
+
+class RelatedPost extends ApiHandler {
+  String postID;
+  RelatedPost({this.postID = "31341"})
+      : super("https://mycima.buzz/appweb/posts/related/$postID/");
+}
+
+class FilteredData extends ApiHandler {
   String taxonamy;
   String termID;
-  CategoryData({this.taxonamy = "category", this.termID = "31341"})
-      : super(
-            "https://mycima.buzz:2096/appweb/posts/archived_$taxonamy[$termID]/");
+  FilteredData({this.taxonamy = "category", this.termID = "31341"})
+      : super("https://mycima.buzz/appweb/posts/archived_$taxonamy[$termID]/");
 }

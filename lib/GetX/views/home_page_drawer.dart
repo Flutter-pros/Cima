@@ -53,7 +53,7 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                             onTap: () {
                               setState(() {
                                 mediaController.categoryDataHandler =
-                                    CategoryData(
+                                    FilteredData(
                                         termID: snapshot.data[index]["children"]
                                             [index2]["id"]);
                                 (index == 0)

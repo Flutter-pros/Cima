@@ -4,7 +4,7 @@ import '../models/movie_api.dart';
 
 class MediaController extends GetxController {
   //* we will make the default state of the myhomepage to show the arabic series
-  CategoryData categoryDataHandler = CategoryData();
+  FilteredData categoryDataHandler = FilteredData();
   ApiHandler apiHandler = ApiHandler("https://mycima.tube/appweb/menus/");
   RxString mediaID = '31341'.obs;
   RxString mediaTitle = 'منورة باهلها'.obs;
