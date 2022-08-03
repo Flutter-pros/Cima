@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Rest API Demo',
       theme: ThemeData(
-          appBarTheme: const AppBarTheme(backgroundColor: Color(0xff5367ff)),
+          // appBarTheme: const AppBarTheme(backgroundColor: Color(0xff5367ff)),
           scaffoldBackgroundColor: const Color(0xff0c0f21),
           drawerTheme:
               const DrawerThemeData(backgroundColor: Color(0xff0c0f21))),

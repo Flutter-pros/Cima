@@ -1,467 +1,212 @@
 import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
 
-class ScreenFilms extends StatelessWidget {
-  const ScreenFilms({Key? key}) : super(key: key);
+class MovienfoScreen extends StatefulWidget {
+  MovienfoScreen({Key? key}) : super(key: key);
 
+  @override
+  State<MovienfoScreen> createState() => _MovienfoScreenState();
+}
+
+class _MovienfoScreenState extends State<MovienfoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(children: [
-      Blur(
-        blur: 30,
-        blurColor: const Color(0xff22202f).withOpacity(.1),
-        child: Container(
-            decoration: const BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage("images/10.PNG"), fit: BoxFit.cover))),
-      ),
-      Container(
-        width: double.infinity,
+      body: Container(
         height: double.infinity,
-        padding: const EdgeInsets.all(20),
-        child: ListView(children: [
-          Column(
-            children: [
-              const SizedBox(
-                height: 100,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                      width: 200,
-                      height: 300,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          image: const DecorationImage(
-                              image: AssetImage("images/10.PNG"),
-                              fit: BoxFit.fill)))
-                ],
-              ),
-              SizedBox(
-                height: 50,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: const [
-                      InkWell(
-                        child: Text(
-                          "ماي سيمـا",
-                          style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xffc2cafe)),
-                        ),
-                      ),
-                      SizedBox(width: 20),
-                      InkWell(
-                          child: Text(
-                        "مسلسلات",
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xffc2cafe)),
-                      )),
-                      SizedBox(width: 20),
-                      InkWell(
-                        child: Text(
-                          "مسلسلات اجنبي",
-                          style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xffc2cafe)),
-                        ),
-                      ),
-                      SizedBox(width: 20),
-                      InkWell(
-                        child: Text(
-                          "Safe",
-                          style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xffc2cafe)),
-                        ),
-                      ),
-                      SizedBox(width: 20),
-                      InkWell(
-                        child: Text(
-                          "موسم1",
-                          style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xffc2cafe)),
-                        ),
-                      ),
-                      SizedBox(width: 20),
-                    ],
+        width: double.infinity,
+        child: ListView(
+          children: [
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                Container(
+                  // decoration: BoxDecoration(boxShadow: [
+                  //   BoxShadow(
+                  //       color: Colors.black,
+                  //       spreadRadius: 1,
+                  //       offset: Offset(-10, -5),
+                  //       blurRadius: 10,
+                  //       blurStyle: BlurStyle.normal)
+                  // ]),
+                  height: 250,
+                  width: MediaQuery.of(context).size.width / 1,
+                  child: Image.network(
+                    "https://mycima.fun/wp-content/uploads/2022/06/%D9%85%D8%B3%D9%84%D8%B3%D9%84-In-the-Dark-%D8%A7%D9%84%D9%85%D9%88%D8%B3%D9%85-%D8%A7%D9%84%D8%B1%D8%A7%D8%A8%D8%B9-347x520.jpg",
+                    fit: BoxFit.fill,
                   ),
                 ),
-              ),
-              SizedBox(
-                width: double.infinity,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: const [
-                    Text(
-                      "مشاهدة مسلسل Safe موسم 1 حلقه 8 والأخيرة",
-                      style: TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xffffffff)),
-                    ),
-                  ],
+                Positioned(
+                    right: 2,
+                    top: 5,
+                    child: IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.arrow_back,
+                          color: Colors.white,
+                        ))),
+                Positioned(
+                  child: CircleAvatar(
+                    maxRadius: 30,
+                    backgroundColor: Colors.black,
+                    child: IconButton(
+                        onPressed: () {}, icon: Icon(Icons.play_arrow)),
+                  ),
                 ),
-              ),
-              Row(children: const [
-                Expanded(
-                    child: Text(
-                  "مشاهدة مسلسل Safe موسم 1 حلقة 8 والأخيرة (2018)",
-                  style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xffffffff)),
-                ))
-              ]),
-              const Divider(
-                color: Color(0xffc2cafe),
-              ),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: const [
-                    Text(
-                      "الاسـم بالعربي",
-                      style: TextStyle(color: Color(0xffc2cafe), fontSize: 15),
+                Positioned(
+                  bottom: 0,
+                  right: 0,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(7),
+                      // color: Colors.grey.withOpacity(.1),
                     ),
-                    SizedBox(width: 20),
-                    Text(
-                      "اَمن",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
+                    height: 40,
+                    width: 80,
+                    child: Center(
+                      child: Text(
+                        style: TextStyle(color: Colors.white),
+                        " 1h 20m  ",
+                        textAlign: TextAlign.end,
                       ),
-                    )
-                  ],
-                ),
-              ),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: const [
-                    Text(
-                      "التصنيف",
-                      style: TextStyle(color: Color(0xffc2cafe), fontSize: 15),
                     ),
-                    SizedBox(width: 55),
-                    Text(
-                      "يحتوي علي مشاهد فاضحة",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
-                      ),
-                    )
-                  ],
+                  ),
                 ),
-              ),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: const [
-                    Text(
-                      "المسلسل",
-                      style: TextStyle(color: Color(0xffc2cafe), fontSize: 15),
+                Positioned(
+                  bottom: 0,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(7),
+                      color: Colors.black.withOpacity(.1),
                     ),
-                    SizedBox(width: 57),
-                    Text(
-                      "Safe",
-                      style: TextStyle(
-                        color: Color(0xffc2cafe),
-                        fontSize: 15,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: const [
-                    Text(
-                      "المدة",
-                      style: TextStyle(color: Color(0xffc2cafe), fontSize: 15),
-                    ),
-                    SizedBox(width: 81),
-                    Text(
-                      "356 دقيقة",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: const [
-                    Text(
-                      "النوع",
-                      style: TextStyle(color: Color(0xffc2cafe), fontSize: 15),
-                    ),
-                    SizedBox(width: 80),
-                    Text(
-                      "جريمة,دراما,غموض,إثارة",
-                      style: TextStyle(
-                        color: Color(0xffc2cafe),
-                        fontSize: 15,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: const [
-                    Text(
-                      "الجودة",
-                      style: TextStyle(color: Color(0xffc2cafe), fontSize: 15),
-                    ),
-                    SizedBox(width: 70),
-                    Text(
-                      "webReb 720p",
-                      style: TextStyle(
-                        color: Color(0xffc2cafe),
-                        fontSize: 15,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: const [
-                    Text(
-                      "شركات الإنتاج",
-                      style: TextStyle(color: Color(0xffc2cafe), fontSize: 15),
-                    ),
-                    SizedBox(width: 20),
-                    Text(
-                      "canal+",
-                      style: TextStyle(
-                        color: Color(0xffc2cafe),
-                        fontSize: 15,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: const [
-                    Text(
-                      "معروف أيضاً ب",
-                      style: TextStyle(color: Color(0xffc2cafe), fontSize: 15),
-                    ),
-                    SizedBox(width: 13),
-                    Text(
-                      "hong kong",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    height: 30,
+                    width: MediaQuery.of(context).size.width / 1,
+                  ),
+                )
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              width: double.infinity,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  const Text(
-                    "مشاركـة",
+                  Container(
+                      width: 50,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: Colors.grey.withOpacity(.1),
+                      ),
+                      height: 40,
+                      child: Center(
+                        child: IconButton(
+                            color: Colors.white,
+                            onPressed: () {},
+                            icon: Icon(Icons.share)),
+                      )),
+                  Container(
+                    width: 50,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(7),
+                      color: Colors.grey.withOpacity(.1),
+                    ),
+                    height: 40,
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text(
+                            "5.0",
+                            textAlign: TextAlign.end,
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          Icon(
+                            Icons.star,
+                            color: Colors.yellow,
+                            size: 20,
+                          )
+                        ]),
+                  ),
+                  Container(
+                    width: 70,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(7),
+                      color: Colors.grey.withOpacity(.1),
+                    ),
+                    height: 40,
+                    child: Center(
+                      child: Text(
+                        "جريمه",
+                        textAlign: TextAlign.end,
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(7),
+                      color: Colors.grey.withOpacity(.1),
+                    ),
+                    height: 40,
+                    width: 35,
+                    child: Center(
+                      child: Text(
+                        "+18",
+                        textAlign: TextAlign.end,
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Container(
+              margin: EdgeInsets.only(right: 20, left: 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "وصف الفيلم  :",
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "يتم اختيار فيوليت رودريغيز ، وهي مراهقة أمريكية مكسيكية يومية ، بواسطة قناع لوشادور السحري الذي يحولها إلى الترا فولت ، وهي بطل خارق يقاتل الجريمة إلى جانب عمها المتعصب ، كروز ، المعروف أيضًا باسم العقرب الأسود.",
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 20,
                     ),
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: const Color(0xff209b54),
-                        borderRadius: BorderRadius.circular(8)),
-                    height: 40,
-                    width: 60,
-                    child: Center(
-                      child: IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.whatsapp,
-                            color: Colors.white,
-                          )),
-                    ),
+                  Text(
+                    "ذات صله     :",
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: const Color(0xff0772c0),
-                        borderRadius: BorderRadius.circular(8)),
-                    height: 40,
-                    width: 60,
-                    child: Center(
-                      child: IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.messenger,
-                            color: Colors.white,
-                          )),
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: const Color(0xff175bb7),
-                        borderRadius: BorderRadius.circular(8)),
-                    height: 40,
-                    width: 60,
-                    child: Center(
-                      child: IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.facebook,
-                            color: Colors.white,
-                          )),
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: const Color(0xff2277a8),
-                        borderRadius: BorderRadius.circular(8)),
-                    height: 40,
-                    width: 60,
-                    child: Center(
-                      child: IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.telegram,
-                            color: Colors.white,
-                          )),
-                    ),
-                  )
                 ],
               ),
-              const SizedBox(
-                height: 20,
+            ),
+            SizedBox(
+              height: 200,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemBuilder: ((context, index) {
+                  return Container(
+                    height: 250,
+                    width: 200,
+                    child: Image.network(
+                        "https://static.remove.bg/remove-bg-web/bf3af3e882eb04971b4492a1015ef7e77df29362/assets/start_remove-c851bdf8d3127a24e2d137a55b1b427378cd17385b01aec6e59d5d4b5f39d2ec.png"),
+                  );
+                }),
+                itemCount: 15,
               ),
-              Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: const Color(0xff15192a).withOpacity(1),
-                      boxShadow: const [BoxShadow(blurRadius: 20)]),
-                  width: double.infinity,
-                  child: Column(
-                    children: [
-                      Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Icon(
-                              Icons.yard_outlined,
-                              size: 20,
-                              color: Color(0xff5367ff),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              "قصة العرض",
-                              style: TextStyle(
-                                  color: Color(0xffffffff),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20),
-                            )
-                          ],
-                        ),
-                      ),
-                      Container(
-                        child: const Text(
-                          "بعد أن باتت ابنته المُراهقة في عداد المفقودين، يبدأ جرّاح أرمل يسكن في حي راقٍ في كشف أسرار غامضة عن الأشخاص المقربين منه.",
-                          style: TextStyle(
-                              color: Color(0xffc2cafe),
-                              fontWeight: FontWeight.bold,
-                              fontSize: 13),
-                        ),
-                      ),
-                      Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          color: Colors.black.withOpacity(.8),
-                        ),
-                        child: Column(
-                          children: [
-                            const Text(
-                              "تابعنا على مواقع التواصل الإجتماعي",
-                              style: TextStyle(
-                                  color: Color(0xffffffff),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15),
-                            ),
-                            Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        color: const Color(0xff175bb7),
-                                        borderRadius:
-                                            BorderRadius.circular(30)),
-                                    height: 40,
-                                    width: 50,
-                                    child: Center(
-                                      child: IconButton(
-                                          onPressed: () {},
-                                          icon: const Icon(
-                                            Icons.facebook,
-                                            color: Colors.white,
-                                          )),
-                                    ),
-                                  ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        color: const Color(0xff2277a8),
-                                        borderRadius:
-                                            BorderRadius.circular(30)),
-                                    height: 40,
-                                    width: 50,
-                                    child: Center(
-                                      child: IconButton(
-                                          onPressed: () {},
-                                          icon: const Icon(
-                                            Icons.telegram,
-                                            color: Colors.white,
-                                          )),
-                                    ),
-                                  ),
-                                ]),
-                            const SizedBox(
-                              height: 20,
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
-                  ))
-            ],
-          )
-        ]),
-      )
-    ]));
+            )
+          ],
+        ),
+      ),
+    );
   }
 }

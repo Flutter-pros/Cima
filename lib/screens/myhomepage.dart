@@ -1,3 +1,4 @@
+import 'package:blur/blur.dart';
 import 'package:cima/GetX/views/home_page_body.dart';
 import 'package:cima/GetX/views/home_page_drawer.dart';
 import 'package:flutter/material.dart';
@@ -24,20 +25,33 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     List<Widget> pages = [
       const HomePageBody(),
-      const ScreenFilms(),
+      MovienfoScreen(),
       const Content(),
     ];
 
     return Scaffold(
       drawer: const HomePageDrawer(),
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).appBarTheme.backgroundColor!,
-        centerTitle: true,
-        title: const Text('سيما'),
-      ),
-      body: pages[_selectedPage],
+      appBar: (_selectedPage != 1)
+          ? AppBar(
+              backgroundColor: Colors.transparent,
+              centerTitle: true,
+              title: const Text('سيما'),
+            )
+          : null,
+      body: Stack(children: [
+        Blur(
+          blur: 30,
+          blurColor: const Color(0xff22202f).withOpacity(.1),
+          child: Container(
+              decoration: const BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage("images/10.PNG"), fit: BoxFit.cover))),
+        ),
+        pages[_selectedPage]
+      ]),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Theme.of(context).appBarTheme.backgroundColor!,
+        backgroundColor: Colors.transparent.withOpacity(.1),
+        // backgroundColor: Theme.of(context).appBarTheme.backgroundColor!,
         unselectedItemColor: Colors.white54,
         selectedItemColor: Colors.white,
         currentIndex: _selectedPage,
