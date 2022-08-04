@@ -66,34 +66,40 @@ class _HomePageBodyState extends State<HomePageBody> {
     const TextStyle textStyle = TextStyle(
         fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white);
     return Card(
-      color: const Color(0xff5367ff).withOpacity(0.6),
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+        bottomLeft: Radius.circular(25),
+        topRight: Radius.circular(30),
+      )),
+      color: Color(0xff23273b),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(
-            height: 150,
-            child: Image.network(
-              fit: BoxFit.fill,
-              imageUrl,
-              errorBuilder: (BuildContext context, Object exception,
-                  StackTrace? stackTrace) {
-                return Image.asset(
-                    "images/failLoading/image_fail_loading.jpeg");
-              },
+            height: 190,
+            width: MediaQuery.of(context).size.width / 2,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image.network(
+                fit: BoxFit.fill,
+                imageUrl,
+                errorBuilder: (BuildContext context, Object exception,
+                    StackTrace? stackTrace) {
+                  return Image.asset(
+                      "images/failLoading/image_fail_loading.jpeg");
+                },
+              ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  title,
-                  style: textStyle,
-                ),
-              ],
-            ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                title,
+                style: textStyle,
+              ),
+            ],
           )
         ],
       ),

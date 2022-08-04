@@ -30,10 +30,12 @@ class _MyHomePageState extends State<MyHomePage> {
     ];
 
     return Scaffold(
+      extendBodyBehindAppBar: true,
       drawer: const HomePageDrawer(),
       appBar: (_selectedPage != 1)
           ? AppBar(
-              backgroundColor: Colors.transparent,
+              elevation: 0,
+              backgroundColor: Colors.transparent.withOpacity(.1),
               centerTitle: true,
               title: const Text('سيما'),
             )

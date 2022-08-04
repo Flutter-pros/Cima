@@ -19,10 +19,10 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-        child: Column(
+        child: ListView(
       children: [
         SizedBox(
-          height: 50,
+          height: 40,
         ),
         Container(
           padding:
@@ -42,6 +42,9 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                   filled: true,
                   fillColor: const Color(0xff23273b))),
         ),
+        SizedBox(
+          height: 20,
+        ),
         FutureBuilder(
           future: mediaController.apiHandler.getData(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -51,6 +54,7 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
               );
             } else {
               return ListView.builder(
+                physics: BouncingScrollPhysics(),
                 itemCount: snapshot.data.length,
                 shrinkWrap: true,
                 itemBuilder: (context, index) {

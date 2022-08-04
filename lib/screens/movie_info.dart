@@ -115,7 +115,7 @@ class _MovienfoScreenState extends State<MovienfoScreen> {
                     height: 40,
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
+                        children: const [
                           Text(
                             "5.0",
                             textAlign: TextAlign.end,
@@ -161,7 +161,7 @@ class _MovienfoScreenState extends State<MovienfoScreen> {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             Container(
@@ -169,7 +169,7 @@ class _MovienfoScreenState extends State<MovienfoScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: const [
                   Text(
                     "وصف الفيلم  :",
                     style: TextStyle(
@@ -191,18 +191,71 @@ class _MovienfoScreenState extends State<MovienfoScreen> {
             ),
             SizedBox(
               height: 200,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemBuilder: ((context, index) {
-                  return Container(
-                    height: 250,
-                    width: 200,
-                    child: Image.network(
-                        "https://static.remove.bg/remove-bg-web/bf3af3e882eb04971b4492a1015ef7e77df29362/assets/start_remove-c851bdf8d3127a24e2d137a55b1b427378cd17385b01aec6e59d5d4b5f39d2ec.png"),
-                  );
-                }),
-                itemCount: 15,
+              child: Container(
+                decoration: BoxDecoration(),
+                child: Stack(
+                  alignment: Alignment.topRight,
+                  children: [
+                    // Blur(
+                    //   blur: 200,
+                    //   blurColor: const Color(0xff22202f).withOpacity(.1),
+                    //   child: Container(
+                    //       decoration: const BoxDecoration(
+                    //           image: DecorationImage(
+                    //               image: AssetImage("images/10.PNG"),
+                    //               fit: BoxFit.cover))),
+                    // ),
+                    ListView.builder(
+                        itemCount: 17,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: ((context, index) {
+                          return Card(
+                            shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(25),
+                              topRight: Radius.circular(30),
+                            )),
+                            color: Color(0xff23273b),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Container(
+                                  height: 170,
+                                  width: 100,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: Image.network(
+                                      fit: BoxFit.fill,
+                                      "https://mycima.fun/wp-content/uploads/2022/06/%D9%85%D8%B3%D9%84%D8%B3%D9%84-In-the-Dark-%D8%A7%D9%84%D9%85%D9%88%D8%B3%D9%85-%D8%A7%D9%84%D8%B1%D8%A7%D8%A8%D8%B9-347x520.jpg",
+                                      errorBuilder: (BuildContext context,
+                                          Object exception,
+                                          StackTrace? stackTrace) {
+                                        return Image.asset(
+                                            "images/failLoading/image_fail_loading.jpeg");
+                                      },
+                                    ),
+                                  ),
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: const [
+                                    Text(
+                                      "title",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          );
+                        }))
+                  ],
+                ),
               ),
+            ),
+            const SizedBox(
+              height: 50,
             )
           ],
         ),
@@ -210,3 +263,60 @@ class _MovienfoScreenState extends State<MovienfoScreen> {
     );
   }
 }
+
+
+
+
+
+
+
+//  SizedBox(
+//               height: 250,
+//               width: MediaQuery.of(context).size.width / 1,
+//               child: Stack(children: [
+//                 ListView.builder(
+//                   scrollDirection: Axis.horizontal,
+//                   itemBuilder: ((context, index) {
+//                     return Card(
+//                       shape: const RoundedRectangleBorder(
+//                           borderRadius: BorderRadius.only(
+//                         bottomLeft: Radius.circular(25),
+//                         topRight: Radius.circular(30),
+//                       )),
+//                       color: Color(0xff23273b),
+//                       child: Column(
+//                         mainAxisAlignment: MainAxisAlignment.center,
+//                         children: [
+//                           SizedBox(
+//                             height: 190,
+//                             width: MediaQuery.of(context).size.width / 3,
+//                             child: ClipRRect(
+//                               borderRadius: BorderRadius.circular(10),
+//                               child: Image.network(
+//                                 fit: BoxFit.fill,
+//                                 "https://mycima.fun/wp-content/uploads/2022/06/%D9%85%D8%B3%D9%84%D8%B3%D9%84-In-the-Dark-%D8%A7%D9%84%D9%85%D9%88%D8%B3%D9%85-%D8%A7%D9%84%D8%B1%D8%A7%D8%A8%D8%B9-347x520.jpg",
+//                                 errorBuilder: (BuildContext context,
+//                                     Object exception, StackTrace? stackTrace) {
+//                                   return Image.asset(
+//                                       "images/failLoading/image_fail_loading.jpeg");
+//                                 },
+//                               ),
+//                             ),
+//                           ),
+//                           Column(
+//                             mainAxisAlignment: MainAxisAlignment.end,
+//                             crossAxisAlignment: CrossAxisAlignment.end,
+//                             children: [
+//                               Text(
+//                                 "a",
+//                               ),
+//                             ],
+//                           )
+//                         ],
+//                       ),
+//                     );
+//                   }),
+//                   itemCount: 15,
+//                 ),
+//               ]),
+//             ),
