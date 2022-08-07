@@ -76,66 +76,9 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                     itemCount: snapshot.data.length,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
-                      return GFAccordion(
-                        onToggleCollapsed: (isCollapsed) {
-                          log("");
-                        },
-                        expandedIcon: const Icon(Icons.keyboard_arrow_up,
-                            color: Color(0xff5367ff)),
-                        contentPadding: const EdgeInsets.only(top: 0),
-                        titlePadding: const EdgeInsets.all(18),
-                        contentBorderRadius: BorderRadius.circular(10),
-                        titleBorderRadius:
-                            const BorderRadius.all(Radius.circular(10)),
-                        margin: const EdgeInsets.only(
-                            right: 10, left: 10, bottom: 10),
-                        textStyle: const TextStyle(
-                            color: Color(0xffa6a6b0),
-                            fontWeight: FontWeight.bold),
-                        collapsedTitleBackgroundColor: const Color(0xff23273b),
-                        contentBackgroundColor: const Color(0xff23273b),
-                        expandedTitleBackgroundColor: const Color(0xff22263c),
-                        title: "${snapshot.data[index]["name"]}",
-                        contentChild: SizedBox(
-                          width: double.infinity,
-                          height: 200,
-                          child: ListView.separated(
-                              separatorBuilder: ((context, index) {
-                                return const Divider(
-                                  color: const Color(0xffa6a6b0),
-                                );
-                              }),
-                              itemCount:
-                                  snapshot.data[index]["children"].length,
-                              itemBuilder: ((context, index2) {
-                                var name = snapshot.data[index]["children"]
-                                    [index2]["name"];
-                                return InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      mediaController.categoryDataHandler =
-                                          FilteredData(
-                                              termID: snapshot.data[index]
-                                                  ["children"][index2]["id"]);
-                                      (index == 0)
-                                          ? isSeries = false
-                                          : isSeries = true;
-                                      Navigator.pop(context);
-                                    });
-                                  },
-                                  child: Container(
-                                    margin: const EdgeInsets.only(
-                                        right: 25, left: 10, bottom: 5, top: 5),
-                                    child: Text(
-                                      "$name",
-                                      style: const TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                );
-                              })),
-                        ),
+                      return ExpansionTile(
+                        title: Text("${snapshot.data[index]["name"]}"),
+                        children: extractListOfInkwell(snapshot, index),
                       );
                     },
                   );
@@ -145,4 +88,99 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
           ],
         ));
   }
+
+  List<InkWell> extractListOfInkwell(
+      AsyncSnapshot<dynamic> snapshot, int index) {
+    List<InkWell> extractedInkwells = [];
+    ListView.builder(
+        itemCount: snapshot.data[index]["children"].length,
+        itemBuilder: ((context, index2) {
+          var name = snapshot.data[index]["children"][index2]["name"];
+          extractedInkwells.add(InkWell(
+            onTap: () {
+              setState(() {
+                mediaController.categoryDataHandler = FilteredData(
+                    termID: snapshot.data[index]["children"][index2]["id"]);
+                (index == 0) ? isSeries = false : isSeries = true;
+                Navigator.pop(context);
+              });
+            },
+            child: Container(
+              margin:
+                  const EdgeInsets.only(right: 25, left: 10, bottom: 5, top: 5),
+              child: Text(
+                "$name",
+                style: const TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ));
+        }));
+    return extractedInkwells;
+  }
 }
+
+
+
+
+// GFAccordion(
+//                         onToggleCollapsed: (isCollapsed) {
+//                           log("");
+//                         },
+//                         expandedIcon: const Icon(Icons.keyboard_arrow_up,
+//                             color: Color(0xff5367ff)),
+//                         contentPadding: const EdgeInsets.only(top: 0),
+//                         titlePadding: const EdgeInsets.all(18),
+//                         contentBorderRadius: BorderRadius.circular(10),
+//                         titleBorderRadius:
+//                             const BorderRadius.all(Radius.circular(10)),
+//                         margin: const EdgeInsets.only(
+//                             right: 10, left: 10, bottom: 10),
+//                         textStyle: const TextStyle(
+//                             color: Color(0xffa6a6b0),
+//                             fontWeight: FontWeight.bold),
+//                         collapsedTitleBackgroundColor: const Color(0xff23273b),
+//                         contentBackgroundColor: const Color(0xff23273b),
+//                         expandedTitleBackgroundColor: const Color(0xff22263c),
+//                         title: "${snapshot.data[index]["name"]}",
+//                         contentChild: SizedBox(
+//                           width: double.infinity,
+//                           height: 200,
+//                           child: ListView.separated(
+//                               separatorBuilder: ((context, index) {
+//                                 return const Divider(
+//                                   color: const Color(0xffa6a6b0),
+//                                 );
+//                               }),
+//                               itemCount:
+//                                   snapshot.data[index]["children"].length,
+//                               itemBuilder: ((context, index2) {
+//                                 var name = snapshot.data[index]["children"]
+//                                     [index2]["name"];
+//                                 return InkWell(
+//                                   onTap: () {
+//                                     setState(() {
+//                                       mediaController.categoryDataHandler =
+//                                           FilteredData(
+//                                               termID: snapshot.data[index]
+//                                                   ["children"][index2]["id"]);
+//                                       (index == 0)
+//                                           ? isSeries = false
+//                                           : isSeries = true;
+//                                       Navigator.pop(context);
+//                                     });
+//                                   },
+//                                   child: Container(
+//                                     margin: const EdgeInsets.only(
+//                                         right: 25, left: 10, bottom: 5, top: 5),
+//                                     child: Text(
+//                                       "$name",
+//                                       style: const TextStyle(
+//                                           color: Colors.white,
+//                                           fontWeight: FontWeight.bold),
+//                                     ),
+//                                   ),
+//                                 );
+//                               })),
+//                         ),
+//                       );
