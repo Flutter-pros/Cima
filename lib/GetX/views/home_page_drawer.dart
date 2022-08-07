@@ -77,9 +77,55 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
                       return ExpansionTile(
-                        title: Text("${snapshot.data[index]["name"]}"),
-                        children: extractListOfInkwell(snapshot, index),
-                      );
+                                // childrenPadding: EdgeInsets.zero,
+                                // tilePadding: EdgeInsets.zero,
+                                title: Text(
+                                  "${snapshot.data[index]['name']}",
+                                  style: const TextStyle(
+                                      fontSize:18.0, fontWeight:  FontWeight.w500,color: Colors.white),
+                                ),
+                                children: [
+                                  SizedBox(
+                                    width: double.infinity,
+                                    height: 250,
+                                    child: ListView.builder(
+                                        scrollDirection: Axis.vertical,
+                                        shrinkWrap: true,
+                                        physics: const BouncingScrollPhysics(),
+                                        itemCount: snapshot.data[index]["children"].length,
+                                        itemBuilder: (context,index2){
+                                          String name=snapshot.data[index]["children"][index2]['name'];
+                                          return GestureDetector(
+                                            onTap: (){
+                                              setState(() {
+                                                menuController.categoryData =
+                                                    FilteredData(
+                                                        termID: snapshot.data[index]["children"]
+                                                        [index2]["id"]);
+                                                (index == 0)
+                                                    ? isSeries = false
+                                                    : isSeries = true;
+                                                Navigator.pop(context);
+                                              });
+                                            },
+                                            child: ListTile(
+                                              title: Text(name,style: const TextStyle(
+                                                fontSize:18.0, fontWeight:  FontWeight.w500,color: Colors.white),),
+                                            ),
+                                          );
+                                        }),
+                                  ),
+                                ],
+                              );
+
+                            });
+                      } else {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                    }),
+
+              ],
+            ),
                     },
                   );
                 }
@@ -89,36 +135,36 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
         ));
   }
 
-  List<InkWell> extractListOfInkwell(
-      AsyncSnapshot<dynamic> snapshot, int index) {
-    List<InkWell> extractedInkwells = [];
-    ListView.builder(
-        itemCount: snapshot.data[index]["children"].length,
-        itemBuilder: ((context, index2) {
-          var name = snapshot.data[index]["children"][index2]["name"];
-          extractedInkwells.add(InkWell(
-            onTap: () {
-              setState(() {
-                mediaController.categoryDataHandler = FilteredData(
-                    termID: snapshot.data[index]["children"][index2]["id"]);
-                (index == 0) ? isSeries = false : isSeries = true;
-                Navigator.pop(context);
-              });
-            },
-            child: Container(
-              margin:
-                  const EdgeInsets.only(right: 25, left: 10, bottom: 5, top: 5),
-              child: Text(
-                "$name",
-                style: const TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.bold),
-              ),
-            ),
-          ));
-        }));
-    return extractedInkwells;
-  }
-}
+//   List<InkWell> extractListOfInkwell(
+//       AsyncSnapshot<dynamic> snapshot, int index) {
+//     List<InkWell> extractedInkwells = [];
+//     ListView.builder(
+//         itemCount: snapshot.data[index]["children"].length,
+//         itemBuilder: ((context, index2) {
+//           var name = snapshot.data[index]["children"][index2]["name"];
+//           extractedInkwells.add(InkWell(
+//             onTap: () {
+//               setState(() {
+//                 mediaController.categoryDataHandler = FilteredData(
+//                     termID: snapshot.data[index]["children"][index2]["id"]);
+//                 (index == 0) ? isSeries = false : isSeries = true;
+//                 Navigator.pop(context);
+//               });
+//             },
+//             child: Container(
+//               margin:
+//                   const EdgeInsets.only(right: 25, left: 10, bottom: 5, top: 5),
+//               child: Text(
+//                 "$name",
+//                 style: const TextStyle(
+//                     color: Colors.white, fontWeight: FontWeight.bold),
+//               ),
+//             ),
+//           ));
+//         }));
+//     return extractedInkwells;
+//   }
+// }
 
 
 
