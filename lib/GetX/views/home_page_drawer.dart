@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:cima/GetX/controllers/movieController.dart';
+import 'package:cima/GetX/controllers/media_controller.dart';
 import 'package:getwidget/components/accordion/gf_accordion.dart';
-
+import 'package:cima/GetX/controllers/drawer_controller.dart' as drawer;
 import '../models/movie_api.dart';
 
 class HomePageDrawer extends StatefulWidget {
@@ -14,13 +14,15 @@ class HomePageDrawer extends StatefulWidget {
 
 class _HomePageDrawerState extends State<HomePageDrawer> {
   bool isSeries = true;
-  MediaController mediaController = MediaController();
+  drawer.DrawerController drawerController =
+      drawer.DrawerController.getDrawerData();
+  MediaController mediaController = MediaController.filteredDat();
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
       child: FutureBuilder(
-        future: mediaController.apiHandler.getData(),
+        future: drawerController.drawerData,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.data == null || snapshot.data.isEmpty) {
             return const Center(
@@ -52,10 +54,9 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                           return InkWell(
                             onTap: () {
                               setState(() {
-                                mediaController.categoryDataHandler =
-                                    FilteredData(
-                                        termID: snapshot.data[index]["children"]
-                                            [index2]["id"]);
+                                mediaController.filteredData = FilteredData(
+                                    termID: snapshot.data[index]["children"]
+                                        [index2]["id"]);
                                 (index == 0)
                                     ? isSeries = false
                                     : isSeries = true;

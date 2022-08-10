@@ -10,12 +10,9 @@ class ApiHandler {
   }
 }
 
-// class CategoryData extends ApiHandler {
-//   String taxonamy;
-//   String termID;
-//   CategoryData({this.taxonamy = "category", this.termID = "31341"})
-//       : super("https://mycima.buzz/appweb/posts/archived_$taxonamy[$termID]/");
-// }
+class DrawerData extends ApiHandler {
+  DrawerData() : super("https://mycima.buzz:2096/appweb/menus");
+}
 
 class SearchData extends ApiHandler {
   String search;
@@ -23,9 +20,9 @@ class SearchData extends ApiHandler {
       : super("https://mycima.buzz/appweb/search/$search/");
 }
 
-class RelatedPost extends ApiHandler {
+class RelatedPosts extends ApiHandler {
   String postID;
-  RelatedPost({this.postID = "31341"})
+  RelatedPosts({this.postID = "31341"})
       : super("https://mycima.buzz/appweb/posts/related/$postID/");
 }
 

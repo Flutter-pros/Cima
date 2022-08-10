@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:cima/GetX/controllers/movieController.dart';
+import 'package:cima/GetX/controllers/media_controller.dart';
 
 class HomePageBody extends StatefulWidget {
   const HomePageBody({Key? key}) : super(key: key);
@@ -11,14 +11,14 @@ class HomePageBody extends StatefulWidget {
 
 class _HomePageBodyState extends State<HomePageBody> {
   bool isSeries = true;
-  MediaController mediaController = MediaController();
+  MediaController mediaController = MediaController.filteredDat();
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Container(
         padding: const EdgeInsets.fromLTRB(10, 50, 10, 0),
         child: FutureBuilder(
-            future: mediaController.categoryDataHandler.getData(),
+            future: mediaController.filteredData,
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.data == null) {
                 return const Center(
