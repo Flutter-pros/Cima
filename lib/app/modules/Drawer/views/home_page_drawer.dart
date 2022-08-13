@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:cima/GetX/controllers/media_controller.dart';
 import 'package:getwidget/components/accordion/gf_accordion.dart';
-import 'package:cima/GetX/controllers/drawer_controller.dart' as drawer;
-import '../models/movie_api.dart';
+import 'package:cima/data/movie_api.dart';
+//! we will use the HomepAgeBody controller (MediaController) to update the data in the home page body
+import 'package:cima/app/modules/HomePageBody/controllers/media_controller.dart';
+import '../controllers/drawer_controller.dart' as drawer;
 
 class HomePageDrawer extends StatefulWidget {
   const HomePageDrawer({Key? key}) : super(key: key);
@@ -14,23 +15,28 @@ class HomePageDrawer extends StatefulWidget {
 
 class _HomePageDrawerState extends State<HomePageDrawer> {
   bool isSeries = true;
-  drawer.DrawerController drawerController =
-      drawer.DrawerController.getDrawerData();
-  MediaController mediaController = MediaController.filteredDat();
+  final drawer.DrawerController drawerController =
+      Get.put(drawer.DrawerController());
+  final MediaController mediaController = Get.put(MediaController());
+  @override
+  void initState() {
+    super.initState();
+    drawerController.updateDrawerData();
+    mediaController.filterData();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: FutureBuilder(
-        future: drawerController.drawerData,
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.data == null || snapshot.data.isEmpty) {
+      child: Obx(
+        () {
+          if (drawerController.drawerData.isEmpty) {
             return const Center(
               child: CircularProgressIndicator(),
             );
           } else {
             return ListView.builder(
-              itemCount: snapshot.data.length,
+              itemCount: drawerController.drawerData.length,
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 return GFAccordion(
@@ -42,26 +48,28 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                       .withOpacity(0.6),
                   expandedTitleBackgroundColor:
                       Theme.of(context).appBarTheme.backgroundColor!,
-                  title: "${snapshot.data[index]["name"]}",
+                  title: "${drawerController.drawerData[index]["name"]}",
                   contentChild: SizedBox(
                     width: double.infinity,
                     height: 200,
                     child: ListView.builder(
-                        itemCount: snapshot.data[index]["children"].length,
+                        itemCount: drawerController
+                            .drawerData[index]["children"].length,
                         itemBuilder: ((context, index2) {
-                          var name =
-                              snapshot.data[index]["children"][index2]["name"];
+                          var name = drawerController.drawerData[index]
+                              ["children"][index2]["name"];
                           return InkWell(
                             onTap: () {
-                              setState(() {
-                                mediaController.filteredData = FilteredData(
-                                    termID: snapshot.data[index]["children"]
-                                        [index2]["id"]);
-                                (index == 0)
-                                    ? isSeries = false
-                                    : isSeries = true;
-                                Navigator.pop(context);
-                              });
+                              final MediaController updatedMediaController =
+                                  MediaController();
+                              updatedMediaController.filterData(
+                                  termID: drawerController.drawerData[index]
+                                      ["children"][index2]["id"]);
+                              mediaController.media =
+                                  updatedMediaController.media;
+
+                              (index == 0) ? isSeries = false : isSeries = true;
+                              Navigator.pop(context);
                             },
                             child: ListTile(
                               title: Text("$name"),

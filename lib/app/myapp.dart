@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:cima/screens/myhomepage.dart';
+import 'package:cima/app/screens/myhomepage.dart';
 import 'package:get/get.dart';
+import 'package:cima/app/modules/Drawer/controllers/drawer_controller.dart'
+    as drawer; // there is already a class called DrawerController so to avoid conflict we used the name drawer
 
 void main() => runApp(const MyApp());
 
@@ -10,6 +12,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    Get.put(drawer.DrawerController);
+
     return GetMaterialApp(
       title: 'Rest API Demo',
       theme: ThemeData(

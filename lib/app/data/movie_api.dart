@@ -10,6 +10,13 @@ class ApiHandler {
   }
 }
 
+//! the below class is the only class which in all cases will return single object.
+class MediaData extends ApiHandler {
+  String mediaID;
+  MediaData({required this.mediaID})
+      : super('https://mycima.buzz:2096/appweb/post/$mediaID/');
+}
+
 class DrawerData extends ApiHandler {
   DrawerData() : super("https://mycima.buzz:2096/appweb/menus");
 }
