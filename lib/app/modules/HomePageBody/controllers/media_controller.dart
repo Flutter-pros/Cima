@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import 'package:cima/data/movie_api.dart';
+import 'package:cima/app/data/movie_api.dart';
 
 class MediaControllerData {
   late String mediaID;
@@ -33,15 +33,16 @@ class MediaController extends GetxController {
 
   void filterData({String? taxonamy, String? termID}) {
     List filteredData = [];
+    List locatedMedia = [];
 
     if (taxonamy == null && termID == null) {
-      filteredData = FilteredData().getData() as RxList;
+      filteredData = FilteredData().getData() as List;
     } else {
       if (taxonamy == null) {
-        filteredData = FilteredData(termID: termID!).getData() as RxList;
+        filteredData = FilteredData(termID: termID!).getData() as List;
       } else {
         if (termID == null) {
-          filteredData = FilteredData(taxonamy: taxonamy).getData() as RxList;
+          filteredData = FilteredData(taxonamy: taxonamy).getData() as List;
         } else {
           filteredData = FilteredData(taxonamy: taxonamy, termID: termID)
               .getData() as RxList;
@@ -50,64 +51,64 @@ class MediaController extends GetxController {
     }
 
     for (var data in filteredData) {
-      for (var i = 0; i < data.length; i++) {
-        media.value.add(MediaControllerData(
-            mediaID: data[i]['id'],
-            mediaTitle: data[i]['title'],
-            mediaDescription: data[i]['story'],
-            mediaImage: data[i]['image'],
-            mediaYear: data[i]['releaseyear'],
-            mediaRating: data[i]['imdbRating'],
-            mediaDurationInMinutes: data[i]['runtime'],
-            mediaGenre: data[i]['genre'],
-            mediaWatchURL: data[i]['watchURL'],
-            mediaDownloads: data[i]['downloads']));
-      }
+      locatedMedia.add(MediaControllerData(
+          mediaID: data['id'],
+          mediaTitle: data['title'],
+          mediaDescription: data['story'],
+          mediaImage: data['image'],
+          mediaYear: data['releaseyear'],
+          mediaRating: data['imdbRating'],
+          mediaDurationInMinutes: data['runtime'],
+          mediaGenre: data['genre'],
+          mediaWatchURL: data['watchURL'],
+          mediaDownloads: data['downloads']));
     }
+    media.add(locatedMedia as RxList);
   }
 
   void searchData({String? search}) {
     List searchedData = [];
+    List locatedMedia = [];
+
     searchedData = (search == null)
-        ? SearchData().getData() as RxList
-        : SearchData(search: search).getData() as RxList;
+        ? SearchData().getData() as List
+        : SearchData(search: search).getData() as List;
     for (var data in searchedData) {
-      for (var i = 0; i < data.length; i++) {
-        media.value.add(MediaControllerData(
-            mediaID: data[i]['id'],
-            mediaTitle: data[i]['title'],
-            mediaDescription: data[i]['story'],
-            mediaImage: data[i]['image'],
-            mediaYear: data[i]['releaseyear'],
-            mediaRating: data[i]['imdbRating'],
-            mediaDurationInMinutes: data[i]['runtime'],
-            mediaGenre: data[i]['genre'],
-            mediaWatchURL: data[i]['watchURL'],
-            mediaDownloads: data[i]['downloads']));
-      }
+      locatedMedia.add(MediaControllerData(
+          mediaID: data['id'],
+          mediaTitle: data['title'],
+          mediaDescription: data['story'],
+          mediaImage: data['image'],
+          mediaYear: data['releaseyear'],
+          mediaRating: data['imdbRating'],
+          mediaDurationInMinutes: data['runtime'],
+          mediaGenre: data['genre'],
+          mediaWatchURL: data['watchURL'],
+          mediaDownloads: data['downloads']));
     }
+    media.add(locatedMedia as RxList);
   }
 
   void setRelatedPosts({String? postID}) {
     List relatedPosts = [];
+    List locatedMedia = [];
 
     relatedPosts = (postID == null)
-        ? RelatedPosts().getData() as RxList
-        : RelatedPosts(postID: postID).getData() as RxList;
+        ? RelatedPosts().getData() as List
+        : RelatedPosts(postID: postID).getData() as List;
     for (var post in relatedPosts) {
-      for (var i = 0; i < post.length; i++) {
-        media.value.add(MediaControllerData(
-            mediaID: post[i]['id'],
-            mediaTitle: post[i]['title'],
-            mediaDescription: post[i]['story'],
-            mediaImage: post[i]['image'],
-            mediaYear: post[i]['releaseyear'],
-            mediaRating: post[i]['imdbRating'],
-            mediaDurationInMinutes: post[i]['runtime'],
-            mediaGenre: post[i]['genre'],
-            mediaWatchURL: post[i]['watchURL'],
-            mediaDownloads: post[i]['downloads']));
-      }
+      locatedMedia.add(MediaControllerData(
+          mediaID: post['id'],
+          mediaTitle: post['title'],
+          mediaDescription: post['story'],
+          mediaImage: post['image'],
+          mediaYear: post['releaseyear'],
+          mediaRating: post['imdbRating'],
+          mediaDurationInMinutes: post['runtime'],
+          mediaGenre: post['genre'],
+          mediaWatchURL: post['watchURL'],
+          mediaDownloads: post['downloads']));
     }
+    media.add(locatedMedia as RxList);
   }
 }

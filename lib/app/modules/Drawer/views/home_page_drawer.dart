@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/components/accordion/gf_accordion.dart';
-import 'package:cima/data/movie_api.dart';
 //! we will use the HomepAgeBody controller (MediaController) to update the data in the home page body
 import 'package:cima/app/modules/HomePageBody/controllers/media_controller.dart';
 import '../controllers/drawer_controller.dart' as drawer;
@@ -30,13 +29,13 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
     return Drawer(
       child: Obx(
         () {
-          if (drawerController.drawerData.isEmpty) {
+          if (drawerController.categories.isEmpty) {
             return const Center(
               child: CircularProgressIndicator(),
             );
           } else {
             return ListView.builder(
-              itemCount: drawerController.drawerData.length,
+              itemCount: drawerController.categories.length,
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 return GFAccordion(
@@ -48,23 +47,22 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                       .withOpacity(0.6),
                   expandedTitleBackgroundColor:
                       Theme.of(context).appBarTheme.backgroundColor!,
-                  title: "${drawerController.drawerData[index]["name"]}",
+                  title: "${drawerController.categories[index]["name"]}",
                   contentChild: SizedBox(
                     width: double.infinity,
                     height: 200,
                     child: ListView.builder(
-                        itemCount: drawerController
-                            .drawerData[index]["children"].length,
+                        itemCount: drawerController.subCategories[index].length,
                         itemBuilder: ((context, index2) {
-                          var name = drawerController.drawerData[index]
-                              ["children"][index2]["name"];
+                          var name = drawerController.subCategories[index]
+                              [index2]["name"];
                           return InkWell(
                             onTap: () {
                               final MediaController updatedMediaController =
                                   MediaController();
                               updatedMediaController.filterData(
-                                  termID: drawerController.drawerData[index]
-                                      ["children"][index2]["id"]);
+                                  termID: drawerController.subCategories[index]
+                                      [index2]["id"]);
                               mediaController.media =
                                   updatedMediaController.media;
 

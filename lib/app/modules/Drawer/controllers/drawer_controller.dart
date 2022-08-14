@@ -1,4 +1,4 @@
-import 'package:cima/data/movie_api.dart';
+import 'package:cima/app/data/movie_api.dart';
 import 'package:get/get.dart';
 
 class DrawerControllerData {
@@ -12,29 +12,30 @@ class DrawerControllerData {
 }
 
 class DrawerController extends GetxController {
-  RxList drawerData = [].obs;
   RxList categories = [].obs;
   RxList subCategories = [].obs;
 
   void updateDrawerData() {
-    drawerData = DrawerData().getData() as RxList;
-    for (var value in drawerData.value) {
-      for (var i = 0; i < value.length; i++) {
-        categories.value.add(DrawerControllerData(
-            categoryID: value[i]['id'],
-            categoryTitle: value[i]['title'],
-            type: value[i]['type']));
+    RxList drawerData = [].obs;
 
-        List children = value[i]['children'];
-        List<DrawerControllerData> categoryChildren = [];
-        for (var element in children) {
-          categoryChildren.add(DrawerControllerData(
-              categoryID: element['id'],
-              categoryTitle: element['title'],
-              type: element['type']));
-        }
-        subCategories.value.addAll(categoryChildren);
+    drawerData = DrawerData().getData() as RxList;
+    List<DrawerControllerData> drawerMenues = [];
+    for (var mainCategory in drawerData) {
+      drawerMenues.add(DrawerControllerData(
+          categoryID: mainCategory['id'],
+          categoryTitle: mainCategory['title'],
+          type: mainCategory['type']));
+
+      List children = mainCategory['children'];
+      List<DrawerControllerData> categoryChildren = [];
+      for (var subCategory in children) {
+        categoryChildren.add(DrawerControllerData(
+            categoryID: subCategory['id'],
+            categoryTitle: subCategory['title'],
+            type: subCategory['type']));
       }
+      subCategories.add(categoryChildren as RxList);
     }
+    categories.add(drawerMenues as RxList);
   }
 }

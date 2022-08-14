@@ -14,7 +14,6 @@ class _HomePageBodyState extends State<HomePageBody> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     mediaController.filterData();
   }
