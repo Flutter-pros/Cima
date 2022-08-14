@@ -2,8 +2,8 @@ import 'package:cima/app/modules/HomePageBody/views/home_page_body.dart';
 import 'package:cima/app/modules/Drawer/views/home_page_drawer.dart';
 import 'package:flutter/material.dart';
 //import other screens preparation for the bottom navigation bar
-import 'package:cima/app/screens/movie_info.dart';
-import 'package:cima/app/screens/content.dart';
+import 'package:cima/app/routes/movie_info.dart';
+import 'package:cima/app/routes/content.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);

@@ -39,7 +39,8 @@ class _HomePageBodyState extends State<HomePageBody> {
                 crossAxisSpacing: 10.0,
               ),
               itemBuilder: (_, index) {
-                String imageURL = mediaController.media[index]["thumbnailUrl"];
+                print("meida:${mediaController.media[0]}");
+                String imageURL = mediaController.media[index].mediaImage;
                 String cleanImageURL;
                 try {
                   cleanImageURL = (isSeries)
@@ -56,7 +57,7 @@ class _HomePageBodyState extends State<HomePageBody> {
                 return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: bodyGridView(cleanImageURL,
-                        "${mediaController.media[index]["title"]}"));
+                        "${mediaController.media[index].mediaTitle}"));
               },
             );
           }

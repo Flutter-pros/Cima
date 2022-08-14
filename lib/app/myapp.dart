@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cima/app/screens/myhomepage.dart';
+import 'package:cima/app/routes/myhomepage.dart';
 import 'package:get/get.dart';
 import 'package:cima/app/modules/Drawer/controllers/drawer_controller.dart'
     as drawer; // there is already a class called DrawerController so to avoid conflict we used the name drawer

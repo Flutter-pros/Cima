@@ -15,15 +15,16 @@ class DrawerController extends GetxController {
   RxList categories = [].obs;
   RxList subCategories = [].obs;
 
-  void updateDrawerData() {
-    RxList drawerData = [].obs;
+  void updateDrawerData() async {
+    List drawerData = [];
 
-    drawerData = DrawerData().getData() as RxList;
+    await DrawerData().getData().then((value) => drawerData.addAll(value));
+    print("drawerData: $drawerData");
     List<DrawerControllerData> drawerMenues = [];
     for (var mainCategory in drawerData) {
       drawerMenues.add(DrawerControllerData(
           categoryID: mainCategory['id'],
-          categoryTitle: mainCategory['title'],
+          categoryTitle: mainCategory['name'],
           type: mainCategory['type']));
 
       List children = mainCategory['children'];
@@ -31,11 +32,11 @@ class DrawerController extends GetxController {
       for (var subCategory in children) {
         categoryChildren.add(DrawerControllerData(
             categoryID: subCategory['id'],
-            categoryTitle: subCategory['title'],
+            categoryTitle: subCategory['name'],
             type: subCategory['type']));
       }
-      subCategories.add(categoryChildren as RxList);
+      subCategories.add(categoryChildren);
     }
-    categories.add(drawerMenues as RxList);
+    categories.addAll(drawerMenues);
   }
 }

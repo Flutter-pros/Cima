@@ -47,22 +47,22 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                       .withOpacity(0.6),
                   expandedTitleBackgroundColor:
                       Theme.of(context).appBarTheme.backgroundColor!,
-                  title: "${drawerController.categories[index]["name"]}",
+                  title: "${drawerController.categories[index].categoryTitle}",
                   contentChild: SizedBox(
                     width: double.infinity,
                     height: 200,
                     child: ListView.builder(
                         itemCount: drawerController.subCategories[index].length,
                         itemBuilder: ((context, index2) {
-                          var name = drawerController.subCategories[index]
-                              [index2]["name"];
+                          var name = drawerController
+                              .subCategories[index][index2].categoryTitle;
                           return InkWell(
                             onTap: () {
                               final MediaController updatedMediaController =
                                   MediaController();
                               updatedMediaController.filterData(
-                                  termID: drawerController.subCategories[index]
-                                      [index2]["id"]);
+                                  termID: drawerController
+                                      .subCategories[index][index2].categoryID);
                               mediaController.media =
                                   updatedMediaController.media;
 
