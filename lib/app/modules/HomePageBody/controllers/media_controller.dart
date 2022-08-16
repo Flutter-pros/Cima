@@ -5,27 +5,28 @@ import 'package:cima/app/data/movie_api.dart';
 class MediaControllerData {
   late String mediaID;
   late String mediaTitle;
-  late String mediaDescription;
+  String mediaDescription = "";
   late String mediaImage;
   late String mediaYear;
-  late String mediaRating;
-  late String mediaDurationInMinutes;
-  late String mediaGenre;
-  late List mediaWatchURL;
-  late List mediaDownloads;
+  String mediaRating = "";
+  String mediaDurationInMinutes = "";
+  String mediaGenre = "";
+  String mediaWatchURL = "";
+  List mediaDownloads = [];
   MediaControllerData({
     required this.mediaID,
     required this.mediaTitle,
     required this.mediaImage,
     required this.mediaYear,
-  }) {
-    MediaData(mediaID: mediaID).getData().then((data) {
-      mediaDescription = data[0]["story"];
-      mediaRating = data[0]["imdbRating"];
-      mediaDurationInMinutes = data[0]["runtime"];
-      mediaGenre = data[0]["genre"];
-      mediaWatchURL = data[0]["watch___url"];
-      mediaDownloads = data[0]["downloads"];
+  });
+  getMoreDetails() async {
+    await MediaData(mediaID: mediaID).getData().then((data) {
+      mediaDescription = data["story"];
+      mediaRating = data["imdbRating"];
+      mediaDurationInMinutes = data["runtime"];
+      mediaGenre = data["genre"];
+      mediaWatchURL = data["watch___url"];
+      mediaDownloads = data["downloads"];
     });
   }
 }
@@ -34,6 +35,21 @@ class MediaController extends GetxController {
   //* we will make the default state of the myhomepage to show the arabic series
 
   RxList media = [].obs;
+  RxBool isSeries = true.obs;
+  RxInt currentState = 0.obs;
+  RxBool isPreviousActivated = false.obs;
+  //! the bellw two methods are used to enable the previous button in the homepage screen to avoid filling the screens stack .
+  void goPrevious() {
+    currentState.value = currentState.value - 1;
+  }
+
+  void checkPreviousActiviation() {
+    if (currentState.value == 0) {
+      isPreviousActivated.value = false;
+    } else {
+      isPreviousActivated.value = true;
+    }
+  }
 
   void filterData({String? taxonamy, String? termID}) async {
     List filteredData = [];
@@ -63,7 +79,7 @@ class MediaController extends GetxController {
 
     for (var data in filteredData) {
       locatedMedia.add(MediaControllerData(
-        mediaID: data['termID'],
+        mediaID: data['termID'] ?? data["id"],
         mediaTitle: data['title'],
         // mediaDescription: data['story'],
         mediaImage: data['thumbnailUrl'],
@@ -75,7 +91,8 @@ class MediaController extends GetxController {
         // mediaDownloads: data['downloads']
       ));
     }
-    media.addAll(locatedMedia);
+    media.insert(currentState.value++, locatedMedia);
+    checkPreviousActiviation();
   }
 
   void searchData({String? search}) async {
@@ -97,7 +114,8 @@ class MediaController extends GetxController {
         mediaYear: data['year'],
       ));
     }
-    media.addAll(locatedMedia);
+    media[currentState.value++] = locatedMedia;
+    checkPreviousActiviation();
   }
 
   void setRelatedPosts({String? postID}) async {
@@ -121,6 +139,7 @@ class MediaController extends GetxController {
         mediaYear: post['year'],
       ));
     }
-    media.addAll(locatedMedia);
+    media[currentState.value++] = locatedMedia;
+    checkPreviousActiviation();
   }
 }

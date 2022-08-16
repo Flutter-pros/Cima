@@ -1,5 +1,5 @@
 import 'package:cima/app/modules/HomePageBody/views/home_page_body.dart';
-import 'package:cima/app/modules/Drawer/views/home_page_drawer.dart';
+import 'package:cima/app/components/home_page_drawer.dart';
 import 'package:flutter/material.dart';
 //import other screens preparation for the bottom navigation bar
 import 'package:cima/app/routes/movie_info.dart';
@@ -30,14 +30,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       drawer: const HomePageDrawer(),
+      backgroundColor: const Color.fromRGBO(14, 19, 49, 1),
       appBar: AppBar(
-        backgroundColor: Theme.of(context).appBarTheme.backgroundColor!,
         centerTitle: true,
         title: const Text('سيما'),
+        backgroundColor: const Color.fromRGBO(14, 19, 49, 1),
       ),
       body: pages[_selectedPage],
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Theme.of(context).appBarTheme.backgroundColor!,
+        backgroundColor: const Color.fromRGBO(14, 19, 49, 1),
         unselectedItemColor: Colors.white54,
         selectedItemColor: Colors.white,
         currentIndex: _selectedPage,

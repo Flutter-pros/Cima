@@ -18,7 +18,7 @@ class _HomePageBodyState extends State<HomePageBody> {
     mediaController.filterData();
   }
 
-  bool isSeries = true;
+  // bool isSeries = true;
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -30,8 +30,10 @@ class _HomePageBodyState extends State<HomePageBody> {
               child: CircularProgressIndicator(),
             );
           } else {
+            print("mediaController.media***********: ${mediaController.media}");
             return GridView.builder(
-              itemCount: mediaController.media.length,
+              itemCount: mediaController
+                  .media[mediaController.currentState.value].length,
               gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                 maxCrossAxisExtent: 250.0,
                 childAspectRatio: 6 / 8,
@@ -39,11 +41,12 @@ class _HomePageBodyState extends State<HomePageBody> {
                 crossAxisSpacing: 10.0,
               ),
               itemBuilder: (_, index) {
-                print("meida:${mediaController.media[0]}");
-                String imageURL = mediaController.media[index].mediaImage;
+                String imageURL = mediaController
+                    .media[index][mediaController.currentState.value]
+                    .mediaImage;
                 String cleanImageURL;
                 try {
-                  cleanImageURL = (isSeries)
+                  cleanImageURL = (mediaController.isSeries.value)
                       ? imageURL.replaceAll(
                           imageURL.substring(
                               imageURL.indexOf(':', imageURL.indexOf(':') + 1),
@@ -57,8 +60,9 @@ class _HomePageBodyState extends State<HomePageBody> {
                 return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: bodyGridView(cleanImageURL,
-                        "${mediaController.media[index].mediaTitle}"));
+                        "${mediaController.media[index][mediaController.currentState.value].mediaTitle}"));
               },
+              cacheExtent: 100,
             );
           }
         }),
