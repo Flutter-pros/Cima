@@ -15,51 +15,87 @@ class Content extends StatelessWidget {
         children: const <ListTile>[
           ListTile(
             leading: Icon(Icons.play_arrow, color: Colors.white),
-            title: Center(child: Text('حلقة 1', style: basicTextStyle)),
+            title: Padding(
+              padding: EdgeInsets.only(left: 50.0),
+              child: Center(child: Text('حلقة 1', style: basicTextStyle)),
+            ),
           ),
           ListTile(
             leading: Icon(Icons.play_arrow, color: Colors.white),
-            title: Center(child: Text('حلقة 2', style: basicTextStyle)),
+            title: Padding(
+              padding: EdgeInsets.only(left: 50.0),
+              child: Center(child: Text('حلقة 2', style: basicTextStyle)),
+            ),
           ),
           ListTile(
             leading: Icon(Icons.play_arrow, color: Colors.white),
-            title: Center(child: Text('حلقة 3', style: basicTextStyle)),
+            title: Padding(
+              padding: EdgeInsets.only(left: 50.0),
+              child: Center(child: Text('حلقة 3', style: basicTextStyle)),
+            ),
           ),
           ListTile(
             leading: Icon(Icons.play_arrow, color: Colors.white),
-            title: Center(child: Text('حلقة 4', style: basicTextStyle)),
+            title: Padding(
+              padding: EdgeInsets.only(left: 50.0),
+              child: Center(child: Text('حلقة 4', style: basicTextStyle)),
+            ),
           ),
           ListTile(
             leading: Icon(Icons.play_arrow, color: Colors.white),
-            title: Center(child: Text('حلقة 5', style: basicTextStyle)),
+            title: Padding(
+              padding: EdgeInsets.only(left: 50.0),
+              child: Center(child: Text('حلقة 5', style: basicTextStyle)),
+            ),
           ),
           ListTile(
             leading: Icon(Icons.play_arrow, color: Colors.white),
-            title: Center(child: Text('حلقة 6', style: basicTextStyle)),
+            title: Padding(
+              padding: EdgeInsets.only(left: 50.0),
+              child: Center(child: Text('حلقة 6', style: basicTextStyle)),
+            ),
           ),
           ListTile(
             leading: Icon(Icons.play_arrow, color: Colors.white),
-            title: Center(child: Text('حلقة 7', style: basicTextStyle)),
+            title: Padding(
+              padding: EdgeInsets.only(left: 50.0),
+              child: Center(child: Text('حلقة 7', style: basicTextStyle)),
+            ),
           ),
           ListTile(
             leading: Icon(Icons.play_arrow, color: Colors.white),
-            title: Center(child: Text('حلقة 8', style: basicTextStyle)),
+            title: Padding(
+              padding: EdgeInsets.only(left: 50.0),
+              child: Center(child: Text('حلقة 8', style: basicTextStyle)),
+            ),
           ),
           ListTile(
             leading: Icon(Icons.play_arrow, color: Colors.white),
-            title: Center(child: Text('حلقة 9', style: basicTextStyle)),
+            title: Padding(
+              padding: EdgeInsets.only(left: 50.0),
+              child: Center(child: Text('حلقة 9', style: basicTextStyle)),
+            ),
           ),
           ListTile(
             leading: Icon(Icons.play_arrow, color: Colors.white),
-            title: Center(child: Text('حلقة 10', style: basicTextStyle)),
+            title: Padding(
+              padding: EdgeInsets.only(left: 50.0),
+              child: Center(child: Text('حلقة 10', style: basicTextStyle)),
+            ),
           ),
           ListTile(
             leading: Icon(Icons.play_arrow, color: Colors.white),
-            title: Center(child: Text('حلقة 11', style: basicTextStyle)),
+            title: Padding(
+              padding: EdgeInsets.only(left: 50.0),
+              child: Center(child: Text('حلقة 11', style: basicTextStyle)),
+            ),
           ),
           ListTile(
             leading: Icon(Icons.play_arrow, color: Colors.white),
-            title: Center(child: Text('حلقة 12', style: basicTextStyle)),
+            title: Padding(
+              padding: EdgeInsets.only(left: 50.0),
+              child: Center(child: Text('حلقة 12', style: basicTextStyle)),
+            ),
           )
         ],
       ),

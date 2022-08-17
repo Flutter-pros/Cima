@@ -1,9 +1,12 @@
+import 'package:cima/app/modules/HomePageBody/controllers/media_controller.dart';
 import 'package:cima/app/modules/HomePageBody/views/home_page_body.dart';
 import 'package:cima/app/components/home_page_drawer.dart';
 import 'package:flutter/material.dart';
 //import other screens preparation for the bottom navigation bar
 import 'package:cima/app/routes/movie_info.dart';
 import 'package:cima/app/routes/content.dart';
+import 'package:cima/app/components/search_delegate.dart';
+import 'package:get/get.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -14,6 +17,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedPage = 0;
+  MediaController mediaController = Get.put(MediaController());
 
   @override
   void initState() {
@@ -24,7 +28,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     List<Widget> pages = [
       const HomePageBody(),
-      const ScreenFilms(),
+      const MovieInfoScreen(),
       const Content(),
     ];
 
@@ -32,6 +36,16 @@ class _MyHomePageState extends State<MyHomePage> {
       drawer: const HomePageDrawer(),
       backgroundColor: const Color.fromRGBO(14, 19, 49, 1),
       appBar: AppBar(
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              showSearch(
+                  context: context,
+                  delegate: SearchInHome(mediaController: mediaController));
+            },
+          ),
+        ],
         centerTitle: true,
         title: const Text('سيما'),
         backgroundColor: const Color.fromRGBO(14, 19, 49, 1),

@@ -43,11 +43,12 @@ class MediaController extends GetxController {
     currentState.value = currentState.value - 1;
   }
 
-  void checkPreviousActiviation() {
+  void goNext() {
     if (currentState.value == 0) {
       isPreviousActivated.value = false;
     } else {
       isPreviousActivated.value = true;
+      currentState.value = currentState.value + 1;
     }
   }
 
@@ -91,8 +92,8 @@ class MediaController extends GetxController {
         // mediaDownloads: data['downloads']
       ));
     }
-    media.insert(currentState.value++, locatedMedia);
-    checkPreviousActiviation();
+    media.insert(currentState.value, locatedMedia);
+    goNext();
   }
 
   void searchData({String? search}) async {
@@ -114,8 +115,8 @@ class MediaController extends GetxController {
         mediaYear: data['year'],
       ));
     }
-    media[currentState.value++] = locatedMedia;
-    checkPreviousActiviation();
+    media[currentState.value] = locatedMedia;
+    goNext();
   }
 
   void setRelatedPosts({String? postID}) async {
@@ -139,7 +140,7 @@ class MediaController extends GetxController {
         mediaYear: post['year'],
       ));
     }
-    media[currentState.value++] = locatedMedia;
-    checkPreviousActiviation();
+    media[currentState.value] = locatedMedia;
+    goNext();
   }
 }

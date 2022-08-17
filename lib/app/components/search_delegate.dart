@@ -1,27 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../controllers/media_controller.dart';
 import 'package:cima/app/components/grid_view_body.dart';
 
-class HomePageBody extends StatefulWidget {
-  const HomePageBody({Key? key}) : super(key: key);
+import '../modules/HomePageBody/controllers/media_controller.dart';
 
+class SearchInHome extends SearchDelegate {
+  SearchInHome({required this.mediaController});
+  final MediaController mediaController;
   @override
-  State<HomePageBody> createState() => _HomePageBodyState();
-}
-
-class _HomePageBodyState extends State<HomePageBody> {
-  final MediaController mediaController = Get.put(MediaController());
-
-  @override
-  void initState() {
-    super.initState();
-    mediaController.filterData();
+  List<Widget>? buildActions(BuildContext context) {
+    return [
+      IconButton(
+          onPressed: () {
+            query = "";
+          },
+          icon: const Icon(Icons.close))
+    ];
   }
 
-  // bool isSeries = true;
   @override
-  Widget build(BuildContext context) {
+  Widget? buildLeading(BuildContext context) {
+    return IconButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        icon: const Icon(Icons.arrow_back_ios));
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
     return Center(
       child: Container(
         padding: const EdgeInsets.fromLTRB(10, 50, 10, 0),
@@ -69,6 +76,16 @@ class _HomePageBodyState extends State<HomePageBody> {
             );
           }
         }),
+      ),
+    );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    return const Center(
+      child: Text(
+        "Search",
+        style: TextStyle(fontSize: 20, color: Colors.black),
       ),
     );
   }
