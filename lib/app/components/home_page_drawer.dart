@@ -26,7 +26,7 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
     const Icon(Icons.live_tv),
     const Icon(Icons.search),
   ];
-
+  TextEditingController searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -43,6 +43,12 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                   color: const Color.fromRGBO(35, 40, 72, 1),
                 ),
                 child: TextFormField(
+                  controller: searchController,
+                  onFieldSubmitted: (value) {
+                    mediaController.searchRemoteData(
+                        search: value.trim().toLowerCase());
+                    Get.back();
+                  },
                   decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -87,13 +93,13 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                               title: ListTile(
                                 title: InkWell(
                                   onTap: () {
-                                    var updatedMediaController =
-                                        MediaController();
-                                    updatedMediaController.filterData(
+                                    // var updatedMediaController =
+                                    //     MediaController();
+                                    mediaController.filterData(
                                         termID: snapshot.data[index]["id"]);
 
-                                    mediaController.media.value =
-                                        updatedMediaController.media;
+                                    // mediaController.media.value =
+                                    //     updatedMediaController.media;
 
                                     (index == 0)
                                         ? mediaController.isSeries.value = false
@@ -138,14 +144,9 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                                           ["children"][index2]["name"];
                                       return GestureDetector(
                                         onTap: () {
-                                          var updatedMediaController =
-                                              MediaController();
-                                          updatedMediaController.filterData(
+                                          mediaController.filterData(
                                               termID: snapshot.data[index]
                                                   ["children"][index2]["id"]);
-
-                                          mediaController.media.value =
-                                              updatedMediaController.media;
 
                                           (index == 0)
                                               ? mediaController.isSeries.value =

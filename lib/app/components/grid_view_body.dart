@@ -40,12 +40,11 @@ class GridViewBody extends StatelessWidget {
               ?
               //عقبال مالصورة تيجى يعرض الlooding
               FadeInImage.assetNetwork(
-                  width: double.infinity,
-                  height: double.infinity,
                   placeholder: 'images/loading.gif',
                   image: imageUrl,
                   fit: BoxFit.cover,
-                )
+                  imageErrorBuilder: (context, error, stackTrace) =>
+                      Image.asset('images/failLoading/image_fail_loading.jpeg'))
               : Image.asset('images/failLoading/image_fail_loading.jpeg'),
         ),
       ),

@@ -26,6 +26,14 @@ class _HomePageBodyState extends State<HomePageBody> {
       child: Container(
         padding: const EdgeInsets.fromLTRB(10, 50, 10, 0),
         child: Obx(() {
+          ImageCache imageCache = ImageCache();
+          imageCache.clear();
+          imageCache.clearLiveImages();
+          print("mediaController.media.value: ${mediaController.media.value}");
+          print(
+              "mediaController.isPreviousActivated.value: ${mediaController.isPreviousActivated.value}");
+          print(
+              "mediaController.media.length: ${mediaController.media.value.length}");
           if (mediaController.media.isEmpty) {
             return const Center(
               child: CircularProgressIndicator(),
@@ -34,8 +42,7 @@ class _HomePageBodyState extends State<HomePageBody> {
             // ignore: avoid_print
 
             return GridView.builder(
-              itemCount: mediaController
-                  .media[mediaController.currentState.value].length,
+              itemCount: mediaController.media.last.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 childAspectRatio: 2 / 3,
@@ -45,9 +52,7 @@ class _HomePageBodyState extends State<HomePageBody> {
               shrinkWrap: true,
               physics: const ClampingScrollPhysics(),
               itemBuilder: (_, index) {
-                String imageURL = mediaController
-                    .media[mediaController.currentState.value][index]
-                    .mediaImage;
+                String imageURL = mediaController.media.last[index].mediaImage;
                 String cleanImageURL;
                 try {
                   cleanImageURL = (mediaController.isSeries.value)
@@ -59,12 +64,12 @@ class _HomePageBodyState extends State<HomePageBody> {
                       : imageURL;
                 } catch (e) {
                   cleanImageURL = "images/failLoading/image_fail_loading.jpeg";
+                  print(cleanImageURL);
                 }
 
                 return GridViewBody(
                     imageUrl: cleanImageURL,
-                    title:
-                        "${mediaController.media[mediaController.currentState.value][index].mediaTitle}");
+                    title: "${mediaController.media.last[index].mediaTitle}");
               },
             );
           }

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 //import other screens preparation for the bottom navigation bar
 import 'package:cima/app/routes/movie_info.dart';
 import 'package:cima/app/routes/content.dart';
-import 'package:cima/app/components/search_delegate.dart';
 import 'package:get/get.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -24,6 +23,8 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
   }
 
+  TextEditingController searchController = TextEditingController();
+  var searchSuffixIcon;
   @override
   Widget build(BuildContext context) {
     List<Widget> pages = [
@@ -33,23 +34,67 @@ class _MyHomePageState extends State<MyHomePage> {
     ];
 
     return Scaffold(
-      drawer: const HomePageDrawer(),
       backgroundColor: const Color.fromRGBO(14, 19, 49, 1),
+      drawer: const HomePageDrawer(),
       appBar: AppBar(
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {
-              showSearch(
-                  context: context,
-                  delegate: SearchInHome(mediaController: mediaController));
-            },
-          ),
-        ],
-        centerTitle: true,
-        title: const Text('سيما'),
-        backgroundColor: const Color.fromRGBO(14, 19, 49, 1),
-      ),
+          actions: [
+            Obx(() {
+              if (mediaController.isPreviousActivated.value) {
+                return IconButton(
+                  icon: const Icon(Icons.arrow_forward),
+                  onPressed: () {
+                    mediaController.goPrevious();
+                  },
+                );
+              } else {
+                return Container();
+              }
+            })
+          ],
+          centerTitle: true,
+          title: const Text('سيما'),
+          backgroundColor: const Color.fromRGBO(14, 19, 49, 1),
+          bottom: PreferredSize(
+            preferredSize: const Size(double.infinity, 40),
+            child: Container(
+              width: double.infinity,
+              height: 40,
+              color: Colors.white,
+              child: Center(
+                child: TextField(
+                  controller: searchController,
+                  onChanged: (search) {
+                    mediaController.searchLocalData(
+                        search: searchController.text.trim());
+                    if (search.trim().isNotEmpty) {
+                      setState(() {
+                        searchSuffixIcon = IconButton(
+                          icon: const Icon(Icons.clear),
+                          onPressed: () {
+                            setState(() {
+                              // mediaController.goPrevious();
+                              searchController.clear();
+                              searchSuffixIcon = null;
+                            });
+                          },
+                        );
+                      });
+                    }
+                  },
+                  textAlign: TextAlign.center,
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 25,
+                      vertical: 4,
+                    ),
+                    hintText: 'اختر محتواك',
+                    prefixIcon: const Icon(Icons.search),
+                    suffixIcon: searchSuffixIcon,
+                  ),
+                ),
+              ),
+            ),
+          )),
       body: pages[_selectedPage],
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: const Color.fromRGBO(14, 19, 49, 1),

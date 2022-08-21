@@ -36,19 +36,20 @@ class MediaController extends GetxController {
 
   RxList media = [].obs;
   RxBool isSeries = true.obs;
-  RxInt currentState = 0.obs;
   RxBool isPreviousActivated = false.obs;
   //! the bellw two methods are used to enable the previous button in the homepage screen to avoid filling the screens stack .
   void goPrevious() {
-    currentState.value = currentState.value - 1;
+    if (media.length > 1) {
+      media.removeLast();
+    } else {
+      isPreviousActivated.value = false;
+      // media.removeLast();
+    }
   }
 
-  void goNext() {
-    if (currentState.value == 0) {
-      isPreviousActivated.value = false;
-    } else {
+  void _goNext() {
+    if (media.length > 1) {
       isPreviousActivated.value = true;
-      currentState.value = currentState.value + 1;
     }
   }
 
@@ -92,31 +93,45 @@ class MediaController extends GetxController {
         // mediaDownloads: data['downloads']
       ));
     }
-    media.insert(currentState.value, locatedMedia);
-    goNext();
+    media.insert(media.length, locatedMedia);
+    _goNext();
   }
 
-  void searchData({String? search}) async {
+  void searchLocalData({String search = ''}) {
+    List locatedMedia = [];
+    for (var data in media.last) {
+      if (data.mediaTitle.toLowerCase().contains(search.toLowerCase())) {
+        locatedMedia.add(data);
+      }
+    }
+    // media.insert(media.length, locatedMedia);
+    if (search.length < 2) {
+      media.insert(media.length, locatedMedia);
+    } else {
+      media.last = locatedMedia;
+    }
+    _goNext();
+  }
+
+  void searchRemoteData({required String search}) async {
     List searchedData = [];
     List locatedMedia = [];
 
-    if (search == null) {
-      await SearchData().getData().then((value) => searchedData.addAll(value));
-    } else {
-      await SearchData(search: search)
-          .getData()
-          .then((value) => searchedData.addAll(value));
-    }
+    await SearchData(search)
+        .getData()
+        .then((value) => searchedData.addAll(value["posts"]));
+
     for (var data in searchedData) {
       locatedMedia.add(MediaControllerData(
-        mediaID: data['termID'],
+        mediaID: data['id'],
         mediaTitle: data['title'],
         mediaImage: data['thumbnailUrl'],
         mediaYear: data['year'],
       ));
     }
-    media[currentState.value] = locatedMedia;
-    goNext();
+
+    media.insert(media.length, locatedMedia);
+    _goNext();
   }
 
   void setRelatedPosts({String? postID}) async {
@@ -140,7 +155,7 @@ class MediaController extends GetxController {
         mediaYear: post['year'],
       ));
     }
-    media[currentState.value] = locatedMedia;
-    goNext();
+    media.insert(media.length, locatedMedia);
+    _goNext();
   }
 }

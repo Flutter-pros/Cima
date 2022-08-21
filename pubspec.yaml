@@ -27,7 +27,9 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  anim_search_bar: ^2.0.2
   blur: ^3.1.0
+  cached_network_image: ^3.2.1
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
@@ -39,6 +41,7 @@ dependencies:
   getwidget: ^3.0.1
   html: ^0.15.0
   http: ^0.13.4
+  searchfield: ^0.6.9
 
 dev_dependencies:
   flutter_lints: ^2.0.0
@@ -57,7 +60,7 @@ flutter:
   assets:
     - images/
     - images/lang/
-    - images/failLoading/
+    - images/failLoading/image_fail_loading.jpeg
     - images/loading.gif
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -23,8 +23,7 @@ class DrawerData extends ApiHandler {
 
 class SearchData extends ApiHandler {
   String search;
-  SearchData({this.search = "منورة باهلها"})
-      : super("https://mycima.buzz/appweb/search/$search/");
+  SearchData(this.search) : super("https://mycima.buzz/appweb/search/$search/");
 }
 
 class RelatedPosts extends ApiHandler {
@@ -36,6 +35,6 @@ class RelatedPosts extends ApiHandler {
 class FilteredData extends ApiHandler {
   String taxonamy;
   String termID;
-  FilteredData({this.taxonamy = "category", this.termID = "31341"})
+  FilteredData({this.taxonamy = "category", this.termID = "30624"})
       : super("https://mycima.buzz/appweb/posts/archived_$taxonamy[$termID]/");
 }
