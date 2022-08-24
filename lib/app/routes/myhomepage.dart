@@ -17,14 +17,17 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedPage = 0;
   MediaController mediaController = Get.put(MediaController());
+  bool isSearch = false;
+  Widget searchOrClose = const Icon(Icons.search);
+  Widget titleOrTextfield = const Text("سيما");
 
   @override
   void initState() {
     super.initState();
+    mediaController.filterData();
   }
 
   TextEditingController searchController = TextEditingController();
-  var searchSuffixIcon;
   @override
   Widget build(BuildContext context) {
     List<Widget> pages = [
@@ -39,7 +42,8 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
           actions: [
             Obx(() {
-              if (mediaController.isPreviousActivated.value) {
+              if (mediaController.isPreviousActivated.value &&
+                  _selectedPage == 0) {
                 return IconButton(
                   icon: const Icon(Icons.arrow_forward),
                   onPressed: () {
@@ -49,52 +53,58 @@ class _MyHomePageState extends State<MyHomePage> {
               } else {
                 return Container();
               }
-            })
+            }),
+            (_selectedPage == 0)
+                ? IconButton(
+                    icon: searchOrClose,
+                    onPressed: () {
+                      setState(() {
+                        isSearch = !isSearch;
+                      });
+                      if (isSearch) {
+                        searchOrClose = const Icon(Icons.close);
+                        titleOrTextfield = TextField(
+                          autofocus: true,
+                          style: const TextStyle(color: Colors.white),
+                          controller: searchController,
+                          onChanged: (search) {
+                            if (search.trim().isNotEmpty) {
+                              mediaController.searchLocalData(
+                                  search: searchController.text.trim());
+                            }
+                          },
+                          textAlign: TextAlign.center,
+                          decoration: const InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: 25,
+                              vertical: 4,
+                            ),
+                            hintText: 'اختر محتواك',
+                            prefixIcon: Icon(Icons.search),
+                          ),
+                        );
+                      } else {
+                        searchOrClose = IconButton(
+                            icon: const Icon(Icons.close),
+                            onPressed: () {
+                              setState(
+                                () {
+                                  print("icon.close in pressed");
+                                  titleOrTextfield = const Text("سيما");
+                                  searchController.clear();
+                                  mediaController.goPrevious();
+                                  searchOrClose = const Icon(Icons.search);
+                                },
+                              );
+                            });
+                      }
+                    },
+                  )
+                : Container(),
           ],
           centerTitle: true,
-          title: const Text('سيما'),
-          backgroundColor: const Color.fromRGBO(14, 19, 49, 1),
-          bottom: PreferredSize(
-            preferredSize: const Size(double.infinity, 40),
-            child: Container(
-              width: double.infinity,
-              height: 40,
-              color: Colors.white,
-              child: Center(
-                child: TextField(
-                  controller: searchController,
-                  onChanged: (search) {
-                    mediaController.searchLocalData(
-                        search: searchController.text.trim());
-                    if (search.trim().isNotEmpty) {
-                      setState(() {
-                        searchSuffixIcon = IconButton(
-                          icon: const Icon(Icons.clear),
-                          onPressed: () {
-                            setState(() {
-                              // mediaController.goPrevious();
-                              searchController.clear();
-                              searchSuffixIcon = null;
-                            });
-                          },
-                        );
-                      });
-                    }
-                  },
-                  textAlign: TextAlign.center,
-                  decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 25,
-                      vertical: 4,
-                    ),
-                    hintText: 'اختر محتواك',
-                    prefixIcon: const Icon(Icons.search),
-                    suffixIcon: searchSuffixIcon,
-                  ),
-                ),
-              ),
-            ),
-          )),
+          title: titleOrTextfield,
+          backgroundColor: const Color.fromRGBO(14, 19, 49, 1)),
       body: pages[_selectedPage],
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: const Color.fromRGBO(14, 19, 49, 1),

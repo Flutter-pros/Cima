@@ -97,6 +97,16 @@ class MediaController extends GetxController {
     _goNext();
   }
 
+  List<String> getFilters() {
+    List<String> filters = [];
+    Filters().getData().then((value) {
+      value.forEach((element) {
+        filters.add(element["taxonomy"]);
+      });
+    });
+    return filters;
+  }
+
   void searchLocalData({String search = ''}) {
     List locatedMedia = [];
     for (var data in media.last) {

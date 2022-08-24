@@ -38,3 +38,7 @@ class FilteredData extends ApiHandler {
   FilteredData({this.taxonamy = "category", this.termID = "30624"})
       : super("https://mycima.buzz/appweb/posts/archived_$taxonamy[$termID]/");
 }
+
+class Filters extends ApiHandler {
+  Filters() : super("https://mycima.buzz/appweb/filters/");
+}
