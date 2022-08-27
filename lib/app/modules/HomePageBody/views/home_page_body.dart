@@ -1,8 +1,8 @@
+import 'package:cima/app/components/home_page_filters.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/media_controller.dart';
 import 'package:cima/app/components/grid_view_body.dart';
-import 'package:chips_choice_null_safety/chips_choice_null_safety.dart';
 
 class HomePageBody extends StatefulWidget {
   const HomePageBody({Key? key}) : super(key: key);
@@ -13,48 +13,20 @@ class HomePageBody extends StatefulWidget {
 
 class _HomePageBodyState extends State<HomePageBody> {
   final MediaController mediaController = Get.put(MediaController());
-  List<String> filters = [];
   @override
   void initState() {
     super.initState();
-    filters.addAll(mediaController.getFilters());
-    print(filters);
   }
-
-  int tag = 1;
 
   // bool isSeries = true;
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Obx(() {
-              if (mediaController.media.isNotEmpty) {
-                return ChipsChoice<int>.single(
-                  choiceStyle: C2ChoiceStyle(
-                    backgroundColor: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                    borderColor: Colors.grey,
-                    borderWidth: 1,
-                    color: Colors.grey,
-                    // padding: const EdgeInsets.all(10),
-                  ),
-                  value: tag,
-                  onChanged: (val) => setState(() => tag = val),
-                  choiceItems: C2Choice.listFrom<int, String>(
-                    source: filters,
-                    value: (i, v) => i,
-                    label: (i, v) => v,
-                  ),
-                );
-              } else {
-                return Container();
-              }
-            }),
-            Container(
-              padding: const EdgeInsets.fromLTRB(10, 50, 10, 0),
+      child: Stack(
+        children: [
+          Container(
+            padding: const EdgeInsets.fromLTRB(10, 50, 10, 0),
+            child: SingleChildScrollView(
               child: Obx(() {
                 ImageCache imageCache = ImageCache();
                 imageCache.clear();
@@ -99,7 +71,6 @@ class _HomePageBodyState extends State<HomePageBody> {
                       } catch (e) {
                         cleanImageURL =
                             "images/failLoading/image_fail_loading.jpeg";
-                        print(cleanImageURL);
                       }
 
                       return GridViewBody(
@@ -111,8 +82,22 @@ class _HomePageBodyState extends State<HomePageBody> {
                 }
               }),
             ),
-          ],
-        ),
+          ),
+          Obx(() {
+            if (mediaController.media.isNotEmpty) {
+              return ConstrainedBox(
+                constraints: const BoxConstraints(
+                  maxWidth: 130,
+                ),
+                child: Container(
+                    alignment: Alignment.topLeft,
+                    child: const HomePageFilters()),
+              );
+            } else {
+              return Container();
+            }
+          }),
+        ],
       ),
     );
   }
