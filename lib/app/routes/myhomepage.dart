@@ -48,6 +48,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   icon: const Icon(Icons.arrow_forward),
                   onPressed: () {
                     mediaController.goPrevious();
+                    if (mediaController.appliedFilters.value > 0) {
+                      mediaController.filterTags.value = [];
+                    } else {}
                   },
                 );
               } else {

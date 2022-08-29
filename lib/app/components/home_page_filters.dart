@@ -2,7 +2,6 @@ import 'package:cima/app/modules/HomePageBody/controllers/media_controller.dart'
 import 'package:flutter/material.dart';
 import 'package:chips_choice_null_safety/chips_choice_null_safety.dart';
 import 'package:cima/app/data/movie_api.dart';
-import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:get/get.dart';
 
 class HomePageFilters extends StatefulWidget {
@@ -16,6 +15,7 @@ class _HomePageFiltersState extends State<HomePageFilters> {
   //!taxonomy
   List<String> filtersNames = [];
   List<List<Map<String, dynamic>>> filtersTerms = [];
+  final MediaController mediaController = Get.put(MediaController());
 
   //!names of each filter
   @override
@@ -41,25 +41,28 @@ class _HomePageFiltersState extends State<HomePageFilters> {
     //   detailedFilters.add(filtersNames[element]);
     // });
     return SingleChildScrollView(
-      child: Row(
-        children: [
-          ...filtersNames
-              .map((e) => (e != "interest" && e != "category")
-                  ? SingleFilter(
-                      filterName: filtersNames[filtersNames.indexOf(e)],
-                      filterTerms: (e != "mpaa")
-                          ? filtersTerms[filtersNames.indexOf(e)]
-                          : filtersTerms[filtersNames.indexOf(e)]
-                              .where((element) =>
-                                  element["slug"] == "tv-y" ||
-                                  element["slug"] == "tv-g" ||
-                                  element["slug"] == "g")
-                              .toList(),
-                      filterSelectedTerms:
-                          (filtersNames.indexOf(e) == 0) ? [0] : [])
-                  : Container())
-              .toList()
-        ],
+      child: Obx(
+        () => Row(
+          children: [
+            ...filtersNames
+                .map((e) => (e != "interest" && e != "category")
+                    ? SingleFilter(
+                        filterName: filtersNames[filtersNames.indexOf(e)],
+                        filterTerms: (e != "mpaa")
+                            ? filtersTerms[filtersNames.indexOf(e)]
+                            : filtersTerms[filtersNames.indexOf(e)]
+                                .where((element) =>
+                                    element["slug"] == "tv-y" ||
+                                    element["slug"] == "tv-g" ||
+                                    element["slug"] == "g")
+                                .toList(),
+                        filterSelectedTerms: (filtersNames.indexOf(e) == 0)
+                            ? [0]
+                            : mediaController.filterTags)
+                    : Container())
+                .toList()
+          ],
+        ),
       ),
     );
   }
@@ -82,7 +85,6 @@ class SingleFilter extends StatefulWidget {
 
 class _SingleFilterState extends State<SingleFilter> {
   List<int> tag = [];
-  List<int> appliedFilters = [];
   final MediaController mediaController = Get.put(MediaController());
 
   @override
@@ -130,15 +132,9 @@ class _SingleFilterState extends State<SingleFilter> {
                     setState(() {
                       tag = val;
                       for (var element in tag) {
-                        if (!(appliedFilters.contains(element))) {
-                          mediaController.filterData(
-                              taxonomy: widget.filterName,
-                              termID: widget.filterTerms[element]["term_id"]);
-
-                          appliedFilters.add(element);
-                        } else {
-                          appliedFilters.remove(element);
-                        }
+                        mediaController.filterData(
+                            taxonomy: widget.filterName,
+                            termID: widget.filterTerms[element]["term_id"]);
                       }
                     });
                   },
