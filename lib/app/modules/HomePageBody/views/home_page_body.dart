@@ -85,14 +85,7 @@ class _HomePageBodyState extends State<HomePageBody> {
           ),
           Obx(() {
             if (mediaController.media.isNotEmpty) {
-              return ConstrainedBox(
-                constraints: const BoxConstraints(
-                  maxWidth: 130,
-                ),
-                child: Container(
-                    alignment: Alignment.topLeft,
-                    child: const HomePageFilters()),
-              );
+              return const HomePageFilters();
             } else {
               return Container();
             }

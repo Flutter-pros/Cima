@@ -32,7 +32,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     List<Widget> pages = [
       const HomePageBody(),
-      const MovieInfoScreen(),
+      const MovienfoScreen(),
       const Content(),
     ];
 
@@ -80,6 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               vertical: 4,
                             ),
                             hintText: 'اختر محتواك',
+                            hintStyle: TextStyle(color: Colors.white),
                             prefixIcon: Icon(Icons.search),
                           ),
                         );
@@ -89,7 +90,6 @@ class _MyHomePageState extends State<MyHomePage> {
                             onPressed: () {
                               setState(
                                 () {
-                                  print("icon.close in pressed");
                                   titleOrTextfield = const Text("سيما");
                                   searchController.clear();
                                   mediaController.goPrevious();

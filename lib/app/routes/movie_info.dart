@@ -1,11 +1,10 @@
+import 'package:cima/app/routes/iconbuttonutils.dart';
+import 'package:cima/app/routes/rowanddetails.dart';
+import 'package:cima/app/routes/textutils.dart';
 import 'package:flutter/material.dart';
-import 'package:n_project/ml/utils/iconbutton.dart';
-import 'package:n_project/ml/utils/rowanddetails.dart';
-
-import 'package:n_project/ml/utils/text.dart';
 
 class MovienfoScreen extends StatefulWidget {
-  MovienfoScreen({Key? key}) : super(key: key);
+  const MovienfoScreen({Key? key}) : super(key: key);
 
   @override
   State<MovienfoScreen> createState() => _MovienfoScreenState();
@@ -16,6 +15,7 @@ class _MovienfoScreenState extends State<MovienfoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        color: Colors.black,
         height: double.infinity,
         width: double.infinity,
         child: ListView(
@@ -23,7 +23,7 @@ class _MovienfoScreenState extends State<MovienfoScreen> {
             Stack(
               alignment: Alignment.center,
               children: [
-                Container(
+                SizedBox(
                   height: 250,
                   width: MediaQuery.of(context).size.width / 1,
                   child: Image.network(
@@ -95,7 +95,7 @@ class _MovienfoScreenState extends State<MovienfoScreen> {
                   SizedBox(
                     height: 5,
                   ),
-                  DetailsRow(),
+                  // DetailsRow(),
                 ],
               ),
             ),
@@ -106,7 +106,7 @@ class _MovienfoScreenState extends State<MovienfoScreen> {
               margin: const EdgeInsets.only(right: 20, left: 20),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TextUtils(
                     fontWeight: FontWeight.bold,
@@ -151,7 +151,7 @@ class _MovienfoScreenState extends State<MovienfoScreen> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Container(
+                                SizedBox(
                                   height: 170,
                                   width: 100,
                                   child: ClipRRect(

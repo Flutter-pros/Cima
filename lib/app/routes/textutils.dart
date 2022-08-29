@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class TextUtils extends StatelessWidget {
-  TextUtils(
+  const TextUtils(
       {Key? key,
       required this.text,
       required this.textalign,

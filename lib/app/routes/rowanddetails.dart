@@ -1,6 +1,6 @@
+import 'package:cima/app/routes/iconbuttonutils.dart';
+import 'package:cima/app/routes/textutils.dart';
 import 'package:flutter/material.dart';
-import 'package:n_project/ml/utils/iconbutton.dart';
-import 'package:n_project/ml/utils/text.dart';
 
 class DetailsRow extends StatelessWidget {
   const DetailsRow({Key? key}) : super(key: key);
@@ -31,20 +31,21 @@ class DetailsRow extends StatelessWidget {
             color: Colors.grey.withOpacity(.1),
           ),
           height: 40,
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-            TextUtils(
-              color: Colors.white,
-              fontWeight: FontWeight.normal,
-              text: "5.0",
-              textalign: TextAlign.end,
-            ),
-            const Icon(
-              Icons.star,
-              color: Colors.yellow,
-              size: 20,
-            )
-          ]),
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: const [
+                TextUtils(
+                  color: Colors.white,
+                  fontWeight: FontWeight.normal,
+                  text: "5.0",
+                  textalign: TextAlign.end,
+                ),
+                Icon(
+                  Icons.star,
+                  color: Colors.yellow,
+                  size: 20,
+                )
+              ]),
         ),
         Container(
           width: 70,
@@ -53,7 +54,7 @@ class DetailsRow extends StatelessWidget {
             color: Colors.grey.withOpacity(.1),
           ),
           height: 40,
-          child: Center(
+          child: const Center(
             child: TextUtils(
               color: Colors.white,
               fontWeight: FontWeight.normal,
@@ -69,7 +70,7 @@ class DetailsRow extends StatelessWidget {
           ),
           height: 40,
           width: 35,
-          child: Center(
+          child: const Center(
             child: TextUtils(
               color: Colors.white,
               fontWeight: FontWeight.normal,

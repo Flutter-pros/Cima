@@ -5,14 +5,14 @@ import 'package:cima/app/data/movie_api.dart';
 class MediaControllerData {
   late String mediaID;
   late String mediaTitle;
-  String mediaDescription = "";
+  String? mediaDescription;
   late String mediaImage;
   late String mediaYear;
-  String mediaRating = "";
-  String mediaDurationInMinutes = "";
-  String mediaGenre = "";
-  String mediaWatchURL = "";
-  List mediaDownloads = [];
+  String? mediaRating;
+  String? mediaDurationInMinutes;
+  String? mediaGenre;
+  String? mediaWatchURL;
+  List? mediaDownloads;
   MediaControllerData({
     required this.mediaID,
     required this.mediaTitle,
@@ -37,6 +37,8 @@ class MediaController extends GetxController {
   RxList media = [].obs;
   RxBool isSeries = true.obs;
   RxBool isPreviousActivated = false.obs;
+  RxBool isFiltersTriggered = false.obs;
+  RxInt appliedFilters = 0.obs;
   //! the bellw two methods are used to enable the previous button in the homepage screen to avoid filling the screens stack .
   void goPrevious() {
     if (media.length > 1) {
@@ -53,26 +55,26 @@ class MediaController extends GetxController {
     }
   }
 
-  void filterData({String? taxonamy, String? termID}) async {
+  void filterData({String? taxonomy, String? termID}) async {
     List filteredData = [];
     List locatedMedia = [];
 
-    if (taxonamy == null && termID == null) {
+    if (taxonomy == null && termID == null) {
       await FilteredData()
           .getData()
           .then((value) => filteredData.addAll(value));
     } else {
-      if (taxonamy == null) {
+      if (taxonomy == null) {
         await FilteredData(termID: termID!)
             .getData()
             .then((value) => filteredData.addAll(value));
       } else {
         if (termID == null) {
-          await FilteredData(taxonamy: taxonamy)
+          await FilteredData(taxonamy: taxonomy)
               .getData()
               .then((value) => filteredData.addAll(value));
         } else {
-          await FilteredData(taxonamy: taxonamy, termID: termID)
+          await FilteredData(taxonamy: taxonomy, termID: termID)
               .getData()
               .then((value) => filteredData.addAll(value));
         }
@@ -93,8 +95,26 @@ class MediaController extends GetxController {
         // mediaDownloads: data['downloads']
       ));
     }
-    media.insert(media.length, locatedMedia);
-    _goNext();
+    if (taxonomy != "category") {
+      List locatedMediaIDs = locatedMedia.map((e) => e.mediaID).toList();
+      if (isFiltersTriggered.value) {
+        media.last = media.last
+            .where((element) => locatedMediaIDs.contains(element.mediaID))
+            .toList();
+        appliedFilters.value = appliedFilters.value - 1;
+        isFiltersTriggered.value = (appliedFilters.value < 1) ? false : true;
+      } else {
+        appliedFilters.value = appliedFilters.value + 1;
+        locatedMedia = media.last
+            .where((element) => locatedMediaIDs.contains(element.mediaID))
+            .toList();
+        media.insert(media.length, locatedMedia);
+        _goNext();
+      }
+    } else {
+      media.insert(media.length, locatedMedia);
+      _goNext();
+    }
   }
 
   List<String> getFilters() {

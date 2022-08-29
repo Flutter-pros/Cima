@@ -1,3 +1,4 @@
+import 'package:cima/app/local/local.dart';
 import 'package:flutter/material.dart';
 import 'package:cima/app/routes/myhomepage.dart';
 import 'package:get/get.dart';
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       home: const MyHomePage(),
+      translations: MyLocal(),
       locale: Get.deviceLocale,
       fallbackLocale: const Locale('ar', 'SA'),
     );

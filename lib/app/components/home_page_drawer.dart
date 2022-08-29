@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 //! we will use the HomepAgeBody controller (MediaController) to update the data in the home page body
 import 'package:cima/app/modules/HomePageBody/controllers/media_controller.dart';
+
 // import '../modules/Drawer/controllers/drawer_controller.dart' as drawer;
 
 class HomePageDrawer extends StatefulWidget {
@@ -60,7 +61,7 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                           fontWeight: FontWeight.w500,
                           fontSize: 20,
                           color: Colors.white),
-                      hintText: '    إبحث فى ماي سيما',
+                      hintText: 'ابحث في ماي سيما',
                       prefixIcon: IconButton(
                         icon: const Icon(
                           Icons.search,
