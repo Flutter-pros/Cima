@@ -13,58 +13,49 @@ class HomePageFilters extends StatefulWidget {
 
 class _HomePageFiltersState extends State<HomePageFilters> {
   //!taxonomy
-  List<String> filtersNames = [];
-  List<List<Map<String, dynamic>>> filtersTerms = [];
+
   final MediaController mediaController = Get.put(MediaController());
 
   //!names of each filter
   @override
   void initState() {
     super.initState();
-    getFiltersData();
-  }
-
-  void getFiltersData() async {
-    await Filters().getData().then((value) {
-      value.forEach((element) {
-        filtersNames.add(element["taxonomy"]);
-        filtersTerms.add(element["terms"]);
-      });
-    });
-
-    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    // tag.forEach((element) {
-    //   detailedFilters.add(filtersNames[element]);
-    // });
-    return SingleChildScrollView(
-      child: Obx(
-        () => Row(
-          children: [
-            ...filtersNames
-                .map((e) => (e != "interest" && e != "category")
-                    ? SingleFilter(
-                        filterName: filtersNames[filtersNames.indexOf(e)],
-                        filterTerms: (e != "mpaa")
-                            ? filtersTerms[filtersNames.indexOf(e)]
-                            : filtersTerms[filtersNames.indexOf(e)]
-                                .where((element) =>
-                                    element["slug"] == "tv-y" ||
-                                    element["slug"] == "tv-g" ||
-                                    element["slug"] == "g")
-                                .toList(),
-                        filterSelectedTerms: (filtersNames.indexOf(e) == 0)
-                            ? [0]
-                            : mediaController.filterTags)
-                    : Container())
-                .toList()
-          ],
-        ),
-      ),
-    );
+    return FutureBuilder(
+        future: Filters().getData(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.hasData) {
+            return ListView.builder(
+                scrollDirection: Axis.horizontal,
+                shrinkWrap: true,
+                physics: const BouncingScrollPhysics(),
+                itemCount: snapshot.data.length,
+                itemBuilder: (context, index) {
+                  String filterName = snapshot.data[index]["taxonomy"];
+                  List filterTerms = snapshot.data[index]["terms"];
+                  return (filterName != "category" && filterName != "interest")
+                      ? SingleFilter(
+                          filterName: snapshot.data[index]["taxonomy"],
+                          filterTerms: (filterName == "mpaa")
+                              ? filterTerms.where((term) {
+                                  return term["slug"] == "tv-y" ||
+                                      term["slug"] == "tv-g" ||
+                                      term["slug"] == "g";
+                                }).toList()
+                              : filterTerms,
+                          filterSelectedTerms:
+                              (snapshot.data[index]["taxonomy"] == "mpaa")
+                                  ? [0]
+                                  : mediaController.filterTags)
+                      : Container();
+                });
+          } else {
+            return Container();
+          }
+        });
   }
 }
 
@@ -76,7 +67,7 @@ class SingleFilter extends StatefulWidget {
       required this.filterSelectedTerms})
       : super(key: key);
   final String filterName;
-  final List<Map<String, dynamic>> filterTerms;
+  final List filterTerms;
   final List<int> filterSelectedTerms;
 
   @override
@@ -97,7 +88,7 @@ class _SingleFilterState extends State<SingleFilter> {
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: const BoxConstraints(
-        maxWidth: 150,
+        maxWidth: 200,
       ),
       child: Container(
         alignment: Alignment.topLeft,
@@ -127,7 +118,7 @@ class _SingleFilterState extends State<SingleFilter> {
                   choiceStyle: const C2ChoiceStyle(
                     color: Colors.black,
                   ),
-                  value: widget.filterSelectedTerms,
+                  value: tag,
                   onChanged: (val) {
                     setState(() {
                       tag = val;
@@ -139,9 +130,13 @@ class _SingleFilterState extends State<SingleFilter> {
                     });
                   },
                   choiceItems: C2Choice.listFrom<int, String>(
-                    source: widget.filterTerms
-                        .map((e) => e["slug"].toString().tr)
-                        .toList(),
+                    source: (widget.filterName == "mpaa")
+                        ? widget.filterTerms
+                            .map((e) => e["slug"].toString().tr)
+                            .toList()
+                        : widget.filterTerms
+                            .map((e) => e["name"].toString().tr)
+                            .toList(),
                     value: (i, v) => i,
                     label: (i, v) => v,
                   ),

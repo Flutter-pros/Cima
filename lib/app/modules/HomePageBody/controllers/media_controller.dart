@@ -106,9 +106,15 @@ class MediaController extends GetxController {
         isFiltersTriggered.value = (appliedFilters.value < 1) ? false : true;
       } else {
         appliedFilters.value = appliedFilters.value + 1;
-        locatedMedia = media.last
-            .where((element) => locatedMediaIDs.contains(element.mediaID))
-            .toList();
+        (media.isNotEmpty)
+            ? media.last = locatedMedia
+            : media.insert(
+                media.length,
+                locatedMedia
+                    .where(
+                        (element) => locatedMediaIDs.contains(element.mediaID))
+                    .toList());
+
         media.insert(media.length, locatedMedia);
         _goNext();
       }

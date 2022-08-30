@@ -50,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     mediaController.goPrevious();
                     if (mediaController.appliedFilters.value > 0) {
                       mediaController.filterTags.value = [];
-                    } else {}
+                    }
                   },
                 );
               } else {
