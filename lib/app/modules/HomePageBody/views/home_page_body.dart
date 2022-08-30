@@ -83,13 +83,9 @@ class _HomePageBodyState extends State<HomePageBody> {
               }),
             ),
           ),
-          Obx(() {
-            if (mediaController.media.isNotEmpty) {
-              return const HomePageFilters();
-            } else {
-              return Container();
-            }
-          }),
+          Obx(() => (mediaController.media.isNotEmpty)
+              ? const SizedBox(height: 500, child: HomePageFilters())
+              : Container()),
         ],
       ),
     );
