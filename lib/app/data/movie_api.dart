@@ -35,7 +35,7 @@ class RelatedPosts extends ApiHandler {
 class FilteredData extends ApiHandler {
   String taxonamy;
   String termID;
-  FilteredData({this.taxonamy = "category", this.termID = "30624"})
+  FilteredData({this.taxonamy = "category", this.termID = "5"})
       : super("https://mycima.buzz/appweb/posts/archived_$taxonamy[$termID]/");
 }
 

@@ -46,10 +46,7 @@ class _HomePageFiltersState extends State<HomePageFilters> {
                                       term["slug"] == "g";
                                 }).toList()
                               : filterTerms,
-                          filterSelectedTerms:
-                              (snapshot.data[index]["taxonomy"] == "mpaa")
-                                  ? [0]
-                                  : mediaController.filterTags)
+                          filterSelectedTerms: [])
                       : Container();
                 });
           } else {
@@ -92,62 +89,73 @@ class _SingleFilterState extends State<SingleFilter> {
       ),
       child: Container(
         alignment: Alignment.topLeft,
-        child: ExpansionTile(
-          //! below is applied when the tile is expanded
-          iconColor: Colors.white,
-          textColor: Colors.white,
-          backgroundColor: Colors.black.withOpacity(0.8),
-          //! below is applied when the tile is collapsed
-          collapsedIconColor: Colors.white,
-          collapsedTextColor: Colors.white,
-          title: Row(
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: ExpansionTile(
+            onExpansionChanged: (value) {
+              if (value) {
+                mediaController.isAnyFilterExpanded.value = true;
+              } else {
+                mediaController.isAnyFilterExpanded.value = false;
+              }
+            },
+            //! below is applied when the tile is expanded
+            iconColor: Colors.white,
+            textColor: Colors.white,
+            backgroundColor: Colors.black.withOpacity(0.8),
+            //! below is applied when the tile is collapsed
+            collapsedIconColor: Colors.white,
+            collapsedTextColor: Colors.white,
+            title: Row(
+              children: [
+                const Icon(Icons.filter_list),
+                const SizedBox(width: 5),
+                Text(
+                  widget.filterName.tr,
+                ),
+              ],
+            ),
             children: [
-              const Icon(Icons.filter_list),
-              const SizedBox(width: 5),
-              Text(
-                widget.filterName.tr,
-              ),
-            ],
-          ),
-          children: [
-            OrientationBuilder(
-              builder: (context, orientation) {
-                return SizedBox(
-                  height: (orientation == Orientation.portrait) ? 300 : 50,
-                  child: SingleChildScrollView(
-                    child: ChipsChoice<int>.multiple(
-                      direction: Axis.vertical,
-                      choiceStyle: const C2ChoiceStyle(
-                        color: Colors.black,
-                      ),
-                      value: tag,
-                      onChanged: (val) {
-                        setState(() {
-                          tag = val;
-                          for (var element in tag) {
-                            mediaController.filterData(
-                                taxonomy: widget.filterName,
-                                termID: widget.filterTerms[element]["term_id"]);
-                          }
-                        });
-                      },
-                      choiceItems: C2Choice.listFrom<int, String>(
-                        source: (widget.filterName == "mpaa")
-                            ? widget.filterTerms
-                                .map((e) => e["slug"].toString().tr)
-                                .toList()
-                            : widget.filterTerms
-                                .map((e) => e["name"].toString().tr)
-                                .toList(),
-                        value: (i, v) => i,
-                        label: (i, v) => v,
+              OrientationBuilder(
+                builder: (context, orientation) {
+                  return SizedBox(
+                    height: (orientation == Orientation.portrait) ? 300 : 50,
+                    child: SingleChildScrollView(
+                      child: ChipsChoice<int>.multiple(
+                        direction: Axis.vertical,
+                        choiceStyle: const C2ChoiceStyle(
+                          color: Colors.black,
+                        ),
+                        value: tag,
+                        onChanged: (val) {
+                          setState(() {
+                            tag = val;
+                            for (var element in tag) {
+                              mediaController.filterData(
+                                  taxonomy: widget.filterName,
+                                  termID:
+                                      "${widget.filterTerms[element]["term_id"]}");
+                            }
+                          });
+                        },
+                        choiceItems: C2Choice.listFrom<int, String>(
+                          source: (widget.filterName == "mpaa")
+                              ? widget.filterTerms
+                                  .map((e) => e["slug"].toString().tr)
+                                  .toList()
+                              : widget.filterTerms
+                                  .map((e) => e["name"].toString().tr)
+                                  .toList(),
+                          value: (i, v) => i,
+                          label: (i, v) => v,
+                        ),
                       ),
                     ),
-                  ),
-                );
-              },
-            )
-          ],
+                  );
+                },
+              )
+            ],
+          ),
         ),
       ),
     );

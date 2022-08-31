@@ -58,23 +58,9 @@ class _HomePageBodyState extends State<HomePageBody> {
                     itemBuilder: (_, index) {
                       String imageURL =
                           mediaController.media.last[index].mediaImage;
-                      String cleanImageURL;
-                      try {
-                        cleanImageURL = (mediaController.isSeries.value)
-                            ? imageURL.replaceAll(
-                                imageURL.substring(
-                                    imageURL.indexOf(
-                                        ':', imageURL.indexOf(':') + 1),
-                                    imageURL.indexOf(r'/wp')),
-                                "")
-                            : imageURL;
-                      } catch (e) {
-                        cleanImageURL =
-                            "images/failLoading/image_fail_loading.jpeg";
-                      }
 
                       return GridViewBody(
-                          imageUrl: cleanImageURL,
+                          imageUrl: imageURL,
                           title:
                               "${mediaController.media.last[index].mediaTitle}");
                     },
@@ -84,7 +70,11 @@ class _HomePageBodyState extends State<HomePageBody> {
             ),
           ),
           Obx(() => (mediaController.media.isNotEmpty)
-              ? const SizedBox(height: 500, child: HomePageFilters())
+              ? SizedBox(
+                  height: (mediaController.isAnyFilterExpanded.value)
+                      ? MediaQuery.of(context).size.height / 2
+                      : 50,
+                  child: const HomePageFilters())
               : Container()),
         ],
       ),

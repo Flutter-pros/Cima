@@ -4,7 +4,21 @@ import 'package:cima/app/routes/textutils.dart';
 import 'package:flutter/material.dart';
 
 class MovienfoScreen extends StatefulWidget {
-  const MovienfoScreen({Key? key}) : super(key: key);
+  const MovienfoScreen(
+      {Key? key,
+      required this.id,
+      required this.imageURL,
+      required this.imdbRating,
+      required this.genre,
+      required this.mpaa,
+      required this.story})
+      : super(key: key);
+  final String id;
+  final String imageURL;
+  final String imdbRating;
+  final String genre;
+  final String mpaa;
+  final String story;
 
   @override
   State<MovienfoScreen> createState() => _MovienfoScreenState();

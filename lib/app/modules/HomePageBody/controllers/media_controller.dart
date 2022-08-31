@@ -40,6 +40,8 @@ class MediaController extends GetxController {
   RxBool isFiltersTriggered = false.obs;
   RxInt appliedFilters = 0.obs;
   RxList<int> filterTags = [0].obs;
+  RxBool isAnyFilterExpanded = false.obs;
+
   //! the bellw two methods are used to enable the previous button in the homepage screen to avoid filling the screens stack .
   void goPrevious() {
     if (media.length > 1) {
