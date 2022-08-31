@@ -32,7 +32,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     List<Widget> pages = [
       const HomePageBody(),
-      const MovienfoScreen(),
+      const MovienfoScreen(
+          id: "", imageURL: "", imdbRating: "", genre: "", mpaa: "", story: ""),
       const Content(),
     ];
 
