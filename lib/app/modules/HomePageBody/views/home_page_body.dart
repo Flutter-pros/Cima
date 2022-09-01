@@ -2,23 +2,11 @@ import 'package:cima/app/components/home_page_filters.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/media_controller.dart';
-import 'package:cima/app/components/grid_view_body.dart';
+import 'package:cima/app/components/grid_view_body_card.dart';
 
-class HomePageBody extends StatefulWidget {
-  const HomePageBody({Key? key}) : super(key: key);
-
-  @override
-  State<HomePageBody> createState() => _HomePageBodyState();
-}
-
-class _HomePageBodyState extends State<HomePageBody> {
+class HomePageBody extends StatelessWidget {
+  HomePageBody({Key? key}) : super(key: key);
   final MediaController mediaController = Get.put(MediaController());
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  // bool isSeries = true;
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -31,12 +19,12 @@ class _HomePageBodyState extends State<HomePageBody> {
                 ImageCache imageCache = ImageCache();
                 imageCache.clear();
                 imageCache.clearLiveImages();
-                print(
-                    "mediaController.media.value: ${mediaController.media.value}");
-                print(
-                    "mediaController.isPreviousActivated.value: ${mediaController.isPreviousActivated.value}");
-                print(
-                    "mediaController.media.length: ${mediaController.media.value.length}");
+                // print(
+                //     "mediaController.media.value: ${mediaController.media.value}");
+                // print(
+                //     "mediaController.isPreviousActivated.value: ${mediaController.isPreviousActivated.value}");
+                // print(
+                //     "mediaController.media.length: ${mediaController.media.value.length}");
                 if (mediaController.media.isEmpty) {
                   return const Center(
                     child: CircularProgressIndicator(),
@@ -59,10 +47,17 @@ class _HomePageBodyState extends State<HomePageBody> {
                       String imageURL =
                           mediaController.media.last[index].mediaImage;
 
-                      return GridViewBody(
-                          imageUrl: imageURL,
-                          title:
-                              "${mediaController.media.last[index].mediaTitle}");
+                      return GestureDetector(
+                        onTap: () {
+                          Get.toNamed("/movie_info",
+                              arguments: mediaController.media.last[index]
+                                  .getMoreDetails());
+                        },
+                        child: GridViewBodyCard(
+                            imageUrl: imageURL,
+                            title:
+                                "${mediaController.media.last[index].mediaTitle}"),
+                      );
                     },
                   );
                 }
@@ -81,3 +76,9 @@ class _HomePageBodyState extends State<HomePageBody> {
     );
   }
 }
+
+
+  // bool isSeries = true;
+
+
+

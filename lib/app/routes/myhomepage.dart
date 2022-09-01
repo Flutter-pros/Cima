@@ -3,8 +3,7 @@ import 'package:cima/app/modules/HomePageBody/views/home_page_body.dart';
 import 'package:cima/app/components/home_page_drawer.dart';
 import 'package:flutter/material.dart';
 //import other screens preparation for the bottom navigation bar
-import 'package:cima/app/routes/movie_info.dart';
-import 'package:cima/app/routes/content.dart';
+
 import 'package:get/get.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -15,7 +14,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _selectedPage = 0;
   MediaController mediaController = Get.put(MediaController());
   bool isSearch = false;
   Widget searchOrClose = const Icon(Icons.search);
@@ -28,113 +26,76 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   TextEditingController searchController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    List<Widget> pages = [
-      const HomePageBody(),
-      const MovienfoScreen(
-          id: "", imageURL: "", imdbRating: "", genre: "", mpaa: "", story: ""),
-      const Content(),
-    ];
-
     return Scaffold(
       backgroundColor: const Color.fromRGBO(14, 19, 49, 1),
       drawer: const HomePageDrawer(),
       appBar: AppBar(
           actions: [
             Obx(() {
-              if (mediaController.isPreviousActivated.value &&
-                  _selectedPage == 0) {
+              if (mediaController.isPreviousActivated.value) {
                 return IconButton(
                   icon: const Icon(Icons.arrow_forward),
                   onPressed: () {
                     mediaController.goPrevious();
-                    if (mediaController.appliedFilters.value > 0) {
-                      mediaController.filterTags.value = [];
-                    }
                   },
                 );
               } else {
                 return Container();
               }
             }),
-            (_selectedPage == 0)
-                ? IconButton(
-                    icon: searchOrClose,
-                    onPressed: () {
-                      setState(() {
-                        isSearch = !isSearch;
-                      });
-                      if (isSearch) {
-                        searchOrClose = const Icon(Icons.close);
-                        titleOrTextfield = TextField(
-                          autofocus: true,
-                          style: const TextStyle(color: Colors.white),
-                          controller: searchController,
-                          onChanged: (search) {
-                            if (search.trim().isNotEmpty) {
-                              mediaController.searchLocalData(
-                                  search: searchController.text.trim());
-                            }
-                          },
-                          textAlign: TextAlign.center,
-                          decoration: const InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(
-                              horizontal: 25,
-                              vertical: 4,
-                            ),
-                            hintText: 'اختر محتواك',
-                            hintStyle: TextStyle(color: Colors.white),
-                            prefixIcon: Icon(Icons.search),
-                          ),
-                        );
-                      } else {
-                        searchOrClose = IconButton(
-                            icon: const Icon(Icons.close),
-                            onPressed: () {
-                              setState(
-                                () {
-                                  titleOrTextfield = const Text("سيما");
-                                  searchController.clear();
-                                  mediaController.goPrevious();
-                                  searchOrClose = const Icon(Icons.search);
-                                },
-                              );
-                            });
+            IconButton(
+              icon: searchOrClose,
+              onPressed: () {
+                setState(() {
+                  isSearch = !isSearch;
+                });
+                if (isSearch) {
+                  searchOrClose = const Icon(Icons.close);
+                  titleOrTextfield = TextField(
+                    autofocus: true,
+                    style: const TextStyle(color: Colors.white),
+                    controller: searchController,
+                    onChanged: (search) {
+                      if (search.trim().isNotEmpty) {
+                        mediaController.searchLocalData(
+                            search: searchController.text.trim());
                       }
                     },
-                  )
-                : Container(),
+                    textAlign: TextAlign.center,
+                    decoration: const InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: 25,
+                        vertical: 4,
+                      ),
+                      hintText: 'اختر محتواك',
+                      hintStyle: TextStyle(color: Colors.white),
+                      prefixIcon: Icon(Icons.search),
+                    ),
+                  );
+                } else {
+                  searchOrClose = IconButton(
+                      icon: const Icon(Icons.close),
+                      onPressed: () {
+                        setState(
+                          () {
+                            titleOrTextfield = const Text("سيما");
+                            searchController.clear();
+                            mediaController.goPrevious();
+                            searchOrClose = const Icon(Icons.search);
+                          },
+                        );
+                      });
+                }
+              },
+            ),
           ],
           centerTitle: true,
           title: titleOrTextfield,
           backgroundColor: const Color.fromRGBO(14, 19, 49, 1)),
-      body: pages[_selectedPage],
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: const Color.fromRGBO(14, 19, 49, 1),
-        unselectedItemColor: Colors.white54,
-        selectedItemColor: Colors.white,
-        currentIndex: _selectedPage,
-        onTap: (int index) {
-          setState(() {
-            _selectedPage = index;
-          });
-        },
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.menu),
-            label: 'القائمة',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.info),
-            label: 'حول',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.video_library),
-            label: 'مشاهدة وتحميل',
-          ),
-        ],
-      ),
+      body: HomePageBody(),
     );
   }
 

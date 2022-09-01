@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-class GridViewBody extends StatelessWidget {
-  const GridViewBody({Key? key, required this.title, required this.imageUrl})
+class GridViewBodyCard extends StatelessWidget {
+  const GridViewBodyCard(
+      {Key? key, required this.title, required this.imageUrl})
       : super(key: key);
   final String imageUrl;
   final String title;

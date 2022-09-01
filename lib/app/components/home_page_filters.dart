@@ -46,7 +46,7 @@ class _HomePageFiltersState extends State<HomePageFilters> {
                                       term["slug"] == "g";
                                 }).toList()
                               : filterTerms,
-                          filterSelectedTerms: [])
+                          filterSelectedTerms: const [])
                       : Container();
                 });
           } else {

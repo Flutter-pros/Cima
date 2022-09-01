@@ -13,6 +13,7 @@ class MediaControllerData {
   String? mediaGenre;
   String? mediaWatchURL;
   List? mediaDownloads;
+  String? mediaAging;
   MediaControllerData({
     required this.mediaID,
     required this.mediaTitle,
@@ -27,21 +28,22 @@ class MediaControllerData {
       mediaGenre = data["genre"];
       mediaWatchURL = data["watch___url"];
       mediaDownloads = data["downloads"];
+      mediaAging = data["mpaa"];
     });
   }
 }
 
 class MediaController extends GetxController {
-  //* we will make the default state of the myhomepage to show the arabic series
+  //* we will make the default state of the myhomepage to show the arabic movies
 
   RxList media = [].obs;
-  RxBool isSeries = true.obs;
+  //* this will be used to check if the previous button should be activated or not
   RxBool isPreviousActivated = false.obs;
+  //! we use the below two variable to configure out if we used any filters before to update the media.last unless we will insert the data
   RxBool isFiltersTriggered = false.obs;
   RxInt appliedFilters = 0.obs;
-  RxList<int> filterTags = [0].obs;
+  //! we use the below variable to manage the stacked filters scroll and the gridview scroll
   RxBool isAnyFilterExpanded = false.obs;
-
   //! the bellw two methods are used to enable the previous button in the homepage screen to avoid filling the screens stack .
   void goPrevious() {
     if (media.length > 1) {

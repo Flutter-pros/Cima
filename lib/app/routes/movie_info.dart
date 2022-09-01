@@ -1,32 +1,22 @@
-import 'package:cima/app/routes/iconbuttonutils.dart';
-import 'package:cima/app/routes/rowanddetails.dart';
-import 'package:cima/app/routes/textutils.dart';
+import 'package:cima/app/components/grid_view_body_card.dart';
+import 'package:cima/app/data/movie_api.dart';
+import 'package:cima/app/modules/HomePageBody/controllers/media_controller.dart';
+import 'package:cima/app/utils/iconbuttonutils.dart';
+import 'package:cima/app/components/row_and_details.dart';
+import 'package:cima/app/utils/textutils.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class MovienfoScreen extends StatefulWidget {
-  const MovienfoScreen(
-      {Key? key,
-      required this.id,
-      required this.imageURL,
-      required this.imdbRating,
-      required this.genre,
-      required this.mpaa,
-      required this.story})
-      : super(key: key);
-  final String id;
-  final String imageURL;
-  final String imdbRating;
-  final String genre;
-  final String mpaa;
-  final String story;
+class MovieInfoScreen extends StatelessWidget {
+  const MovieInfoScreen({
+    Key? key,
+  }) : super(key: key);
 
-  @override
-  State<MovienfoScreen> createState() => _MovienfoScreenState();
-}
-
-class _MovienfoScreenState extends State<MovienfoScreen> {
   @override
   Widget build(BuildContext context) {
+    final MediaControllerData argument =
+        ModalRoute.of(context)!.settings.arguments as MediaControllerData;
+
     return Scaffold(
       body: Container(
         color: Colors.black,
@@ -41,7 +31,7 @@ class _MovienfoScreenState extends State<MovienfoScreen> {
                   height: 250,
                   width: MediaQuery.of(context).size.width / 1,
                   child: Image.network(
-                    "https://mycima.fun/wp-content/uploads/2022/06/%D9%85%D8%B3%D9%84%D8%B3%D9%84-In-the-Dark-%D8%A7%D9%84%D9%85%D9%88%D8%B3%D9%85-%D8%A7%D9%84%D8%B1%D8%A7%D8%A8%D8%B9-347x520.jpg",
+                    argument.mediaImage,
                     fit: BoxFit.fill,
                   ),
                 ),
@@ -53,7 +43,9 @@ class _MovienfoScreenState extends State<MovienfoScreen> {
                           Icons.arrow_back,
                           color: Colors.white,
                         ),
-                        onprassed: () {})),
+                        onprassed: () {
+                          Get.back();
+                        })),
                 Positioned(
                   child: CircleAvatar(
                       maxRadius: 30,
@@ -63,7 +55,12 @@ class _MovienfoScreenState extends State<MovienfoScreen> {
                             Icons.play_arrow,
                             color: Colors.white,
                           ),
-                          onprassed: () {})),
+                          onprassed: () {
+                            Get.toNamed('/movieplayer', arguments: {
+                              "watch___URL": argument.mediaWatchURL,
+                              "downloads": argument.mediaDownloads
+                            });
+                          })),
                 ),
                 Positioned(
                   bottom: 0,
@@ -79,7 +76,7 @@ class _MovienfoScreenState extends State<MovienfoScreen> {
                       child: TextUtils(
                         color: Colors.white,
                         fontWeight: FontWeight.normal,
-                        text: " 1h 20m  ",
+                        text: argument.mediaDurationInMinutes!,
                         textalign: TextAlign.end,
                       ),
                     ),
@@ -104,9 +101,13 @@ class _MovienfoScreenState extends State<MovienfoScreen> {
             SizedBox(
               width: double.infinity,
               child: Column(
-                children: const [
-                  DetailsRow(),
-                  SizedBox(
+                children: [
+                  DetailsRow(
+                    mediaAging: argument.mediaAging!,
+                    mediaRating: argument.mediaRating!,
+                    mediaGenre: argument.mediaGenre!,
+                  ),
+                  const SizedBox(
                     height: 5,
                   ),
                   // DetailsRow(),
@@ -121,8 +122,9 @@ class _MovienfoScreenState extends State<MovienfoScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
+                // ignore: prefer_const_literals_to_create_immutables
                 children: [
-                  TextUtils(
+                  const TextUtils(
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                     text: "وصف الفيلم  ",
@@ -131,11 +133,10 @@ class _MovienfoScreenState extends State<MovienfoScreen> {
                   TextUtils(
                     fontWeight: FontWeight.normal,
                     color: Colors.white,
-                    text:
-                        "يتم اختيار فيوليت رودريغيز ، وهي مراهقة أمريكية مكسيكية يومية ، بواسطة قناع لوشادور السحري الذي يحولها إلى الترا فولت ، وهي بطل خارق يقاتل الجريمة إلى جانب عمها المتعصب ، كروز ، المعروف أيضًا باسم العقرب الأسود.",
+                    text: argument.mediaDescription!,
                     textalign: TextAlign.end,
                   ),
-                  TextUtils(
+                  const TextUtils(
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                     text: "ذات صله ",
@@ -144,65 +145,52 @@ class _MovienfoScreenState extends State<MovienfoScreen> {
                 ],
               ),
             ),
-            SizedBox(
-              height: 200,
-              child: Container(
-                decoration: const BoxDecoration(),
-                child: Stack(
-                  alignment: Alignment.topRight,
-                  children: [
-                    ListView.builder(
-                        itemCount: 17,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: ((context, index) {
-                          return Card(
-                            shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(25),
-                              topRight: Radius.circular(30),
-                            )),
-                            color: const Color(0xff23273b),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
+            FutureBuilder(
+              future: RelatedPosts(postID: argument.mediaID).getData(),
+              builder: (BuildContext context, AsyncSnapshot snapshot) =>
+                  (snapshot.hasData)
+                      ? SizedBox(
+                          height: 200,
+                          child: Container(
+                            decoration: const BoxDecoration(),
+                            child: Stack(
+                              alignment: Alignment.topRight,
                               children: [
-                                SizedBox(
-                                  height: 170,
-                                  width: 100,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: Image.network(
-                                      fit: BoxFit.fill,
-                                      "https://mycima.fun/wp-content/uploads/2022/06/%D9%85%D8%B3%D9%84%D8%B3%D9%84-In-the-Dark-%D8%A7%D9%84%D9%85%D9%88%D8%B3%D9%85-%D8%A7%D9%84%D8%B1%D8%A7%D8%A8%D8%B9-347x520.jpg",
-                                      errorBuilder: (BuildContext context,
-                                          Object exception,
-                                          StackTrace? stackTrace) {
-                                        return Image.asset(
-                                            "images/failLoading/image_fail_loading.jpeg");
-                                      },
-                                    ),
-                                  ),
-                                ),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    TextUtils(
-                                        text: "title",
-                                        textalign: TextAlign.end,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold)
-                                  ],
+                                ListView.builder(
+                                    itemCount: 17,
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder: ((context, index) {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          Get.toNamed('/movieinfo',
+                                              arguments: MediaControllerData(
+                                                mediaID: snapshot.data[index]
+                                                    ["id"],
+                                                mediaTitle: snapshot.data[index]
+                                                    ["title"],
+                                                mediaImage: snapshot.data[index]
+                                                    ["thumbnailUrl"],
+                                                mediaYear:
+                                                    snapshot.data['year'],
+                                              ).getMoreDetails());
+                                        },
+                                        child: GridViewBodyCard(
+                                          title: snapshot.data[index]["title"],
+                                          imageUrl: snapshot.data[index]
+                                              ["thumbnailUrl"],
+                                        ),
+                                      );
+                                    })),
+                                const SizedBox(
+                                  height: 50,
                                 )
                               ],
                             ),
-                          );
-                        }))
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 50,
+                          ),
+                        )
+                      : const Center(
+                          child: CircularProgressIndicator(),
+                        ),
             )
           ],
         ),

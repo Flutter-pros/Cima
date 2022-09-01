@@ -102,9 +102,6 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                                     // mediaController.media.value =
                                     //     updatedMediaController.media;
 
-                                    (index == 0)
-                                        ? mediaController.isSeries.value = false
-                                        : mediaController.isSeries.value = true;
                                     Navigator.pop(context);
                                   },
                                   child: Text(
@@ -149,11 +146,6 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                                               termID: snapshot.data[index]
                                                   ["children"][index2]["id"]);
 
-                                          (index == 0)
-                                              ? mediaController.isSeries.value =
-                                                  false
-                                              : mediaController.isSeries.value =
-                                                  true;
                                           Navigator.pop(context);
                                         },
                                         child: ListTile(

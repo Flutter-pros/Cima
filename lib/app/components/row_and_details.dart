@@ -1,29 +1,21 @@
-import 'package:cima/app/routes/iconbuttonutils.dart';
-import 'package:cima/app/routes/textutils.dart';
+import 'package:cima/app/utils/textutils.dart';
 import 'package:flutter/material.dart';
 
 class DetailsRow extends StatelessWidget {
-  const DetailsRow({Key? key}) : super(key: key);
-
+  const DetailsRow(
+      {Key? key,
+      required this.mediaRating,
+      required this.mediaGenre,
+      required this.mediaAging})
+      : super(key: key);
+  final String mediaRating;
+  final String mediaGenre;
+  final String mediaAging;
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Container(
-            width: 50,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              color: Colors.grey.withOpacity(.1),
-            ),
-            height: 40,
-            child: Center(
-                child: IconButtonUtils(
-                    icon: const Icon(
-                      Icons.share,
-                      color: Colors.white,
-                    ),
-                    onprassed: () {}))),
         Container(
           width: 50,
           decoration: BoxDecoration(
@@ -31,21 +23,20 @@ class DetailsRow extends StatelessWidget {
             color: Colors.grey.withOpacity(.1),
           ),
           height: 40,
-          child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: const [
-                TextUtils(
-                  color: Colors.white,
-                  fontWeight: FontWeight.normal,
-                  text: "5.0",
-                  textalign: TextAlign.end,
-                ),
-                Icon(
-                  Icons.star,
-                  color: Colors.yellow,
-                  size: 20,
-                )
-              ]),
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            TextUtils(
+              color: Colors.white,
+              fontWeight: FontWeight.normal,
+              text: mediaRating,
+              textalign: TextAlign.end,
+            ),
+            const Icon(
+              Icons.star,
+              color: Colors.yellow,
+              size: 20,
+            )
+          ]),
         ),
         Container(
           width: 70,
@@ -54,11 +45,11 @@ class DetailsRow extends StatelessWidget {
             color: Colors.grey.withOpacity(.1),
           ),
           height: 40,
-          child: const Center(
+          child: Center(
             child: TextUtils(
               color: Colors.white,
               fontWeight: FontWeight.normal,
-              text: "جريمه",
+              text: mediaGenre,
               textalign: TextAlign.end,
             ),
           ),
@@ -70,11 +61,11 @@ class DetailsRow extends StatelessWidget {
           ),
           height: 40,
           width: 35,
-          child: const Center(
+          child: Center(
             child: TextUtils(
               color: Colors.white,
               fontWeight: FontWeight.normal,
-              text: "+18",
+              text: mediaAging,
               textalign: TextAlign.end,
             ),
           ),
