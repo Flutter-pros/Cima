@@ -1,4 +1,5 @@
 import 'package:cima/app/components/home_page_filters.dart';
+import 'package:cima/app/routes/movie_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/media_controller.dart';
@@ -49,9 +50,8 @@ class HomePageBody extends StatelessWidget {
 
                       return GestureDetector(
                         onTap: () {
-                          Get.toNamed("/movie_info",
-                              arguments: mediaController.media.last[index]
-                                  .getMoreDetails());
+                          mediaController.mediaIndex.value = index;
+                          Get.to(() => MovieInfoScreen());
                         },
                         child: GridViewBodyCard(
                             imageUrl: imageURL,

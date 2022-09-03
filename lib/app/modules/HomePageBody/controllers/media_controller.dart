@@ -44,6 +44,8 @@ class MediaController extends GetxController {
   RxInt appliedFilters = 0.obs;
   //! we use the below variable to manage the stacked filters scroll and the gridview scroll
   RxBool isAnyFilterExpanded = false.obs;
+  //* the below variable is used to reserve the current media index to refrence it in the movie info screen and to content screen
+  RxInt mediaIndex = 0.obs;
   //! the bellw two methods are used to enable the previous button in the homepage screen to avoid filling the screens stack .
   void goPrevious() {
     if (media.length > 1) {

@@ -9,7 +9,7 @@ class GridViewBodyCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
+      width: MediaQuery.of(context).size.width / 2,
       margin: const EdgeInsetsDirectional.fromSTEB(8, 8, 8, 8),
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(

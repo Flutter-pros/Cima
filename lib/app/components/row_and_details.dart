@@ -39,7 +39,7 @@ class DetailsRow extends StatelessWidget {
           ]),
         ),
         Container(
-          width: 70,
+          width: 80,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(7),
             color: Colors.grey.withOpacity(.1),
