@@ -43,11 +43,10 @@ class _VideoPlayerState extends State<VideoPlayer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("video player"),
-      ),
       body: SizedBox(
-          width: double.infinity, height: 200, child: _chewieVideoPlayer()),
+          width: double.infinity,
+          height: double.infinity,
+          child: _chewieVideoPlayer()),
     );
   }
 

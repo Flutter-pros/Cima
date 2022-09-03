@@ -32,36 +32,27 @@ class MovieInfoScreen extends StatelessWidget {
               Stack(
                 alignment: Alignment.center,
                 children: [
-                  const VideoPlayer(),
-                  Positioned(
-                      right: 5,
-                      top: 20,
-                      child: IconButton(
-                        onPressed: () {
-                          Get.back();
-                        },
-                        icon: const Icon(
-                          Icons.arrow_back,
-                          color: Colors.white,
-                        ),
-                      )),
-                  Positioned(
-                    child: CircleAvatar(
-                        maxRadius: 30,
-                        backgroundColor: Colors.black,
-                        child: IconButton(
-                          onPressed: () {
-                            Get.toNamed('/content', arguments: {
-                              "watch___URL": argument.mediaWatchURL,
-                              "downloads": argument.mediaDownloads
-                            });
-                          },
-                          icon: const Icon(
-                            Icons.play_arrow,
-                            color: Colors.white,
-                          ),
-                        )),
-                  ),
+                  SizedBox(
+                      height: Get.height * 0.4,
+                      width: double.infinity,
+                      child: const VideoPlayer()),
+                  // Positioned(
+                  //   child: CircleAvatar(
+                  //       maxRadius: 30,
+                  //       backgroundColor: Colors.black,
+                  //       child: IconButton(
+                  //         onPressed: () {
+                  //           Get.toNamed('/content', arguments: {
+                  //             "watch___URL": argument.mediaWatchURL,
+                  //             "downloads": argument.mediaDownloads
+                  //           });
+                  //         },
+                  //         icon: const Icon(
+                  //           Icons.play_arrow,
+                  //           color: Colors.white,
+                  //         ),
+                  //       )),
+                  // ),
                   Positioned(
                     bottom: 0,
                     right: 0,
