@@ -8,6 +8,7 @@ import 'package:cima/app/components/grid_view_body_card.dart';
 class HomePageBody extends StatelessWidget {
   HomePageBody({Key? key}) : super(key: key);
   final MediaController mediaController = Get.put(MediaController());
+
   @override
   Widget build(BuildContext context) {
     return Center(

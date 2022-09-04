@@ -155,19 +155,9 @@ class MovieInfoScreen extends StatelessWidget {
                                         itemBuilder: ((context, index) {
                                           return GestureDetector(
                                             onTap: () {
-                                              Get.toNamed('/movieinfo',
-                                                  arguments:
-                                                      MediaControllerData(
-                                                    mediaID: snapshot
-                                                        .data[index]["id"],
-                                                    mediaTitle: snapshot
-                                                        .data[index]["title"],
-                                                    mediaImage:
-                                                        snapshot.data[index]
-                                                            ["thumbnailUrl"],
-                                                    mediaYear:
-                                                        "${snapshot.data['year']}",
-                                                  ).getMoreDetails());
+                                              mediaController.mediaIndex.value =
+                                                  index;
+                                              Get.to(() => MovieInfoScreen());
                                             },
                                             child: GridViewBodyCard(
                                               title: snapshot.data[index]

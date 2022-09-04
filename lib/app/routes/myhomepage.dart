@@ -23,6 +23,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     mediaController.filterData();
+    mediaController.getDrawerData();
   }
 
   TextEditingController searchController = TextEditingController();
@@ -31,7 +32,9 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromRGBO(14, 19, 49, 1),
-      drawer: const HomePageDrawer(),
+      drawer: Obx(() => (mediaController.drawer.length > 1)
+          ? const HomePageDrawer()
+          : Container()),
       appBar: AppBar(
           actions: [
             Obx(() {
