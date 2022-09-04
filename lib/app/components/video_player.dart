@@ -53,6 +53,6 @@ class _VideoPlayerState extends State<VideoPlayer> {
             color: Colors.black, child: Chewie(controller: _chewieController!))
         : Container(
             color: Colors.black,
-            child: Center(child: const CircularProgressIndicator()));
+            child: const Center(child: const CircularProgressIndicator()));
   }
 }
