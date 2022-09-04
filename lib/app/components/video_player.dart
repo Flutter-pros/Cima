@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoPlayer extends StatefulWidget {
@@ -42,17 +44,15 @@ class _VideoPlayerState extends State<VideoPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SizedBox(
-          width: double.infinity,
-          height: double.infinity,
-          child: _chewieVideoPlayer()),
-    );
+    return Scaffold(body: _chewieVideoPlayer());
   }
 
   Widget _chewieVideoPlayer() {
     return _chewieController != null && _videoPlayerController != null
-        ? SizedBox(child: Chewie(controller: _chewieController!))
-        : const Text("loading");
+        ? Container(
+            color: Colors.black, child: Chewie(controller: _chewieController!))
+        : Container(
+            color: Colors.black,
+            child: Center(child: const CircularProgressIndicator()));
   }
 }
