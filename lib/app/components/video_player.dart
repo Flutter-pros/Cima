@@ -27,8 +27,14 @@ class _VideoPlayerState extends State<VideoPlayer> {
     super.initState();
     _videoPlayerController = VideoPlayerController.network(widget.url);
     _videoPlayerController!.initialize().then((_) {
-      _chewieController =
-          ChewieController(videoPlayerController: _videoPlayerController!);
+      _chewieController = ChewieController(
+          isLive: true,
+          materialProgressColors: ChewieProgressColors(
+            playedColor: Colors.black,
+            bufferedColor: Colors.grey,
+          ),
+          aspectRatio: 1.2,
+          videoPlayerController: _videoPlayerController!);
       setState(() {
         log("video player is good");
       });
@@ -53,6 +59,6 @@ class _VideoPlayerState extends State<VideoPlayer> {
             color: Colors.black, child: Chewie(controller: _chewieController!))
         : Container(
             color: Colors.black,
-            child: const Center(child: const CircularProgressIndicator()));
+            child: const Center(child: CircularProgressIndicator()));
   }
 }

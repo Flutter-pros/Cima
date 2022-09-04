@@ -29,124 +29,78 @@ class MovieInfoScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
+                    SizedBox(
                       height: Get.height * .4,
                       width: Get.width,
-                      child: Center(
-                        child: Stack(
-                          children: [
-                            const VideoPlayer(),
-                            Positioned(
-                                top: 32,
-                                left: 10,
-                                child: IconButton(
-                                    onPressed: () {
-                                      Get.back();
-                                    },
-                                    icon: Icon(
-                                      Icons.arrow_back_ios_new_outlined,
-                                      color: Colors.white,
-                                    )))
-                            // Positioned(
-                            //   child: CircleAvatar(
-                            //       maxRadius: 30,
-                            //       backgroundColor: Colors.black,
-                            //       child: IconButton(
-                            //         onPressed: () {
-                            //           Get.toNamed('/content', arguments: {
-                            //             "watch___URL": argument.mediaWatchURL,
-                            //             "downloads": argument.mediaDownloads
-                            //           });
-                            //         },
-                            //         icon: const Icon(
-                            //           Icons.play_arrow,
-                            //           color: Colors.white,
-                            //         ),
-                            //       )),
-                            // ),
-                            // Positioned(
-                            //   bottom: 0,
-                            //   right: 0,
-                            //   child: Container(
-                            //     decoration: BoxDecoration(
-                            //       borderRadius: BorderRadius.circular(7),
-                            //       // color: Colors.grey.withOpacity(.1),
-                            //     ),
-                            //     height: 40,
-                            //     width: 80,
-                            //     child: Center(
-                            //       child: TextUtils(
-                            //         color: Colors.white,
-                            //         fontWeight: FontWeight.normal,
-                            //         text: argument.mediaDurationInMinutes ??
-                            //             "0 0 0"
-                            //                 "",
-                            //         textalign: TextAlign.end,
-                            //       ),
-                            //     ),
-                            //   ),
-                            // ),
-                            // Positioned(
-                            //   bottom: 0,
-                            //   child: Container(
-                            //     decoration: BoxDecoration(
-                            //       borderRadius: BorderRadius.circular(7),
-                            //       color: Colors.black.withOpacity(.1),
-                            //     ),
-                            //     height: 30,
-                            //     width: MediaQuery.of(context).size.width / 1,
-                            //   ),
-                            // )
-                          ],
-                        ),
+                      child: Stack(
+                        children: [
+                          const VideoPlayer(),
+                          Positioned(
+                              top: 36,
+                              left: 10,
+                              child: IconButton(
+                                  onPressed: () {
+                                    Get.back();
+                                  },
+                                  icon: const Icon(
+                                    Icons.arrow_back_ios_new_outlined,
+                                    color: Colors.white,
+                                  )))
+                          // Positioned(
+                          //   child: CircleAvatar(
+                          //       maxRadius: 30,
+                          //       backgroundColor: Colors.black,
+                          //       child: IconButton(
+                          //         onPressed: () {
+                          //           Get.toNamed('/content', arguments: {
+                          //             "watch___URL": argument.mediaWatchURL,
+                          //             "downloads": argument.mediaDownloads
+                          //           });
+                          //         },
+                          //         icon: const Icon(
+                          //           Icons.play_arrow,
+                          //           color: Colors.white,
+                          //         ),
+                          //       )),
+                          // ),
+                          // Positioned(
+                          //   bottom: 0,
+                          //   right: 0,
+                          //   child: Container(
+                          //     decoration: BoxDecoration(
+                          //       borderRadius: BorderRadius.circular(7),
+                          //       // color: Colors.grey.withOpacity(.1),
+                          //     ),
+                          //     height: 40,
+                          //     width: 80,
+                          //     child: Center(
+                          //       child: TextUtils(
+                          //         color: Colors.white,
+                          //         fontWeight: FontWeight.normal,
+                          //         text: argument.mediaDurationInMinutes ??
+                          //             "0 0 0"
+                          //                 "",
+                          //         textalign: TextAlign.end,
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ),
+                          // Positioned(
+                          //   bottom: 0,
+                          //   child: Container(
+                          //     decoration: BoxDecoration(
+                          //       borderRadius: BorderRadius.circular(7),
+                          //       color: Colors.black.withOpacity(.1),
+                          //     ),
+                          //     height: 30,
+                          //     width: MediaQuery.of(context).size.width / 1,
+                          //   ),
+                          // )
+                        ],
                       ),
                     ),
                     const SizedBox(
                       height: 10,
-                    ),
-                    ExpansionTile(
-                      tilePadding: const EdgeInsets.symmetric(horizontal: 15),
-                      title: const TextUtils(
-                          text: "الحلقات",
-                          textalign: TextAlign.start,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold),
-                      children: [
-                        ListTile(
-                          leading: IconButton(
-                              onPressed: () {},
-                              icon: const Icon(
-                                Icons.play_arrow,
-                                color: Colors.white,
-                              )),
-                          title: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const TextUtils(
-                                  text: "اسم الحلقه",
-                                  textalign: TextAlign.start,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                              Container(
-                                height: 50,
-                                width: Get.width / 5,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    image: const DecorationImage(
-                                        image: NetworkImage(
-                                            'https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=465&q=80'),
-                                        fit: BoxFit.cover)),
-                              )
-                            ],
-                          ),
-                          trailing: IconButton(
-                              onPressed: () {},
-                              icon: const Icon(
-                                Icons.download,
-                                color: Colors.white,
-                              )),
-                        )
-                      ],
                     ),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -162,6 +116,53 @@ class MovieInfoScreen extends StatelessWidget {
                           ),
                           const SizedBox(
                             height: 5,
+                          ),
+                          ExpansionTile(
+                            tilePadding:
+                                const EdgeInsets.symmetric(horizontal: 15),
+                            title: const TextUtils(
+                                text: "الحلقات",
+                                textalign: TextAlign.start,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                            children: [
+                              ListTile(
+                                leading: IconButton(
+                                    onPressed: () {},
+                                    icon: const Icon(
+                                      Icons.play_arrow,
+                                      color: Colors.white,
+                                    )),
+                                title: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const TextUtils(
+                                        text: "اسم الحلقه",
+                                        textalign: TextAlign.start,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                    Container(
+                                      height: 50,
+                                      width: Get.width / 5,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                          image: const DecorationImage(
+                                              image: NetworkImage(
+                                                  'https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=465&q=80'),
+                                              fit: BoxFit.cover)),
+                                    )
+                                  ],
+                                ),
+                                trailing: IconButton(
+                                    onPressed: () {},
+                                    icon: const Icon(
+                                      Icons.download,
+                                      color: Colors.white,
+                                    )),
+                              )
+                            ],
                           ),
                           // DetailsRow(),
 
