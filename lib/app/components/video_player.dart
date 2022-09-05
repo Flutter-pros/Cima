@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoPlayer extends StatefulWidget {
@@ -25,8 +27,14 @@ class _VideoPlayerState extends State<VideoPlayer> {
     super.initState();
     _videoPlayerController = VideoPlayerController.network(widget.url);
     _videoPlayerController!.initialize().then((_) {
-      _chewieController =
-          ChewieController(videoPlayerController: _videoPlayerController!);
+      _chewieController = ChewieController(
+          isLive: true,
+          materialProgressColors: ChewieProgressColors(
+            playedColor: Colors.black,
+            bufferedColor: Colors.grey,
+          ),
+          aspectRatio: 1.2,
+          videoPlayerController: _videoPlayerController!);
       setState(() {
         log("video player is good");
       });
@@ -42,17 +50,15 @@ class _VideoPlayerState extends State<VideoPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SizedBox(
-          width: double.infinity,
-          height: double.infinity,
-          child: _chewieVideoPlayer()),
-    );
+    return Scaffold(body: _chewieVideoPlayer());
   }
 
   Widget _chewieVideoPlayer() {
     return _chewieController != null && _videoPlayerController != null
-        ? SizedBox(child: Chewie(controller: _chewieController!))
-        : const Text("loading");
+        ? Container(
+            color: Colors.black, child: Chewie(controller: _chewieController!))
+        : Container(
+            color: Colors.black,
+            child: const Center(child: CircularProgressIndicator()));
   }
 }
