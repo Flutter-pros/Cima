@@ -102,6 +102,7 @@ class MovieInfoScreen extends StatelessWidget {
                     const SizedBox(
                       height: 10,
                     ),
+<<<<<<< HEAD
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 15),
                       width: double.infinity,
@@ -238,6 +239,69 @@ class MovieInfoScreen extends StatelessWidget {
                                                       ),
                                                     );
                                                   })),
+=======
+                    // DetailsRow(),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                // ignore: prefer_const_literals_to_create_immutables
+                children: [
+                  const TextUtils(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    text: "وصف الفيلم  ",
+                    textalign: TextAlign.end,
+                  ),
+                  TextUtils(
+                    fontWeight: FontWeight.normal,
+                    color: Colors.white,
+                    text: argument.mediaDescription ?? "mediaDescription",
+                    textalign: TextAlign.end,
+                  ),
+                  const TextUtils(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    text: "ذات صله ",
+                    textalign: TextAlign.end,
+                  ),
+                ],
+              ),
+              FutureBuilder(
+                future: RelatedPosts(postID: argument.mediaID).getData(),
+                builder: (BuildContext context, AsyncSnapshot snapshot) =>
+                    (snapshot.hasData)
+                        ? SizedBox(
+                            height: 200,
+                            child: Container(
+                              decoration: const BoxDecoration(),
+                              child: Stack(
+                                alignment: Alignment.topRight,
+                                children: [
+                                  ConstrainedBox(
+                                    constraints: const BoxConstraints(
+                                        maxHeight: 400, minHeight: 10.0),
+                                    child: ListView.builder(
+                                        itemCount: 17,
+                                        scrollDirection: Axis.horizontal,
+                                        itemBuilder: ((context, index) {
+                                          return GestureDetector(
+                                            onTap: () {
+                                              mediaController.mediaIndex.value =
+                                                  index;
+                                              Get.to(() => MovieInfoScreen());
+                                            },
+                                            child: GridViewBodyCard(
+                                              title: snapshot.data[index]
+                                                  ["title"],
+                                              imageUrl: snapshot.data[index]
+                                                  ["thumbnailUrl"],
+>>>>>>> master
                                             ),
                                             const SizedBox(
                                               height: 50,
