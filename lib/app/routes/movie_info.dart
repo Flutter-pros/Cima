@@ -103,6 +103,10 @@ class MovieInfoScreen extends StatelessWidget {
                       height: 10,
                     ),
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> d27d6a3cc7f0f03b879592f78efbc756c6a3931e
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 15),
                       width: double.infinity,
@@ -239,7 +243,11 @@ class MovieInfoScreen extends StatelessWidget {
                                                       ),
                                                     );
                                                   })),
+<<<<<<< HEAD
 =======
+=======
+
+>>>>>>> d27d6a3cc7f0f03b879592f78efbc756c6a3931e
                     // DetailsRow(),
                   ],
                 ),
@@ -301,7 +309,11 @@ class MovieInfoScreen extends StatelessWidget {
                                                   ["title"],
                                               imageUrl: snapshot.data[index]
                                                   ["thumbnailUrl"],
+<<<<<<< HEAD
 >>>>>>> master
+=======
+
+>>>>>>> d27d6a3cc7f0f03b879592f78efbc756c6a3931e
                                             ),
                                             const SizedBox(
                                               height: 50,
