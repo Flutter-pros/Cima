@@ -33,10 +33,22 @@ class MediaControllerData {
   }
 }
 
-class MediaController extends GetxController {
-  //* we will make the default state of the myhomepage to show the arabic movies
+class DrawerControllerData {
+  late String mainCategoryID;
+  late String mainCategoryName;
+  late List mainCategorySubCategories;
+  DrawerControllerData(
+      {required this.mainCategoryID,
+      required this.mainCategoryName,
+      required this.mainCategorySubCategories});
+}
 
+class MediaController extends GetxController {
+  //* to controll the state of the drawer
+  RxList drawer = [].obs;
+  //* we will make the default state of the myhomepage to show the arabic movies
   RxList media = [].obs;
+
   //* this will be used to check if the previous button should be activated or not
   RxBool isPreviousActivated = false.obs;
   //! we use the below two variable to configure out if we used any filters before to update the media.last unless we will insert the data
@@ -60,6 +72,13 @@ class MediaController extends GetxController {
     if (media.length > 1) {
       isPreviousActivated.value = true;
     }
+  }
+
+  void _insertMediaState(List mediaData) {
+    if (media.length > 10) {
+      media.removeAt(0);
+    }
+    media.add(mediaData);
   }
 
   void filterData({String? taxonomy, String? termID}) async {
@@ -121,11 +140,12 @@ class MediaController extends GetxController {
                         (element) => locatedMediaIDs.contains(element.mediaID))
                     .toList());
 
-        media.insert(media.length, locatedMedia);
+        _insertMediaState(locatedMedia);
         _goNext();
       }
     } else {
-      media.insert(media.length, locatedMedia);
+      _insertMediaState(locatedMedia);
+
       _goNext();
     }
   }
@@ -173,7 +193,7 @@ class MediaController extends GetxController {
       ));
     }
 
-    media.insert(media.length, locatedMedia);
+    _insertMediaState(locatedMedia);
     _goNext();
   }
 
@@ -198,7 +218,21 @@ class MediaController extends GetxController {
         mediaYear: post['year'],
       ));
     }
-    media.insert(media.length, locatedMedia);
+    _insertMediaState(locatedMedia);
     _goNext();
+  }
+
+  void getDrawerData() async {
+    List drawerData = [];
+    List locatedMedia = [];
+    await DrawerData().getData().then((value) => drawerData.addAll(value));
+    for (var post in drawerData) {
+      locatedMedia.add(DrawerControllerData(
+        mainCategoryID: post['id'],
+        mainCategoryName: post['name'],
+        mainCategorySubCategories: post['children'],
+      ));
+    }
+    drawer.value = locatedMedia;
   }
 }
