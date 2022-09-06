@@ -57,7 +57,8 @@ class MediaController extends GetxController {
   //! we use the below variable to manage the stacked filters scroll and the gridview scroll
   RxBool isAnyFilterExpanded = false.obs;
   //* the below variable is used to reserve the current media index to refrence it in the movie info screen and to content screen
-
+//! used to make insure that the search will applied on last state of media
+  RxBool isSearchEnabled = false.obs;
   //! the bellw two methods are used to enable the previous button in the homepage screen to avoid filling the screens stack .
   void goPrevious() {
     if (media.length > 1) {
@@ -161,6 +162,7 @@ class MediaController extends GetxController {
   }
 
   void searchLocalData({String search = ''}) {
+    media.add([]);
     List locatedMedia = [];
     for (var data in media.last) {
       if (data.mediaTitle.toLowerCase().contains(search.toLowerCase())) {
@@ -168,10 +170,12 @@ class MediaController extends GetxController {
       }
     }
     // media.insert(media.length, locatedMedia);
-    if (search.length < 2) {
-      media.insert(media.length, locatedMedia);
+    if (isSearchEnabled.value) {
+      // media.insert(media.length, locatedMedia);
+      _insertMediaState(locatedMedia);
     } else {
-      media.last = locatedMedia;
+      media.removeLast();
+      _insertMediaState(locatedMedia);
     }
     _goNext();
   }

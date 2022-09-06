@@ -17,7 +17,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   MediaController mediaController = Get.put(MediaController());
-  bool isSearch = false;
+
   Widget searchOrClose = const Icon(Icons.search);
   Widget titleOrTextfield = Text(
     "سيما",
@@ -44,25 +44,14 @@ class _MyHomePageState extends State<MyHomePage> {
           : Container()),
       appBar: AppBar(
           actions: [
-            Obx(() {
-              if (mediaController.isPreviousActivated.value) {
-                return IconButton(
-                  icon: const Icon(Icons.arrow_forward),
-                  onPressed: () {
-                    mediaController.goPrevious();
-                  },
-                );
-              } else {
-                return Container();
-              }
-            }),
             IconButton(
               icon: searchOrClose,
               onPressed: () {
                 setState(() {
-                  isSearch = !isSearch;
+                  mediaController.isSearchEnabled.value =
+                      !mediaController.isSearchEnabled.value;
                 });
-                if (isSearch) {
+                if (mediaController.isSearchEnabled.value) {
                   searchOrClose = const Icon(Icons.close);
                   titleOrTextfield = TextField(
                     autofocus: true,
@@ -106,6 +95,18 @@ class _MyHomePageState extends State<MyHomePage> {
                 }
               },
             ),
+            Obx(() {
+              if (mediaController.isPreviousActivated.value) {
+                return IconButton(
+                  icon: const Icon(Icons.arrow_forward),
+                  onPressed: () {
+                    mediaController.goPrevious();
+                  },
+                );
+              } else {
+                return Container();
+              }
+            }),
           ],
           centerTitle: true,
           title: titleOrTextfield,

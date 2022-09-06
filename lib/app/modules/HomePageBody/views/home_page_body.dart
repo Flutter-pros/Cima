@@ -21,12 +21,12 @@ class HomePageBody extends StatelessWidget {
                 ImageCache imageCache = ImageCache();
                 imageCache.clear();
                 imageCache.clearLiveImages();
-                // print(
-                //     "mediaController.media.value: ${mediaController.media.value}");
-                // print(
-                //     "mediaController.isPreviousActivated.value: ${mediaController.isPreviousActivated.value}");
-                // print(
-                //     "mediaController.media.length: ${mediaController.media.value.length}");
+                print(
+                    "mediaController.media.value: ${mediaController.media.value}");
+                print(
+                    "mediaController.isPreviousActivated.value: ${mediaController.isPreviousActivated.value}");
+                print(
+                    "mediaController.media.length: ${mediaController.media.value.length}");
                 if (mediaController.media.isEmpty) {
                   return const Center(
                     child: CircularProgressIndicator(),
