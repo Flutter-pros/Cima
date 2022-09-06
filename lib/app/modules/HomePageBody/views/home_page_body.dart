@@ -51,8 +51,8 @@ class HomePageBody extends StatelessWidget {
 
                       return GestureDetector(
                         onTap: () {
-                          mediaController.mediaIndex.value = index;
-                          Get.to(() => MovieInfoScreen());
+                          Get.toNamed("/movie_info",
+                              arguments: mediaController.media.last[index]);
                         },
                         child: GridViewBodyCard(
                             imageUrl: imageURL,
