@@ -1,6 +1,8 @@
 import 'package:cima/app/modules/HomePageBody/controllers/media_controller.dart';
 import 'package:cima/app/modules/HomePageBody/views/home_page_body.dart';
 import 'package:cima/app/components/home_page_drawer.dart';
+import 'package:cima/appcolors.dart';
+import 'package:cima/appfont.dart';
 import 'package:flutter/material.dart';
 //import other screens preparation for the bottom navigation bar
 
@@ -17,7 +19,12 @@ class _MyHomePageState extends State<MyHomePage> {
   MediaController mediaController = Get.put(MediaController());
   bool isSearch = false;
   Widget searchOrClose = const Icon(Icons.search);
-  Widget titleOrTextfield = const Text("سيما");
+  Widget titleOrTextfield = Text(
+    "سيما",
+    style: TextStyle(
+        color: AppColors().textandsearchcolor,
+        fontSize: AppFonts().fontsizetext),
+  );
 
   @override
   void initState() {
@@ -68,14 +75,19 @@ class _MyHomePageState extends State<MyHomePage> {
                       }
                     },
                     textAlign: TextAlign.center,
-                    decoration: const InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.symmetric(
                         horizontal: 25,
                         vertical: 4,
                       ),
                       hintText: 'اختر محتواك',
-                      hintStyle: TextStyle(color: Colors.white),
-                      prefixIcon: Icon(Icons.search),
+                      hintStyle: TextStyle(
+                          color: AppColors().hinttext,
+                          fontSize: AppFonts().fontsizehinttext),
+                      prefixIcon: Icon(
+                        Icons.search,
+                        color: AppColors().textandsearchcolor,
+                      ),
                     ),
                   );
                 } else {

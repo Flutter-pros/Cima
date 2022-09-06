@@ -1,3 +1,5 @@
+import 'package:cima/appcolors.dart';
+import 'package:cima/appfont.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 //! we will use the HomepAgeBody controller (MediaController) to update the data in the home page body
@@ -26,7 +28,7 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
     Icons.search
   ];
   List<int> expandedExpansionTiles = [];
-  List<Color> iconsColors = const [
+  List<Color> iconsColors = [
     Colors.red,
     Colors.purple,
     Colors.black,
@@ -36,6 +38,7 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+        width: Get.width / 1.3,
         backgroundColor: const Color.fromRGBO(14, 19, 49, 1),
         child: Padding(
           padding: const EdgeInsets.only(top: 10),
@@ -48,6 +51,8 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                 color: const Color.fromRGBO(35, 40, 72, 1),
               ),
               child: TextFormField(
+                style: TextStyle(color: AppColors().drawermenue),
+                cursorColor: AppColors().blue,
                 controller: searchController,
                 onFieldSubmitted: (value) {
                   mediaController.searchRemoteData(
@@ -55,20 +60,22 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                   Get.back();
                 },
                 decoration: InputDecoration(
+                    focusedBorder: const UnderlineInputBorder(
+                        borderSide: BorderSide(style: BorderStyle.none)),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                       borderSide: const BorderSide(
                         color: Color.fromRGBO(35, 40, 72, 1),
                       ),
                     ),
-                    hintStyle: const TextStyle(
+                    hintStyle: TextStyle(
                         fontWeight: FontWeight.w500,
-                        fontSize: 20,
-                        color: Colors.white),
+                        fontSize: AppFonts().fontsizehinttext,
+                        color: AppColors().hinttext),
                     hintText: 'ابحث في ماي سيما',
-                    prefixIcon: IconButton(
-                      icon: Icon(icons.last, color: iconsColors.last),
-                      onPressed: () {},
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: AppColors().textandsearchcolor,
                     )),
               ),
             ),
@@ -88,6 +95,7 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                       color: const Color.fromRGBO(35, 40, 72, 1),
                     ),
                     child: ExpansionTile(
+                      iconColor: AppColors().blue,
                       trailing: (mediaController.drawer[index]
                                   .mainCategorySubCategories.length !=
                               0)
@@ -127,10 +135,10 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                                 softWrap: false,
                                 overflow: TextOverflow.ellipsis,
                                 //  textAlign: TextAlign.right,
-                                style: const TextStyle(
-                                    fontSize: 18.0,
+                                style: TextStyle(
+                                    fontSize: AppFonts().fontsizetext,
                                     fontWeight: FontWeight.w500,
-                                    color: Colors.white),
+                                    color: AppColors().textandsearchcolor),
                               ),
                             ),
                           ],
@@ -142,7 +150,12 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                             maxHeight: 400,
                             minHeight: 10.0,
                           ),
-                          child: ListView.builder(
+                          child: ListView.separated(
+                            separatorBuilder: ((context, index) {
+                              return const Divider(
+                                color: Colors.black,
+                              );
+                            }),
                             physics: const NeverScrollableScrollPhysics(),
                             //scrollDirection: Axis.vertical,
                             shrinkWrap: true,
@@ -167,10 +180,10 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                                     softWrap: false,
                                     overflow: TextOverflow.ellipsis,
                                     //textAlign: TextAlign.right,
-                                    style: const TextStyle(
-                                        fontSize: 18.0,
+                                    style: TextStyle(
+                                        fontSize: AppFonts().fontsizetext,
                                         fontWeight: FontWeight.w500,
-                                        color: Colors.white),
+                                        color: AppColors().textandsearchcolor),
                                   ),
                                 ),
                               );
