@@ -7,4 +7,5 @@ class AppColors {
   Color drawermenue = const Color(0xffc5c7ce);
   Color textandsearchcolor = const Color(0xffffffff);
   Color hinttext = const Color(0xff787c90);
+  Color appbackground = const Color.fromRGBO(14, 19, 49, 1);
 }

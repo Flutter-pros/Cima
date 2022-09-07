@@ -28,6 +28,9 @@ class _VideoPlayerState extends State<VideoPlayer> {
     _videoPlayerController = VideoPlayerController.network(widget.url);
     _videoPlayerController!.initialize().then((_) {
       _chewieController = ChewieController(
+          allowFullScreen: true,
+          autoPlay: true,
+          fullScreenByDefault: true,
           materialProgressColors: ChewieProgressColors(
             playedColor: Colors.black,
             bufferedColor: Colors.grey,
