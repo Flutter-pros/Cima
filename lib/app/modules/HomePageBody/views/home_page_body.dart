@@ -27,6 +27,7 @@ class HomePageBody extends StatelessWidget {
                     "mediaController.isPreviousActivated.value: ${mediaController.isPreviousActivated.value}");
                 print(
                     "mediaController.media.length: ${mediaController.media.value.length}");
+
                 if (mediaController.media.isEmpty) {
                   return const Center(
                     child: CircularProgressIndicator(),

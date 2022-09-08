@@ -5,9 +5,9 @@ import 'package:cima/app/data/movie_api.dart';
 import 'package:cima/app/modules/HomePageBody/controllers/media_controller.dart';
 
 import 'package:cima/app/components/row_and_details.dart';
+import 'package:cima/app/utils/appcolors.dart';
 import 'package:cima/app/utils/textutils.dart';
-import 'package:cima/appcolors.dart';
-import 'package:cima/appfont.dart';
+
 import 'package:contained_tab_bar_view/contained_tab_bar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -22,6 +22,7 @@ class MovieInfoScreen extends StatefulWidget {
 }
 
 class _MovieInfoScreenState extends State<MovieInfoScreen> {
+  final MediaControllerData argument = Get.arguments as MediaControllerData;
   final MediaController mediaController = Get.put(MediaController());
 
   bool u = false;
@@ -64,11 +65,25 @@ class _MovieInfoScreenState extends State<MovieInfoScreen> {
                       color: Colors.red,
                     )),
               )),
+              Positioned(
+                bottom: 15,
+                child:
+                    //  Container(
+                    //   color: Colors.black.withOpacity(.1),
+                    //   height: 50,
+                    //   width: Get.width * 1,
+                    //   child:
+                    DetailsRow(
+                  mediaAging: argument.mediaAging ?? "0",
+                  mediaRating: argument.mediaRating ?? "0.0",
+                  mediaGenre: argument.mediaGenre ?? "دراما",
+                ),
+              )
             ],
           ));
     } else {
       return SizedBox(
-          height: Get.height * .4,
+          height: Get.height * 1,
           width: Get.width,
           child: Stack(
             children: [
@@ -91,8 +106,6 @@ class _MovieInfoScreenState extends State<MovieInfoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final MediaControllerData argument = Get.arguments as MediaControllerData;
-
     return Scaffold(
         body: Container(
             color: Colors.black,
@@ -151,11 +164,6 @@ class _MovieInfoScreenState extends State<MovieInfoScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            DetailsRow(
-                              mediaAging: argument.mediaAging ?? "0",
-                              mediaRating: argument.mediaRating ?? "0.0",
-                              mediaGenre: argument.mediaGenre ?? "دراما",
-                            ),
                             const SizedBox(
                               height: 5,
                             ),

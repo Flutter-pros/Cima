@@ -146,8 +146,6 @@ class MediaController extends GetxController {
       }
     } else {
       _insertMediaState(locatedMedia);
-
-      _goNext();
     }
   }
 

@@ -1,5 +1,6 @@
-import 'package:cima/appcolors.dart';
-import 'package:cima/appfont.dart';
+import 'package:cima/app/utils/appcolors.dart';
+import 'package:cima/app/utils/appfont.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 //! we will use the HomepAgeBody controller (MediaController) to update the data in the home page body

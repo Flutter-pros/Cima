@@ -1,9 +1,12 @@
 import 'package:cima/app/modules/HomePageBody/controllers/media_controller.dart';
 import 'package:cima/app/modules/HomePageBody/views/home_page_body.dart';
 import 'package:cima/app/components/home_page_drawer.dart';
-import 'package:cima/appcolors.dart';
-import 'package:cima/appfont.dart';
+import 'package:cima/app/utils/appcolors.dart';
+import 'package:cima/app/utils/appfont.dart';
+
 import 'package:flutter/material.dart';
+import 'package:back_button_interceptor/back_button_interceptor.dart';
+
 //import other screens preparation for the bottom navigation bar
 
 import 'package:get/get.dart';
@@ -29,14 +32,59 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    mediaController.filterData();
-    mediaController.getDrawerData();
+    BackButtonInterceptor.add(myInterceptor);
+  }
+
+  @override
+  void dispose() {
+    BackButtonInterceptor.remove(myInterceptor);
+    super.dispose();
+  }
+
+  Future<bool> myInterceptor(
+      bool stopDefaultButtonEvent, RouteInfo info) async {
+    final bool? shouldPop;
+    if ((!mediaController.isPreviousActivated.value)) {
+      shouldPop = await showDialog<bool>(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            backgroundColor: AppColors().appbackground,
+            title: Text(
+              'Do you want to go out',
+              style: TextStyle(color: AppColors().textandsearchcolor),
+            ),
+            actionsAlignment: MainAxisAlignment.spaceBetween,
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context, false);
+                },
+                child: const Text('Yes'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context, true);
+                },
+                child: const Text('No'),
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      mediaController.goPrevious();
+      shouldPop = true;
+    }
+    return shouldPop!; // Do some stuff.
   }
 
   TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    mediaController.filterData();
+    mediaController.getDrawerData();
     return Scaffold(
       backgroundColor: const Color.fromRGBO(14, 19, 49, 1),
       drawer: Obx(() => (mediaController.drawer.length > 1)
@@ -95,18 +143,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 }
               },
             ),
-            Obx(() {
-              if (mediaController.isPreviousActivated.value) {
-                return IconButton(
-                  icon: const Icon(Icons.arrow_forward),
-                  onPressed: () {
-                    mediaController.goPrevious();
-                  },
-                );
-              } else {
-                return Container();
-              }
-            }),
           ],
           centerTitle: true,
           title: titleOrTextfield,
