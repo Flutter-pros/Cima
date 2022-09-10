@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       getPages: [
         GetPage(name: "/", page: () => const MyHomePage()),
         GetPage(name: "/movie_info", page: () => MovieInfoScreen()),
-        GetPage(name: "/content", page: () => const Content())
+        // GetPage(name: "/content", page: () => const Content())
       ],
       translations: MyLocal(),
       locale: Get.deviceLocale,

@@ -32,6 +32,8 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+    mediaController.filterData();
+    mediaController.getDrawerData();
     BackButtonInterceptor.add(myInterceptor);
   }
 
@@ -83,8 +85,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    mediaController.filterData();
-    mediaController.getDrawerData();
     return Scaffold(
       backgroundColor: const Color.fromRGBO(14, 19, 49, 1),
       drawer: Obx(() => (mediaController.drawer.length > 1)

@@ -48,7 +48,8 @@ class MediaController extends GetxController {
   RxList drawer = [].obs;
   //* we will make the default state of the myhomepage to show the arabic movies
   RxList media = [].obs;
-
+  //! we will use the below variable to target the latest state event the existence of unnecessary states (wil be overrwitten)
+  RxInt targettedMediaState = (-1).obs;
   //* this will be used to check if the previous button should be activated or not
   RxBool isPreviousActivated = false.obs;
   //! we use the below two variable to configure out if we used any filters before to update the media.last unless we will insert the data
@@ -70,6 +71,7 @@ class MediaController extends GetxController {
   }
 
   void _goNext() {
+    targettedMediaState.value++;
     if (media.length > 1) {
       isPreviousActivated.value = true;
     }
@@ -79,7 +81,8 @@ class MediaController extends GetxController {
     if (media.length > 10) {
       media.removeAt(0);
     }
-    media.add(mediaData);
+    _goNext();
+    media[targettedMediaState.value] = mediaData;
   }
 
   void filterData({String? taxonomy, String? termID}) async {
@@ -142,7 +145,7 @@ class MediaController extends GetxController {
                     .toList());
 
         _insertMediaState(locatedMedia);
-        _goNext();
+        // _goNext();
       }
     } else {
       _insertMediaState(locatedMedia);
@@ -160,7 +163,7 @@ class MediaController extends GetxController {
   }
 
   void searchLocalData({String search = ''}) {
-    media.add([]);
+    // media.add([]);
     List locatedMedia = [];
     for (var data in media.last) {
       if (data.mediaTitle.toLowerCase().contains(search.toLowerCase())) {
@@ -168,14 +171,15 @@ class MediaController extends GetxController {
       }
     }
     // media.insert(media.length, locatedMedia);
-    if (isSearchEnabled.value) {
-      // media.insert(media.length, locatedMedia);
-      _insertMediaState(locatedMedia);
-    } else {
-      media.removeLast();
-      _insertMediaState(locatedMedia);
-    }
-    _goNext();
+    // if (isSearchEnabled.value) {
+    // media.insert(media.length, locatedMedia);
+    // media.removeLast();
+
+    _insertMediaState(locatedMedia);
+    // } else {
+    // _insertMediaState(locatedMedia);
+    // }
+    // _goNext();
   }
 
   void searchRemoteData({required String search}) async {
@@ -196,7 +200,7 @@ class MediaController extends GetxController {
     }
 
     _insertMediaState(locatedMedia);
-    _goNext();
+    // _goNext();
   }
 
   void setRelatedPosts({String? postID}) async {
@@ -220,8 +224,8 @@ class MediaController extends GetxController {
         mediaYear: post['year'],
       ));
     }
+    // _goNext();
     _insertMediaState(locatedMedia);
-    _goNext();
   }
 
   void getDrawerData() async {
