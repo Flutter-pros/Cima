@@ -63,7 +63,9 @@ class MediaController extends GetxController {
   //! the bellw two methods are used to enable the previous button in the homepage screen to avoid filling the screens stack .
   void goPrevious() {
     if (media.length > 1) {
-      media.removeLast();
+      (media.length - 1 > targettedMediaState.value)
+          ? media.removeRange(targettedMediaState.value + 1, media.length)
+          : media.removeLast();
     } else {
       isPreviousActivated.value = false;
       // media.removeLast();
@@ -71,7 +73,7 @@ class MediaController extends GetxController {
   }
 
   void _goNext() {
-    targettedMediaState.value++;
+    targettedMediaState.value = targettedMediaState.value + 1;
     if (media.length > 1) {
       isPreviousActivated.value = true;
     }
@@ -81,8 +83,11 @@ class MediaController extends GetxController {
     if (media.length > 10) {
       media.removeAt(0);
     }
-    _goNext();
-    media[targettedMediaState.value] = mediaData;
+    // _goNext();
+
+    (media.length - 1 > targettedMediaState.value)
+        ? media[targettedMediaState.value + 1] = mediaData
+        : media.add(mediaData);
   }
 
   void filterData({String? taxonomy, String? termID}) async {
@@ -93,11 +98,13 @@ class MediaController extends GetxController {
       await FilteredData()
           .getData()
           .then((value) => filteredData.addAll(value));
+      taxonomy = "category";
     } else {
       if (taxonomy == null) {
         await FilteredData(termID: termID!)
             .getData()
             .then((value) => filteredData.addAll(value));
+        taxonomy = "category";
       } else {
         if (termID == null) {
           await FilteredData(taxonamy: taxonomy)
@@ -145,9 +152,10 @@ class MediaController extends GetxController {
                     .toList());
 
         _insertMediaState(locatedMedia);
-        // _goNext();
       }
     } else {
+      _goNext();
+
       _insertMediaState(locatedMedia);
     }
   }
@@ -165,7 +173,7 @@ class MediaController extends GetxController {
   void searchLocalData({String search = ''}) {
     // media.add([]);
     List locatedMedia = [];
-    for (var data in media.last) {
+    for (var data in media[targettedMediaState.value]) {
       if (data.mediaTitle.toLowerCase().contains(search.toLowerCase())) {
         locatedMedia.add(data);
       }
@@ -198,9 +206,9 @@ class MediaController extends GetxController {
         mediaYear: data['year'],
       ));
     }
+    _goNext();
 
     _insertMediaState(locatedMedia);
-    // _goNext();
   }
 
   void setRelatedPosts({String? postID}) async {
@@ -224,7 +232,7 @@ class MediaController extends GetxController {
         mediaYear: post['year'],
       ));
     }
-    // _goNext();
+    _goNext();
     _insertMediaState(locatedMedia);
   }
 

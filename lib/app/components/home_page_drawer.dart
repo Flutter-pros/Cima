@@ -123,7 +123,7 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                                     ? iconsColors[index]
                                     : Colors.black),
                             const SizedBox(
-                              width: 10,
+                              width: 2,
                             ),
                             InkWell(
                               onTap: () {

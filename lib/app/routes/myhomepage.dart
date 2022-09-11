@@ -53,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
           return AlertDialog(
             backgroundColor: AppColors().appbackground,
             title: Text(
-              'Do you want to go out',
+              'هل تريد الخروج من التطبيق؟',
               style: TextStyle(color: AppColors().textandsearchcolor),
             ),
             actionsAlignment: MainAxisAlignment.spaceBetween,
@@ -62,13 +62,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: () {
                   Navigator.pop(context, false);
                 },
-                child: const Text('Yes'),
+                child: const Text('نعم'),
               ),
               TextButton(
                 onPressed: () {
                   Navigator.pop(context, true);
                 },
-                child: const Text('No'),
+                child: const Text('لا'),
               ),
             ],
           );
@@ -98,49 +98,61 @@ class _MyHomePageState extends State<MyHomePage> {
                 setState(() {
                   mediaController.isSearchEnabled.value =
                       !mediaController.isSearchEnabled.value;
+                  if (mediaController.isSearchEnabled.value) {
+                    searchOrClose = const Icon(Icons.close);
+                    titleOrTextfield = TextField(
+                      autofocus: true,
+                      style: const TextStyle(color: Colors.white),
+                      controller: searchController,
+                      onChanged: (search) {
+                        if (search.trim().isNotEmpty) {
+                          if (mediaController.media.length - 1 >
+                              mediaController.targettedMediaState.value) {
+                            mediaController.media.removeRange(
+                                mediaController.targettedMediaState.value + 1,
+                                mediaController.media.length);
+                          }
+                          mediaController.searchLocalData(
+                              search: searchController.text.trim());
+                        }
+                      },
+                      textAlign: TextAlign.center,
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 25,
+                          vertical: 4,
+                        ),
+                        hintText: 'اختر محتواك',
+                        hintStyle: TextStyle(
+                            color: AppColors().hinttext,
+                            fontSize: AppFonts().fontsizehinttext),
+                        prefixIcon: Icon(
+                          Icons.search,
+                          color: AppColors().textandsearchcolor,
+                        ),
+                      ),
+                    );
+                  } else {
+                    searchOrClose = IconButton(
+                        icon: const Icon(Icons.search),
+                        onPressed: () {
+                          setState(
+                            () {
+                              titleOrTextfield = const Text("سيما");
+                              searchController.clear();
+                              mediaController.goPrevious();
+                              searchOrClose = const Icon(Icons.search);
+                            },
+                          );
+                        });
+                    setState(() {
+                      titleOrTextfield = const Text("سيما");
+                      searchController.clear();
+                      mediaController.goPrevious();
+                      searchOrClose = const Icon(Icons.search);
+                    });
+                  }
                 });
-                if (mediaController.isSearchEnabled.value) {
-                  searchOrClose = const Icon(Icons.close);
-                  titleOrTextfield = TextField(
-                    autofocus: true,
-                    style: const TextStyle(color: Colors.white),
-                    controller: searchController,
-                    onChanged: (search) {
-                      if (search.trim().isNotEmpty) {
-                        mediaController.searchLocalData(
-                            search: searchController.text.trim());
-                      }
-                    },
-                    textAlign: TextAlign.center,
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 25,
-                        vertical: 4,
-                      ),
-                      hintText: 'اختر محتواك',
-                      hintStyle: TextStyle(
-                          color: AppColors().hinttext,
-                          fontSize: AppFonts().fontsizehinttext),
-                      prefixIcon: Icon(
-                        Icons.search,
-                        color: AppColors().textandsearchcolor,
-                      ),
-                    ),
-                  );
-                } else {
-                  searchOrClose = IconButton(
-                      icon: const Icon(Icons.close),
-                      onPressed: () {
-                        setState(
-                          () {
-                            titleOrTextfield = const Text("سيما");
-                            searchController.clear();
-                            mediaController.goPrevious();
-                            searchOrClose = const Icon(Icons.search);
-                          },
-                        );
-                      });
-                }
               },
             ),
           ],

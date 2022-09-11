@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       initialRoute: "/",
       getPages: [
         GetPage(name: "/", page: () => const MyHomePage()),
-        GetPage(name: "/movie_info", page: () => MovieInfoScreen()),
+        GetPage(name: "/movie_info", page: () => const MovieInfoScreen()),
         // GetPage(name: "/content", page: () => const Content())
       ],
       translations: MyLocal(),
