@@ -14,6 +14,8 @@ class MediaControllerData {
   String? mediaWatchURL;
   List? mediaDownloads;
   String? mediaAging;
+  String? mediaQuality;
+  int? mediaEpisods;
   MediaControllerData({
     required this.mediaID,
     required this.mediaTitle,
@@ -29,6 +31,8 @@ class MediaControllerData {
       mediaWatchURL = data["watch___url"];
       mediaDownloads = data["downloads"];
       mediaAging = data["mpaa"];
+      mediaQuality = data["quality"];
+      mediaEpisods = data["download"].length;
     });
   }
 }
