@@ -60,6 +60,8 @@ class _MovieInfoScreenState extends State<MovieInfoScreen> {
                 backgroundColor: Colors.red,
                 child: IconButton(
                     onPressed: () {
+                      mediaController.isFirstScreen.value = false;
+
                       Get.to(() => const VideoPlayer());
                     },
                     icon: Icon(
@@ -147,6 +149,8 @@ class _MovieInfoScreenState extends State<MovieInfoScreen> {
               callOnChangeWhileIndexIsChanging: true,
               onChange: (index) {
                 setState(() {
+                  tabsSize[2] = (argument.mediaEpisods ?? 17.0) * 42.0;
+
                   tabsindex = index;
                 });
               },
@@ -228,57 +232,56 @@ class _MovieInfoScreenState extends State<MovieInfoScreen> {
                   color: Colors.black,
                   child: FutureBuilder(
                     future: RelatedPosts(postID: argument.mediaID).getData(),
-                    builder: (BuildContext context, AsyncSnapshot snapshot) =>
-                        (snapshot.hasData)
-                            ? Container(
-                                decoration: const BoxDecoration(),
-                                child: Stack(
-                                  alignment: Alignment.topRight,
-                                  children: [
-                                    const SizedBox(
-                                      height: 50,
-                                    ),
-                                    GridView.builder(
-                                        physics:
-                                            const NeverScrollableScrollPhysics(),
-                                        gridDelegate:
-                                            const SliverGridDelegateWithMaxCrossAxisExtent(
-                                                maxCrossAxisExtent: 300),
-                                        itemCount: snapshot.data.length,
-                                        scrollDirection: Axis.vertical,
-                                        itemBuilder: ((context, index2) {
-                                          tabsSize[1] =
-                                              snapshot.data.length * 85.0;
-                                          return InkWell(
-                                            onTap: () {
-                                              Get.to(const MovieInfoScreen(),
-                                                  arguments:
-                                                      MediaControllerData(
-                                                    mediaID: snapshot
-                                                        .data[index2]["id"],
-                                                    mediaTitle: snapshot
-                                                        .data[index2]["title"],
-                                                    mediaImage:
-                                                        snapshot.data[index2]
-                                                            ["thumbnailUrl"],
-                                                    mediaYear:
-                                                        "${snapshot.data[index2]['year']}",
-                                                  ));
-                                            },
-                                            child: GridViewBodyCard(
-                                              title: snapshot.data[index2]
-                                                  ["title"],
-                                              imageUrl: snapshot.data[index2]
-                                                  ["thumbnailUrl"],
-                                            ),
-                                          );
-                                        }))
-                                  ],
-                                ),
-                              )
-                            : const Center(
-                                child: CircularProgressIndicator(),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.hasData) {
+                        tabsSize[1] = snapshot.data.length * 85.0;
+
+                        return Container(
+                          decoration: const BoxDecoration(),
+                          child: Stack(
+                            alignment: Alignment.topRight,
+                            children: [
+                              const SizedBox(
+                                height: 50,
                               ),
+                              GridView.builder(
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  gridDelegate:
+                                      const SliverGridDelegateWithMaxCrossAxisExtent(
+                                          maxCrossAxisExtent: 300),
+                                  itemCount: snapshot.data.length,
+                                  scrollDirection: Axis.vertical,
+                                  itemBuilder: ((context, index2) {
+                                    return InkWell(
+                                      onTap: () {
+                                        Get.to(const MovieInfoScreen(),
+                                            arguments: MediaControllerData(
+                                              mediaID: snapshot.data[index2]
+                                                  ["id"],
+                                              mediaTitle: snapshot.data[index2]
+                                                  ["title"],
+                                              mediaImage: snapshot.data[index2]
+                                                  ["thumbnailUrl"],
+                                              mediaYear:
+                                                  "${snapshot.data[index2]['year']}",
+                                            ));
+                                      },
+                                      child: GridViewBodyCard(
+                                        title: snapshot.data[index2]["title"],
+                                        imageUrl: snapshot.data[index2]
+                                            ["thumbnailUrl"],
+                                      ),
+                                    );
+                                  }))
+                            ],
+                          ),
+                        );
+                      } else {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                    },
                   ),
                 ),
                 Container(
@@ -294,7 +297,6 @@ class _MovieInfoScreenState extends State<MovieInfoScreen> {
                                 crossAxisSpacing: 10,
                                 mainAxisSpacing: 20),
                         itemBuilder: ((context, index) {
-                          tabsSize[2] = (argument.mediaEpisods ?? 17.0) * 42.0;
                           return Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
@@ -307,7 +309,7 @@ class _MovieInfoScreenState extends State<MovieInfoScreen> {
                                       Icons.play_arrow,
                                       color: AppColors().textandsearchcolor,
                                     )),
-                                title: Text("الحلقه $index ",
+                                title: Text("الحلقه ${index + 1} ",
                                     style: TextStyle(
                                         color: AppColors().textandsearchcolor,
                                         fontSize: 13,

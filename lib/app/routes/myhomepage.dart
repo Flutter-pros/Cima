@@ -119,6 +119,13 @@ class _MyHomePageState extends State<MyHomePage> {
                           }
                           mediaController.searchLocalData(
                               search: searchController.text.trim());
+                        } else {
+                          setState(() {
+                            titleOrTextfield = const Text("سيما");
+                            searchController.clear();
+                            mediaController.goPrevious();
+                            searchOrClose = const Icon(Icons.search);
+                          });
                         }
                       },
                       textAlign: TextAlign.center,
