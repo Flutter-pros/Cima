@@ -22,7 +22,8 @@ class MovieInfoScreen extends StatefulWidget {
 class _MovieInfoScreenState extends State<MovieInfoScreen> {
   final MediaControllerData argument = Get.arguments as MediaControllerData;
   final MediaController mediaController = Get.put(MediaController());
-
+  List<double> tabsSize = [400, 1100, 700];
+  int tabsindex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,11 +46,13 @@ class _MovieInfoScreenState extends State<MovieInfoScreen> {
                   left: 10,
                   child: IconButton(
                       onPressed: () {
+                        mediaController.isFirstScreen.value = true;
                         Get.back();
                       },
                       icon: const Icon(
                         Icons.arrow_back_ios_new_outlined,
                         color: Colors.white,
+                        shadows: [Shadow(color: Colors.black, blurRadius: 20)],
                       ))),
               Positioned(
                   child: CircleAvatar(
@@ -136,10 +139,17 @@ class _MovieInfoScreenState extends State<MovieInfoScreen> {
           child: Container(
             color: Colors.blue,
             width: Get.width,
-            height: 900,
+            height: tabsSize[tabsindex],
 
             // problem in high
             child: ContainedTabBarView(
+              initialIndex: tabsindex,
+              callOnChangeWhileIndexIsChanging: true,
+              onChange: (index) {
+                setState(() {
+                  tabsindex = index;
+                });
+              },
               tabBarViewProperties: const TabBarViewProperties(
                   physics: NeverScrollableScrollPhysics()),
               tabBarProperties: TabBarProperties(
@@ -230,17 +240,17 @@ class _MovieInfoScreenState extends State<MovieInfoScreen> {
                                     ),
                                     GridView.builder(
                                         physics:
-                                            const NeverScrollableScrollPhysics()
-                                                .parent,
+                                            const NeverScrollableScrollPhysics(),
                                         gridDelegate:
                                             const SliverGridDelegateWithMaxCrossAxisExtent(
-                                                maxCrossAxisExtent: 200),
-                                        itemCount: 17,
+                                                maxCrossAxisExtent: 300),
+                                        itemCount: snapshot.data.length,
                                         scrollDirection: Axis.vertical,
                                         itemBuilder: ((context, index2) {
+                                          tabsSize[1] =
+                                              snapshot.data.length * 85.0;
                                           return InkWell(
                                             onTap: () {
-                                              print(snapshot.data);
                                               Get.to(const MovieInfoScreen(),
                                                   arguments:
                                                       MediaControllerData(
@@ -284,6 +294,7 @@ class _MovieInfoScreenState extends State<MovieInfoScreen> {
                                 crossAxisSpacing: 10,
                                 mainAxisSpacing: 20),
                         itemBuilder: ((context, index) {
+                          tabsSize[2] = (argument.mediaEpisods ?? 17.0) * 42.0;
                           return Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
@@ -304,7 +315,6 @@ class _MovieInfoScreenState extends State<MovieInfoScreen> {
                           );
                         })))
               ],
-              onChange: (index) => print(index),
             ),
           ),
 

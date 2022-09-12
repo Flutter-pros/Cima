@@ -54,6 +54,8 @@ class MediaController extends GetxController {
   RxList media = [].obs;
   //! we will use the below variable to target the latest state event the existence of unnecessary states (wil be overrwitten)
   RxInt targettedMediaState = (-1).obs;
+  //* used to cofigure if the screen is in the first place of stack of screens or not to configure the back button
+  RxBool isFirstScreen = true.obs;
   //* this will be used to check if the previous button should be activated or not
   RxBool isPreviousActivated = false.obs;
   //! we use the below two variable to configure out if we used any filters before to update the media.last unless we will insert the data

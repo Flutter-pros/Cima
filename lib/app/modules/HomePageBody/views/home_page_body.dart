@@ -51,6 +51,7 @@ class HomePageBody extends StatelessWidget {
 
                     return GestureDetector(
                       onTap: () {
+                        mediaController.isFirstScreen.value = false;
                         Get.toNamed("/movie_info",
                             arguments: mediaController.media.last[index]);
                       },

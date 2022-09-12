@@ -46,39 +46,44 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<bool> myInterceptor(
       bool stopDefaultButtonEvent, RouteInfo info) async {
     final bool? shouldPop;
-    if ((!mediaController.isPreviousActivated.value)) {
-      shouldPop = await showDialog<bool>(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            backgroundColor: AppColors().appbackground,
-            title: Text(
-              'هل تريد الخروج من التطبيق؟',
-              style: TextStyle(color: AppColors().textandsearchcolor),
-            ),
-            actionsAlignment: MainAxisAlignment.spaceBetween,
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context, false);
-                },
-                child: const Text('نعم'),
+    if (mediaController.isFirstScreen.value) {
+      if (!(mediaController.isPreviousActivated.value)) {
+        shouldPop = await showDialog<bool>(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              backgroundColor: AppColors().appbackground,
+              title: Text(
+                'هل تريد الخروج من التطبيق؟',
+                style: TextStyle(color: AppColors().textandsearchcolor),
               ),
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context, true);
-                },
-                child: const Text('لا'),
-              ),
-            ],
-          );
-        },
-      );
+              actionsAlignment: MainAxisAlignment.spaceBetween,
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context, false);
+                  },
+                  child: const Text('نعم'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context, true);
+                  },
+                  child: const Text('لا'),
+                ),
+              ],
+            );
+          },
+        );
+      } else {
+        mediaController.goPrevious();
+        shouldPop = true;
+      }
+      return shouldPop!; // Do some stuff.
     } else {
-      mediaController.goPrevious();
-      shouldPop = true;
+      mediaController.isFirstScreen.value = true;
+      return false;
     }
-    return shouldPop!; // Do some stuff.
   }
 
   TextEditingController searchController = TextEditingController();
