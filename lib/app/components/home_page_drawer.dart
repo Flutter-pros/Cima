@@ -176,15 +176,22 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                                   Navigator.pop(context);
                                 },
                                 child: ListTile(
-                                  title: Text(
-                                    name!,
-                                    softWrap: false,
-                                    overflow: TextOverflow.ellipsis,
-                                    //textAlign: TextAlign.right,
-                                    style: TextStyle(
-                                        fontSize: AppFonts().fontsizetext,
-                                        fontWeight: FontWeight.w500,
-                                        color: AppColors().textandsearchcolor),
+                                  title: Flexible(
+                                    child: Container(
+                                      padding:
+                                          const EdgeInsets.only(right: 13.0),
+                                      child: Text(
+                                        name!,
+                                        softWrap: false,
+                                        overflow: TextOverflow.ellipsis,
+                                        //textAlign: TextAlign.right,
+                                        style: TextStyle(
+                                            fontSize: AppFonts().fontsizetext,
+                                            fontWeight: FontWeight.w500,
+                                            color:
+                                                AppColors().textandsearchcolor),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               );

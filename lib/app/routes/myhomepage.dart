@@ -46,7 +46,10 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<bool> myInterceptor(
       bool stopDefaultButtonEvent, RouteInfo info) async {
     final bool? shouldPop;
-    if (mediaController.isFirstScreen.value) {
+    if (Get.isDialogOpen ?? true) {
+      return false;
+    }
+    if (Get.rawRoute!.isFirst) {
       if (!(mediaController.isPreviousActivated.value)) {
         shouldPop = await showDialog<bool>(
           context: context,
