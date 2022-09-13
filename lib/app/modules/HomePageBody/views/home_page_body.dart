@@ -1,8 +1,11 @@
 import 'package:cima/app/components/home_page_filters.dart';
+import 'package:cima/app/routes/movie_info.dart';
+import 'package:cima/app/utils/appcolors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/media_controller.dart';
 import 'package:cima/app/components/grid_view_body_card.dart';
+import "package:animations/animations.dart";
 
 class HomePageBody extends StatelessWidget {
   HomePageBody({Key? key}) : super(key: key);
@@ -49,16 +52,19 @@ class HomePageBody extends StatelessWidget {
                     String imageURL =
                         mediaController.media.last[index].mediaImage;
 
-                    return GestureDetector(
-                      onTap: () {
-                        mediaController.isFirstScreen.value = false;
-                        Get.toNamed("/movie_info",
-                            arguments: mediaController.media.last[index]);
-                      },
-                      child: GridViewBodyCard(
+                    return OpenContainer(
+                      closedColor: AppColors().appbackground,
+                      closedBuilder: (_, closedBuilder) => GridViewBodyCard(
                           imageUrl: imageURL,
                           title:
                               "${mediaController.media.last[index].mediaTitle}"),
+                      openBuilder: (_, openBuilder) {
+                        mediaController.isFirstScreen.value = false;
+                        // Get.toNamed("/movie_info",
+                        //     arguments: mediaController.media.last[index]);
+                        return MovieInfoScreen(
+                            arguments: mediaController.media.last[index]);
+                      },
                     );
                   },
                 );

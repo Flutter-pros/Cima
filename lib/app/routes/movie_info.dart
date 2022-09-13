@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:cima/app/components/grid_view_body_card.dart';
 import 'package:cima/app/components/video_player.dart';
 import 'package:cima/app/data/movie_api.dart';
@@ -12,15 +13,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MovieInfoScreen extends StatefulWidget {
-  const MovieInfoScreen({
-    Key? key,
-  }) : super(key: key);
+  const MovieInfoScreen({Key? key, required this.arguments}) : super(key: key);
+  final MediaControllerData arguments;
   @override
   State<MovieInfoScreen> createState() => _MovieInfoScreenState();
 }
 
 class _MovieInfoScreenState extends State<MovieInfoScreen> {
-  final MediaControllerData argument = Get.arguments as MediaControllerData;
+  // final MediaControllerData argument = Get.arguments as MediaControllerData;
   final MediaController mediaController = Get.put(MediaController());
   List<double> tabsSize = [400, 1100, 700];
   int tabsindex = 0;
@@ -28,7 +28,7 @@ class _MovieInfoScreenState extends State<MovieInfoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: FutureBuilder(
-      future: argument.getMoreDetails(),
+      future: widget.arguments.getMoreDetails(),
       builder: (_, snapshot) => Container(
         color: Colors.black,
         height: double.infinity,
@@ -37,7 +37,7 @@ class _MovieInfoScreenState extends State<MovieInfoScreen> {
           Container(
             decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: NetworkImage(argument.mediaImage),
+                    image: NetworkImage(widget.arguments.mediaImage),
                     fit: BoxFit.fill)),
             height: 280,
             width: Get.width * .5,
@@ -77,9 +77,9 @@ class _MovieInfoScreenState extends State<MovieInfoScreen> {
                 Positioned(
                   bottom: 0,
                   child: DetailsRow(
-                    mediaAging: "${argument.mediaAging}",
-                    mediaRating: "${argument.mediaRating}",
-                    mediaGenre: "${argument.mediaGenre}",
+                    mediaAging: "${widget.arguments.mediaAging}",
+                    mediaRating: "${widget.arguments.mediaRating}",
+                    mediaGenre: "${widget.arguments.mediaGenre}",
                   ),
                 )
               ],
@@ -154,7 +154,8 @@ class _MovieInfoScreenState extends State<MovieInfoScreen> {
                 callOnChangeWhileIndexIsChanging: true,
                 onChange: (index) {
                   setState(() {
-                    tabsSize[2] = (argument.mediaEpisods ?? 17.0) * 42.0;
+                    tabsSize[2] =
+                        (widget.arguments.mediaEpisods ?? 17.0) * 42.0;
 
                     tabsindex = index;
                   });
@@ -183,7 +184,7 @@ class _MovieInfoScreenState extends State<MovieInfoScreen> {
                                 fontWeight: FontWeight.bold,
                                 color: AppColors().blue,
                                 fontSize: 15)),
-                        Text(argument.mediaTitle,
+                        Text(widget.arguments.mediaTitle,
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
@@ -196,7 +197,7 @@ class _MovieInfoScreenState extends State<MovieInfoScreen> {
                                 fontWeight: FontWeight.bold,
                                 color: AppColors().blue,
                                 fontSize: 15)),
-                        Text("${argument.mediaGenre}",
+                        Text("${widget.arguments.mediaGenre}",
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
@@ -209,7 +210,7 @@ class _MovieInfoScreenState extends State<MovieInfoScreen> {
                                 fontWeight: FontWeight.bold,
                                 color: AppColors().blue,
                                 fontSize: 15)),
-                        Text("${argument.mediaDescription}",
+                        Text("${widget.arguments.mediaDescription}",
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
@@ -222,7 +223,7 @@ class _MovieInfoScreenState extends State<MovieInfoScreen> {
                                 fontWeight: FontWeight.bold,
                                 color: AppColors().blue,
                                 fontSize: 15)),
-                        Text("${argument.mediaQuality}",
+                        Text("${widget.arguments.mediaQuality}",
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
@@ -236,10 +237,11 @@ class _MovieInfoScreenState extends State<MovieInfoScreen> {
                   Container(
                     color: Colors.black,
                     child: FutureBuilder(
-                      future: RelatedPosts(postID: argument.mediaID).getData(),
+                      future: RelatedPosts(postID: widget.arguments.mediaID)
+                          .getData(),
                       builder: (BuildContext context, AsyncSnapshot snapshot) {
                         if (snapshot.hasData) {
-                          tabsSize[1] = snapshot.data.length * 85.0;
+                          tabsSize[1] = snapshot.data.length * 128.0;
 
                           return Container(
                             decoration: const BoxDecoration(),
@@ -254,30 +256,39 @@ class _MovieInfoScreenState extends State<MovieInfoScreen> {
                                         const NeverScrollableScrollPhysics(),
                                     gridDelegate:
                                         const SliverGridDelegateWithMaxCrossAxisExtent(
+                                            mainAxisExtent: 250,
                                             maxCrossAxisExtent: 300),
                                     itemCount: snapshot.data.length,
                                     scrollDirection: Axis.vertical,
                                     itemBuilder: ((context, index2) {
-                                      return InkWell(
-                                        onTap: () {
-                                          Get.to(const MovieInfoScreen(),
-                                              arguments: MediaControllerData(
-                                                mediaID: snapshot.data[index2]
-                                                    ["id"],
-                                                mediaTitle: snapshot
-                                                    .data[index2]["title"],
-                                                mediaImage:
-                                                    snapshot.data[index2]
-                                                        ["thumbnailUrl"],
-                                                mediaYear:
-                                                    "${snapshot.data[index2]['year']}",
-                                              ));
-                                        },
-                                        child: GridViewBodyCard(
+                                      return OpenContainer(
+                                        closedColor: AppColors().appbackground,
+                                        closedBuilder: (_, closedBuilder) =>
+                                            GridViewBodyCard(
                                           title: snapshot.data[index2]["title"],
                                           imageUrl: snapshot.data[index2]
                                               ["thumbnailUrl"],
                                         ),
+                                        openBuilder: (_, openBuilder) {
+                                          // mediaController.isFirstScreen.value =
+                                          //     false;
+                                          // // Get.toNamed("/movie_info",
+                                          // //     arguments: mediaController.media.last[index]);
+                                          // return MovieInfoScreen(
+                                          //     arguments: mediaController
+                                          //         .media.last[index]);
+                                          return MovieInfoScreen(
+                                              arguments: MediaControllerData(
+                                            mediaID: snapshot.data[index2]
+                                                ["id"],
+                                            mediaTitle: snapshot.data[index2]
+                                                ["title"],
+                                            mediaImage: snapshot.data[index2]
+                                                ["thumbnailUrl"],
+                                            mediaYear:
+                                                "${snapshot.data[index2]['year']}",
+                                          ));
+                                        },
                                       );
                                     }))
                               ],
@@ -295,7 +306,7 @@ class _MovieInfoScreenState extends State<MovieInfoScreen> {
                       color: Colors.black,
                       child: GridView.builder(
                           physics: const NeverScrollableScrollPhysics(),
-                          itemCount: argument.mediaEpisods ?? 18,
+                          itemCount: widget.arguments.mediaEpisods ?? 18,
                           padding: const EdgeInsets.all(5),
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(

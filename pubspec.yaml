@@ -28,6 +28,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   anim_search_bar: ^2.0.2
+  animations: ^2.0.4
   back_button_interceptor: ^6.0.1
   blur: ^3.1.0
   cached_network_image: ^3.2.1

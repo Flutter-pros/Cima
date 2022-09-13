@@ -18,12 +18,13 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      initialRoute: "/",
-      getPages: [
-        GetPage(name: "/", page: () => const MyHomePage()),
-        GetPage(name: "/movie_info", page: () => const MovieInfoScreen()),
-        // GetPage(name: "/content", page: () => const Content())
-      ],
+      // initialRoute: "/",
+      // getPages: [
+      //   GetPage(name: "/", page: () => const MyHomePage()),
+      //   GetPage(name: "/movie_info", page: () =>  MovieInfoScreen()),
+      //   // GetPage(name: "/content", page: () => const Content())
+      // ],
+      home: const MyHomePage(),
       translations: MyLocal(),
       locale: Get.deviceLocale,
       fallbackLocale: const Locale('ar', 'SA'),
