@@ -102,7 +102,7 @@ class _SingleFilterState extends State<SingleFilter> {
             //! below is applied when the tile is expanded
             iconColor: Colors.white,
             textColor: Colors.white,
-            backgroundColor: Colors.black.withOpacity(0.9),
+            backgroundColor: Colors.black.withOpacity(0.2),
             //! below is applied when the tile is collapsed
             collapsedIconColor: Colors.white,
             collapsedTextColor: Colors.white,

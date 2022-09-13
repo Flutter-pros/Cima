@@ -96,7 +96,7 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                       color: const Color.fromRGBO(35, 40, 72, 1),
                     ),
                     child: ExpansionTile(
-                      iconColor: AppColors().blue,
+                      iconColor: AppColors().textandsearchcolor,
                       trailing: (mediaController.drawer[index]
                                   .mainCategorySubCategories.length !=
                               0)
@@ -121,7 +121,7 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                             Icon(icons[index],
                                 color: (expandedExpansionTiles.contains(index))
                                     ? iconsColors[index]
-                                    : Colors.black),
+                                    : AppColors().textandsearchcolor),
                             const SizedBox(
                               width: 2,
                             ),
