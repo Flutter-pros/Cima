@@ -12,7 +12,6 @@ import 'package:cima/app/utils/appcolors.dart';
 import 'package:contained_tab_bar_view/contained_tab_bar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shimmer_animation/shimmer_animation.dart';
 
 class MovieInfoScreen extends StatefulWidget {
   const MovieInfoScreen({Key? key, required this.arguments}) : super(key: key);
