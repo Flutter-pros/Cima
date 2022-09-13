@@ -48,6 +48,7 @@ dependencies:
   html: ^0.15.0
   http: ^0.13.4
   searchfield: ^0.6.9
+  shimmer_animation: ^2.1.0+1
   video_player: ^2.4.7
 
 dev_dependencies:

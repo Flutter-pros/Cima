@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import '../controllers/media_controller.dart';
 import 'package:cima/app/components/grid_view_body_card.dart';
 import "package:animations/animations.dart";
+import 'package:cima/app/components/shimmer.dart';
 
 class HomePageBody extends StatelessWidget {
   HomePageBody({Key? key}) : super(key: key);
@@ -32,9 +33,7 @@ class HomePageBody extends StatelessWidget {
                   "mediaController.targettedMediaState: ${mediaController.targettedMediaState.value}");
 
               if (mediaController.media.isEmpty) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
+                return const MediaShimmer();
               } else {
                 // ignore: avoid_print
 
@@ -83,6 +82,8 @@ class HomePageBody extends StatelessWidget {
     );
   }
 }
+
+
 
 
   // bool isSeries = true;

@@ -1,5 +1,6 @@
 import 'package:animations/animations.dart';
 import 'package:cima/app/components/grid_view_body_card.dart';
+import 'package:cima/app/components/shimmer.dart';
 import 'package:cima/app/components/video_player.dart';
 import 'package:cima/app/data/movie_api.dart';
 import 'package:cima/app/modules/HomePageBody/controllers/media_controller.dart';
@@ -11,6 +12,7 @@ import 'package:cima/app/utils/appcolors.dart';
 import 'package:contained_tab_bar_view/contained_tab_bar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 
 class MovieInfoScreen extends StatefulWidget {
   const MovieInfoScreen({Key? key, required this.arguments}) : super(key: key);
@@ -295,9 +297,7 @@ class _MovieInfoScreenState extends State<MovieInfoScreen> {
                             ),
                           );
                         } else {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
+                          return const MediaShimmer();
                         }
                       },
                     ),
