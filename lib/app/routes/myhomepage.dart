@@ -32,7 +32,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    mediaController.filterData();
+    mediaController.categorizeData();
     mediaController.getDrawerData();
     BackButtonInterceptor.add(myInterceptor);
   }

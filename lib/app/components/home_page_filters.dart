@@ -131,9 +131,9 @@ class _SingleFilterState extends State<SingleFilter> {
                           setState(() {
                             tag = val;
                             for (var element in tag) {
-                              mediaController.filterData(
-                                  taxonomy: widget.filterName,
-                                  termID:
+                              mediaController.filterCategorizedData(
+                                  filtereName: widget.filterName,
+                                  filterTermId:
                                       "${widget.filterTerms[element]["term_id"]}");
                             }
                           });

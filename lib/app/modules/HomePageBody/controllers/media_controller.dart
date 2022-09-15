@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 
 import 'package:cima/app/data/movie_api.dart';
+import 'package:cima/app/library/globals.dart' as globals;
 
 class MediaControllerData {
   late String mediaID;
@@ -10,7 +11,7 @@ class MediaControllerData {
   late String mediaYear;
   String? mediaRating;
   String? mediaDurationInMinutes;
-  String? mediaGenre;
+  List<String>? mediaGenre;
   String? mediaWatchURL;
   List? mediaDownloads;
   String? mediaAging;
@@ -27,13 +28,14 @@ class MediaControllerData {
       mediaDescription = data["story"];
       mediaRating = data["imdbRating"];
       mediaDurationInMinutes = data["runtime"];
-      mediaGenre = data["genre"];
+      mediaGenre = data["genre"].map((e) => e["name"]).toList();
       mediaWatchURL = data["watch___url"];
       mediaDownloads = data["downloads"];
       mediaAging = data["mpaa"];
       mediaQuality = data["quality"];
       mediaEpisods = data["download"].length;
     });
+    print("************all details are loaded&&&&&&&&&&&&&&&&&&&");
   }
 }
 
@@ -96,74 +98,26 @@ class MediaController extends GetxController {
         : media.add(mediaData);
   }
 
-  void filterData({String? taxonomy, String? termID}) async {
+  void categorizeData({String? categoryID}) async {
     List filteredData = [];
     List locatedMedia = [];
 
-    if (taxonomy == null && termID == null) {
-      await FilteredData()
-          .getData()
-          .then((value) => filteredData.addAll(value));
-      taxonomy = "category";
-    } else {
-      if (taxonomy == null) {
-        await FilteredData(termID: termID!)
-            .getData()
-            .then((value) => filteredData.addAll(value));
-        taxonomy = "category";
-      } else {
-        if (termID == null) {
-          await FilteredData(taxonamy: taxonomy)
-              .getData()
-              .then((value) => filteredData.addAll(value));
-        } else {
-          await FilteredData(taxonamy: taxonomy, termID: termID)
-              .getData()
-              .then((value) => filteredData.addAll(value));
-        }
-      }
-    }
+    await CategorizedData(categoryID: categoryID ?? globals.categoryID)
+        .getData()
+        .then((value) => filteredData.addAll(value));
 
     for (var data in filteredData) {
       locatedMedia.add(MediaControllerData(
         mediaID: data['termID'] ?? data["id"],
         mediaTitle: data['title'],
-        // mediaDescription: data['story'],
         mediaImage: data['thumbnailUrl'],
         mediaYear: data['year'],
-        // mediaRating: data['imdbRating'],
-        // mediaDurationInMinutes: data['runtime'],
-        // mediaGenre: data['genre'],
-        // mediaWatchURL: data['watchURL'],
-        // mediaDownloads: data['downloads']
       ));
     }
-    if (taxonomy != "category") {
-      List locatedMediaIDs = locatedMedia.map((e) => e.mediaID).toList();
-      if (isFiltersTriggered.value) {
-        media.last = media.last
-            .where((element) => locatedMediaIDs.contains(element.mediaID))
-            .toList();
-        appliedFilters.value = appliedFilters.value - 1;
-        isFiltersTriggered.value = (appliedFilters.value < 1) ? false : true;
-      } else {
-        appliedFilters.value = appliedFilters.value + 1;
-        (media.isNotEmpty)
-            ? media.last = locatedMedia
-            : media.insert(
-                media.length,
-                locatedMedia
-                    .where(
-                        (element) => locatedMediaIDs.contains(element.mediaID))
-                    .toList());
 
-        _insertMediaState(locatedMedia);
-      }
-    } else {
-      _goNext();
+    _goNext();
 
-      _insertMediaState(locatedMedia);
-    }
+    _insertMediaState(locatedMedia);
   }
 
   List<String> getFilters() {
@@ -174,6 +128,44 @@ class MediaController extends GetxController {
       });
     });
     return filters;
+  }
+
+  void filterCategorizedData(
+      {required String filtereName, required String filterTermId}) async {
+    List filteredData = [];
+    List locatedMedia = [];
+    await FilteredCategorizedData(
+            filterTaxonomy: filtereName, filterTermID: filterTermId)
+        .getData()
+        .then((value) => filteredData.addAll(value));
+
+    for (var data in filteredData) {
+      locatedMedia.add(MediaControllerData(
+        mediaID: data['term_id'] ?? data["id"],
+        mediaTitle: data['title'],
+        mediaImage: data['thumbnailUrl'],
+        mediaYear: data['year'],
+      ));
+    }
+    List locatedMediaIDs = locatedMedia.map((e) => e.mediaID).toList();
+    if (isFiltersTriggered.value) {
+      media.last = media.last
+          .where((element) => locatedMediaIDs.contains(element.mediaID))
+          .toList();
+      appliedFilters.value = appliedFilters.value - 1;
+      isFiltersTriggered.value = (appliedFilters.value < 1) ? false : true;
+    } else {
+      appliedFilters.value = appliedFilters.value + 1;
+      (media.isNotEmpty)
+          ? media.last = locatedMedia
+          : media.insert(
+              media.length,
+              locatedMedia
+                  .where((element) => locatedMediaIDs.contains(element.mediaID))
+                  .toList());
+
+      _insertMediaState(locatedMedia);
+    }
   }
 
   void searchLocalData({String search = ''}) {
