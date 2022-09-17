@@ -6,37 +6,37 @@ import 'package:cima/app/library/globals.dart' as globals;
 class MediaControllerData {
   late String mediaID;
   late String mediaTitle;
-  String? mediaDescription;
+  // String? mediaDescription;
   late String mediaImage;
   late String mediaYear;
-  String? mediaRating;
-  String? mediaDurationInMinutes;
-  List<String>? mediaGenre;
-  String? mediaWatchURL;
-  List? mediaDownloads;
-  String? mediaAging;
-  String? mediaQuality;
-  int? mediaEpisods;
+  // String? mediaRating;
+  // String? mediaDurationInMinutes;
+  // List<String>? mediaGenre;
+  // String? mediaWatchURL;
+  // List? mediaDownloads;
+  // String? mediaAging;
+  // String? mediaQuality;
+  // int? mediaEpisods;
   MediaControllerData({
     required this.mediaID,
     required this.mediaTitle,
     required this.mediaImage,
     required this.mediaYear,
   });
-  getMoreDetails() async {
-    await MediaData(mediaID: mediaID).getData().then((data) {
-      mediaDescription = data["story"];
-      mediaRating = data["imdbRating"];
-      mediaDurationInMinutes = data["runtime"];
-      mediaGenre = data["genre"].map((e) => e["name"]).toList();
-      mediaWatchURL = data["watch___url"];
-      mediaDownloads = data["downloads"];
-      mediaAging = data["mpaa"];
-      mediaQuality = data["quality"];
-      mediaEpisods = data["download"].length;
-    });
-    print("************all details are loaded&&&&&&&&&&&&&&&&&&&");
-  }
+//   getMoreDetails() async {
+//     await MediaData(mediaID: mediaID).getData().then((data) {
+//       mediaDescription = data["story"];
+//       mediaRating = data["imdbRating"];
+//       mediaDurationInMinutes = data["runtime"];
+//       mediaGenre = data["genre"].map((e) => e["name"]).toList();
+//       mediaWatchURL = data["watch___url"];
+//       mediaDownloads = data["downloads"];
+//       mediaAging = data["mpaa"];
+//       mediaQuality = data["quality"];
+//       mediaEpisods = data["download"].length;
+//     });
+//     print("************all details are loaded&&&&&&&&&&&&&&&&&&&");
+//   }
 }
 
 class DrawerControllerData {
