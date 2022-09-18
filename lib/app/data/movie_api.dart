@@ -4,12 +4,25 @@ import '../library/globals.dart' as globals;
 
 abstract class ApiHandler {
   String categoryID = globals.categoryID;
-  final String domain = "https://mycima";
+  String domain = "https://mycima.buzz:2096";
   late String url;
-  ApiHandler();
+  establishedConnection() async {
+    var result = await http.get(Uri.parse(url));
+    if (result.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  ApiHandler() {
+    domain = (establishedConnection()) ? domain : "type here the new domain";
+  }
 
   getData() async {
-    url = "$domain$url";
+    url = (url.contains(".is/appweb/posts/category|"))
+        ? "${domain.substring(0, domain.indexOf("."))}$url"
+        : "$domain$url";
     var result = await http.get(Uri.parse(url));
     return json.decode(result.body);
   }
@@ -19,34 +32,34 @@ abstract class ApiHandler {
 class MediaData extends ApiHandler {
   String mediaID;
   MediaData({this.mediaID = "31341"}) : super() {
-    url = '.buzz:2096/appweb/post/$mediaID/';
+    url = '/appweb/post/$mediaID/';
   }
 }
 
 class DrawerData extends ApiHandler {
   DrawerData() : super() {
-    url = ".buzz:2096/appweb/menus";
+    url = "/appweb/menus";
   }
 }
 
 class SearchData extends ApiHandler {
   String search;
   SearchData(this.search) : super() {
-    url = ".buzz:2096/appweb/search/$search/";
+    url = "/appweb/search/$search/";
   }
 }
 
 class RelatedPosts extends ApiHandler {
   String postID;
   RelatedPosts({this.postID = "31341"}) : super() {
-    url = ".buzz:2096/appweb/posts/related/$postID/";
+    url = "/appweb/posts/related/$postID/";
   }
 }
 
 class CategorizedData extends ApiHandler {
   CategorizedData({required categoryID}) : super() {
     globals.categoryID = categoryID;
-    url = ".buzz:2096/appweb/posts/archived_category[$categoryID]/";
+    url = "/appweb/posts/category|$categoryID/";
   }
 }
 
@@ -61,8 +74,15 @@ class FilteredCategorizedData extends ApiHandler {
   }
 }
 
+class SeriesEpisods extends ApiHandler {
+  String seriesID;
+  SeriesEpisods({required this.seriesID}) : super() {
+    url = "/appweb/series|$seriesID/";
+  }
+}
+
 class Filters extends ApiHandler {
   Filters() : super() {
-    url = ".buzz:2096/appweb/filters/";
+    url = "2096/appweb/filters/";
   }
 }

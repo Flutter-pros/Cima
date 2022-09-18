@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:animations/animations.dart';
 import 'package:cima/app/components/grid_view_body_card.dart';
 import 'package:cima/app/components/shimmer.dart';
@@ -23,17 +25,29 @@ class MovieInfoScreen extends StatefulWidget {
 class _MovieInfoScreenState extends State<MovieInfoScreen> {
   // final MediaControllerData argument = Get.arguments as MediaControllerData;
   final MediaController mediaController = Get.put(MediaController());
-  List<double> tabsSize = [400, 1100, 700];
-  int tabsindex = 0;
+  List<double> tabsSize = [Get.height, 1100, 700];
+  int tabsIndex = 0;
+  int episodNumber = 1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.black,
         body: FutureBuilder(
-            future: MediaData(mediaID: widget.arguments.mediaID).getData(),
+            future: (mediaController.isSeries.value)
+                ? SeriesEpisods(seriesID: widget.arguments.mediaID).getData()
+                : MediaData(mediaID: widget.arguments.mediaID).getData(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                final data = snapshot.data as Map<String, dynamic>;
+                List<Map<String, dynamic>> episodsData = [];
+                Map<String, dynamic> data = {};
+                if (mediaController.isSeries.value) {
+                  episodsData = snapshot.data as List<Map<String, dynamic>>;
+                  data = MediaData(
+                      mediaID: episodsData[episodsData.length - episodNumber]
+                          ["id"]) as Map<String, dynamic>;
+                } else {
+                  data = snapshot.data as Map<String, dynamic>;
+                }
                 final genres = data["genre"].map((e) => e["name"]).toList();
                 final mpaas = data["mpaa"].map((e) => e["name"]).toList();
                 final qualities =
@@ -174,7 +188,7 @@ class _MovieInfoScreenState extends State<MovieInfoScreen> {
                       color: Colors.black,
                       child: GridView.builder(
                           physics: const NeverScrollableScrollPhysics(),
-                          itemCount: data["series"].length ?? 18,
+                          itemCount: episodsData.length,
                           padding: const EdgeInsets.all(5),
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
@@ -190,7 +204,11 @@ class _MovieInfoScreenState extends State<MovieInfoScreen> {
                               ),
                               child: ListTile(
                                   leading: IconButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        setState(() {
+                                          episodNumber = index + 1;
+                                        });
+                                      },
                                       icon: Icon(
                                         Icons.play_arrow,
                                         color: AppColors().textandsearchcolor,
@@ -341,7 +359,7 @@ class _MovieInfoScreenState extends State<MovieInfoScreen> {
                       const SizedBox(
                         height: 15,
                       ),
-                      (data["watch_url"] == "" || data["watch_url"] == null)
+                      (mediaController.isSeries.value)
                           ? Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -357,7 +375,12 @@ class _MovieInfoScreenState extends State<MovieInfoScreen> {
                                   height: 40,
                                   width: Get.width * .4,
                                   child: TextButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        setState(() {
+                                          episodNumber++;
+                                          tabsIndex = 2;
+                                        });
+                                      },
                                       child: Text(
                                         "الحلقه التاليه",
                                         style: TextStyle(
@@ -379,7 +402,12 @@ class _MovieInfoScreenState extends State<MovieInfoScreen> {
                                   height: 40,
                                   width: Get.width * .4,
                                   child: TextButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        setState(() {
+                                          episodNumber--;
+                                          tabsIndex = 2;
+                                        });
+                                      },
                                       child: Text(
                                         "الحلقه السابقه",
                                         style: TextStyle(
@@ -401,18 +429,18 @@ class _MovieInfoScreenState extends State<MovieInfoScreen> {
                         child: Container(
                           color: Colors.blue,
                           width: Get.width,
-                          height: tabsSize[tabsindex],
+                          height: tabsSize[tabsIndex],
 
                           // problem in high
                           child: ContainedTabBarView(
-                            initialIndex: tabsindex,
+                            initialIndex: tabsIndex,
                             callOnChangeWhileIndexIsChanging: true,
                             onChange: (index) {
                               setState(() {
                                 tabsSize[2] =
                                     ((data["series"].length) ?? 17.0) * 42.0;
 
-                                tabsindex = index;
+                                tabsIndex = index;
                               });
                             },
                             tabBarViewProperties: const TabBarViewProperties(
@@ -423,14 +451,12 @@ class _MovieInfoScreenState extends State<MovieInfoScreen> {
                                 ),
                                 indicatorColor: AppColors().blue,
                                 labelColor: AppColors().textandsearchcolor),
-                            tabs:
-                                (data["series"] == "" || data["series"] == null)
-                                    ? tabs.sublist(0, 2)
-                                    : tabs,
-                            views:
-                                (data["series"] == "" || data["series"] == null)
-                                    ? views.sublist(0, 2)
-                                    : views,
+                            tabs: (mediaController.isSeries.value)
+                                ? tabs.sublist(0, 2)
+                                : tabs,
+                            views: (mediaController.isSeries.value)
+                                ? views.sublist(0, 2)
+                                : views,
                           ),
                         ),
 

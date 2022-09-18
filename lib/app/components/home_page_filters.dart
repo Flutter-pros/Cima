@@ -5,7 +5,8 @@ import 'package:cima/app/data/movie_api.dart';
 import 'package:get/get.dart';
 
 class HomePageFilters extends StatefulWidget {
-  const HomePageFilters({Key? key}) : super(key: key);
+  // ignore: prefer_const_constructors_in_immutables
+  HomePageFilters({Key? key}) : super(key: key);
 
   @override
   State<HomePageFilters> createState() => _HomePageFiltersState();
@@ -46,7 +47,7 @@ class _HomePageFiltersState extends State<HomePageFilters> {
                                       term["slug"] == "g";
                                 }).toList()
                               : filterTerms,
-                          filterSelectedTerms: const [])
+                        )
                       : Container();
                 });
           } else {
@@ -57,15 +58,13 @@ class _HomePageFiltersState extends State<HomePageFilters> {
 }
 
 class SingleFilter extends StatefulWidget {
-  const SingleFilter(
-      {Key? key,
-      required this.filterName,
-      required this.filterTerms,
-      required this.filterSelectedTerms})
-      : super(key: key);
+  const SingleFilter({
+    Key? key,
+    required this.filterName,
+    required this.filterTerms,
+  }) : super(key: key);
   final String filterName;
   final List filterTerms;
-  final List<int> filterSelectedTerms;
 
   @override
   State<SingleFilter> createState() => _SingleFilterState();
@@ -74,13 +73,14 @@ class SingleFilter extends StatefulWidget {
 class _SingleFilterState extends State<SingleFilter> {
   List<int> tag = [];
   final MediaController mediaController = Get.put(MediaController());
-
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
-    tag = widget.filterSelectedTerms;
+    tag = [];
   }
 
+  @override
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(

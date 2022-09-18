@@ -127,6 +127,9 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                             ),
                             InkWell(
                               onTap: () {
+                                mediaController.isSeries.value =
+                                    (index == 1) ? true : false;
+
                                 mediaController.categorizeData(
                                     categoryID: mediaController
                                         .drawer[index].mainCategoryID);
@@ -168,6 +171,8 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                                   .mainCategorySubCategories[index2]["name"];
                               return GestureDetector(
                                 onTap: () {
+                                  mediaController.isSeries.value =
+                                      (index == 1) ? true : false;
                                   mediaController.categorizeData(
                                       categoryID: mediaController.drawer[index]
                                               .mainCategorySubCategories[index2]

@@ -50,11 +50,26 @@ class HomePageBody extends StatelessWidget {
                   itemBuilder: (_, index) {
                     String imageURL =
                         mediaController.media.last[index].mediaImage;
+                    String cleanImageURL;
+
+                    try {
+                      cleanImageURL = (mediaController.isSeries.value)
+                          ? imageURL.replaceAll(
+                              imageURL.substring(
+                                  imageURL.indexOf(
+                                      ':', imageURL.indexOf(':') + 1),
+                                  imageURL.indexOf(r'/wp')),
+                              "")
+                          : imageURL;
+                    } catch (e) {
+                      cleanImageURL =
+                          "images/failLoading/image_fail_loading.jpeg";
+                    }
 
                     return OpenContainer(
                       closedColor: AppColors().appbackground,
                       closedBuilder: (_, closedBuilder) => GridViewBodyCard(
-                          imageUrl: imageURL,
+                          imageUrl: cleanImageURL,
                           title:
                               "${mediaController.media.last[index].mediaTitle}"),
                       openBuilder: (_, openBuilder) {
@@ -76,7 +91,7 @@ class HomePageBody extends StatelessWidget {
                 height: (mediaController.isAnyFilterExpanded.value)
                     ? MediaQuery.of(context).size.height / 2
                     : 50,
-                child: const HomePageFilters())
+                child: HomePageFilters())
             : Container()),
       ],
     );
