@@ -7,7 +7,7 @@ abstract class ApiHandler {
   String domain = "https://mycima.buzz:2096";
   late String url;
   establishedConnection() async {
-    var result = await http.get(Uri.parse(url));
+    var result = await http.get(Uri.parse(domain));
     if (result.statusCode == 200) {
       return true;
     } else {
@@ -15,8 +15,12 @@ abstract class ApiHandler {
     }
   }
 
-  ApiHandler() {
-    domain = (establishedConnection()) ? domain : "type here the new domain";
+  ApiHandler(this.url) {
+    try {
+      domain = (establishedConnection()) ? domain : "type here the new domain";
+    } catch (e) {
+      print(e);
+    }
   }
 
   getData() async {
@@ -31,35 +35,28 @@ abstract class ApiHandler {
 //! the below class is the only class which in all cases will return single object.
 class MediaData extends ApiHandler {
   String mediaID;
-  MediaData({this.mediaID = "31341"}) : super() {
-    url = '/appweb/post/$mediaID/';
-  }
+  MediaData({this.mediaID = "31341"}) : super('/appweb/post/$mediaID/');
 }
 
 class DrawerData extends ApiHandler {
-  DrawerData() : super() {
-    url = "/appweb/menus";
-  }
+  DrawerData() : super("/appweb/menus");
 }
 
 class SearchData extends ApiHandler {
   String search;
-  SearchData(this.search) : super() {
-    url = "/appweb/search/$search/";
-  }
+  SearchData(this.search) : super("/appweb/search/$search/");
 }
 
 class RelatedPosts extends ApiHandler {
   String postID;
-  RelatedPosts({this.postID = "31341"}) : super() {
-    url = "/appweb/posts/related/$postID/";
-  }
+  RelatedPosts({this.postID = "31341"})
+      : super("/appweb/posts/related/$postID/");
 }
 
 class CategorizedData extends ApiHandler {
-  CategorizedData({required categoryID}) : super() {
+  CategorizedData({required categoryID})
+      : super("/appweb/posts/category|$categoryID/") {
     globals.categoryID = categoryID;
-    url = "/appweb/posts/category|$categoryID/";
   }
 }
 
@@ -68,21 +65,15 @@ class FilteredCategorizedData extends ApiHandler {
   String filterTermID;
   FilteredCategorizedData(
       {required this.filterTaxonomy, required this.filterTermID})
-      : super() {
-    url =
-        ".is/appweb/posts/category|${globals.categoryID}/$filterTaxonomy|$filterTermID/";
-  }
+      : super(
+            ".is/appweb/posts/category|${globals.categoryID}/$filterTaxonomy|$filterTermID/");
 }
 
 class SeriesEpisods extends ApiHandler {
   String seriesID;
-  SeriesEpisods({required this.seriesID}) : super() {
-    url = "/appweb/series|$seriesID/";
-  }
+  SeriesEpisods({required this.seriesID}) : super("/appweb/series|$seriesID/");
 }
 
 class Filters extends ApiHandler {
-  Filters() : super() {
-    url = "2096/appweb/filters/";
-  }
+  Filters() : super("/appweb/filters/");
 }
