@@ -71,7 +71,8 @@ class FilteredCategorizedData extends ApiHandler {
 
 class SeriesEpisods extends ApiHandler {
   String seriesID;
-  SeriesEpisods({required this.seriesID}) : super("/appweb/series|$seriesID/");
+  SeriesEpisods({required this.seriesID})
+      : super("/appweb/posts/series|$seriesID/");
 }
 
 class Filters extends ApiHandler {

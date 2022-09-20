@@ -50,26 +50,28 @@ class HomePageBody extends StatelessWidget {
                   itemBuilder: (_, index) {
                     String imageURL =
                         mediaController.media.last[index].mediaImage;
-                    String cleanImageURL;
 
                     try {
-                      cleanImageURL = (mediaController.isSeries.value)
-                          ? imageURL.replaceAll(
-                              imageURL.substring(
-                                  imageURL.indexOf(
-                                      ':', imageURL.indexOf(':') + 1),
-                                  imageURL.indexOf(r'/wp')),
-                              "")
-                          : imageURL;
+                      mediaController.media.last[index].mediaImage =
+                          (mediaController.isSeries.value)
+                              ? mediaController.media.last[index].mediaImage
+                                  .replaceAll(
+                                      imageURL.substring(
+                                          imageURL.indexOf(
+                                              ':', imageURL.indexOf(':') + 1),
+                                          imageURL.indexOf(r'/wp')),
+                                      "")
+                              : imageURL;
                     } catch (e) {
-                      cleanImageURL =
+                      mediaController.media.last[index].mediaImage =
                           "images/failLoading/image_fail_loading.jpeg";
                     }
 
                     return OpenContainer(
                       closedColor: AppColors().appbackground,
                       closedBuilder: (_, closedBuilder) => GridViewBodyCard(
-                          imageUrl: cleanImageURL,
+                          imageUrl:
+                              mediaController.media.last[index].mediaImage,
                           title:
                               "${mediaController.media.last[index].mediaTitle}"),
                       openBuilder: (_, openBuilder) {

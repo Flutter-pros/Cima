@@ -142,7 +142,7 @@ class MediaController extends GetxController {
 
     for (var data in filteredData) {
       locatedMedia.add(MediaControllerData(
-        mediaID: data['term_id'] ?? data["id"],
+        mediaID: data['term_id'] ?? data["id"] ?? data["termID"],
         mediaTitle: data['title'],
         mediaImage: data['thumbnailUrl'],
         mediaYear: data['year'],
