@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 //! we will use the HomepAgeBody controller (MediaController) to update the data in the home page body
 import 'package:cima/app/modules/HomePageBody/controllers/media_controller.dart';
-
+import 'package:cima/app/library/globals.dart' as globals;
 // import '../modules/Drawer/controllers/drawer_controller.dart' as drawer;
 
 class HomePageDrawer extends StatefulWidget {
@@ -127,8 +127,7 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                             ),
                             InkWell(
                               onTap: () {
-                                mediaController.isSeries.value =
-                                    (index == 1) ? true : false;
+                                globals.isSeries = (index == 1) ? true : false;
 
                                 mediaController.categorizeData(
                                     categoryID: mediaController
@@ -171,7 +170,7 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
                                   .mainCategorySubCategories[index2]["name"];
                               return GestureDetector(
                                 onTap: () {
-                                  mediaController.isSeries.value =
+                                  globals.isSeries =
                                       (index == 1) ? true : false;
                                   mediaController.categorizeData(
                                       categoryID: mediaController.drawer[index]
@@ -213,29 +212,3 @@ class _HomePageDrawerState extends State<HomePageDrawer> {
         ));
   }
 }
-
-//title: "${snapshot.data[index]["name"]}",
-//itemCount: snapshot.data[index]["children"].length,
-//  var name =snapshot.data[index]["children"][index2]["name"];
-
-
-  // onTap: () {
-  //                               var updatedMediaController = MediaController();
-  //                               updatedMediaController.filterData(
-  //                                   termID: snapshot.data[index]["children"]
-  //                                       [index2]["id"]);
-      
-  //                               mediaController.media.value =
-  //                                   updatedMediaController.media;
-      
-  //                               (index == 0)
-  //                                   ? mediaController.isSeries.value = false
-  //                                   : mediaController.isSeries.value = true;
-  //                               Navigator.pop(context);
-  //                             },
-  
-
-  
-  //   child: ListTile(
-  //                               title: Text("$name"),
-  //                             ),

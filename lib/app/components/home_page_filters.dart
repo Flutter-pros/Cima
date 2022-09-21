@@ -75,7 +75,6 @@ class _SingleFilterState extends State<SingleFilter> {
   final MediaController mediaController = Get.put(MediaController());
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     tag = [];
   }

@@ -177,16 +177,7 @@ class MediaController extends GetxController {
         locatedMedia.add(data);
       }
     }
-    // media.insert(media.length, locatedMedia);
-    // if (isSearchEnabled.value) {
-    // media.insert(media.length, locatedMedia);
-    // media.removeLast();
-
     _insertMediaState(locatedMedia);
-    // } else {
-    // _insertMediaState(locatedMedia);
-    // }
-    // _goNext();
   }
 
   void searchRemoteData({required String search}) async {

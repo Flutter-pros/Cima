@@ -1,6 +1,4 @@
 import 'package:cima/app/local/local.dart';
-import 'package:cima/app/routes/content.dart';
-import 'package:cima/app/routes/movie_info.dart';
 import 'package:flutter/material.dart';
 import 'package:cima/app/routes/myhomepage.dart';
 import 'package:get/get.dart';
@@ -18,12 +16,6 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      // initialRoute: "/",
-      // getPages: [
-      //   GetPage(name: "/", page: () => const MyHomePage()),
-      //   GetPage(name: "/movie_info", page: () =>  MovieInfoScreen()),
-      //   // GetPage(name: "/content", page: () => const Content())
-      // ],
       home: const MyHomePage(),
       translations: MyLocal(),
       locale: Get.deviceLocale,

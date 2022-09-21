@@ -4,29 +4,14 @@ import '../library/globals.dart' as globals;
 
 abstract class ApiHandler {
   String categoryID = globals.categoryID;
-  String domain = "https://mycima.buzz:2096";
+
   late String url;
-  establishedConnection() async {
-    var result = await http.get(Uri.parse(domain));
-    if (result.statusCode == 200) {
-      return true;
-    } else {
-      return false;
-    }
-  }
 
-  ApiHandler(this.url) {
-    try {
-      domain = (establishedConnection()) ? domain : "type here the new domain";
-    } catch (e) {
-      print(e);
-    }
-  }
-
+  ApiHandler(this.url);
   getData() async {
     url = (url.contains(".is/appweb/posts/category|"))
-        ? "${domain.substring(0, domain.indexOf("."))}$url"
-        : "$domain$url";
+        ? "${globals.domain.substring(0, globals.domain.indexOf("."))}$url"
+        : "${globals.domain}$url";
     var result = await http.get(Uri.parse(url));
     return json.decode(result.body);
   }

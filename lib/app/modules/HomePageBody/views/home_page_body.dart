@@ -1,12 +1,14 @@
 import 'package:cima/app/components/home_page_filters.dart';
 import 'package:cima/app/routes/movie_info.dart';
 import 'package:cima/app/utils/appcolors.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/media_controller.dart';
 import 'package:cima/app/components/grid_view_body_card.dart';
 import "package:animations/animations.dart";
 import 'package:cima/app/components/shimmer.dart';
+import 'package:cima/app/library/globals.dart' as globals;
 
 class HomePageBody extends StatelessWidget {
   HomePageBody({Key? key}) : super(key: key);
@@ -23,14 +25,15 @@ class HomePageBody extends StatelessWidget {
               ImageCache imageCache = ImageCache();
               imageCache.clear();
               imageCache.clearLiveImages();
-              print(
-                  "mediaController.media.value: ${mediaController.media.value}");
-              print(
-                  "mediaController.isPreviousActivated.value: ${mediaController.isPreviousActivated.value}");
-              print(
-                  "mediaController.media.length: ${mediaController.media.value.length}");
-              print(
-                  "mediaController.targettedMediaState: ${mediaController.targettedMediaState.value}");
+              if (kDebugMode) {
+                print("mediaController.media.value: ${mediaController.media}");
+                print(
+                    "mediaController.isPreviousActivated.value: ${mediaController.isPreviousActivated.value}");
+                print(
+                    "mediaController.media.length: ${mediaController.media.length}");
+                print(
+                    "mediaController.targettedMediaState: ${mediaController.targettedMediaState.value}");
+              }
 
               if (mediaController.media.isEmpty) {
                 return const MediaShimmer();
@@ -53,7 +56,7 @@ class HomePageBody extends StatelessWidget {
 
                     try {
                       mediaController.media.last[index].mediaImage =
-                          (mediaController.isSeries.value)
+                          (globals.isSeries)
                               ? mediaController.media.last[index].mediaImage
                                   .replaceAll(
                                       imageURL.substring(

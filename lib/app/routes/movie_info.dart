@@ -3,12 +3,9 @@
 import 'package:cima/app/components/movie_info_future_builder.dart';
 import 'package:cima/app/data/movie_api.dart';
 import 'package:cima/app/modules/HomePageBody/controllers/media_controller.dart';
-// import 'package:cima/app/components/row_and_details.dart';
-
-// import 'package:cima/appcolors.dart';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:cima/app/library/globals.dart' as globals;
 
 class MovieInfoScreen extends StatefulWidget {
   const MovieInfoScreen({Key? key, required this.arguments}) : super(key: key);
@@ -26,13 +23,13 @@ class _MovieInfoScreenState extends State<MovieInfoScreen> {
     return Scaffold(
         backgroundColor: Colors.black,
         body: FutureBuilder(
-            future: (mediaController.isSeries.value)
+            future: (globals.isSeries)
                 ? SeriesEpisods(seriesID: widget.arguments.mediaID).getData()
                 : MediaData(mediaID: widget.arguments.mediaID).getData(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return MovieInfoFutureBuilder(
-                    snapshotData: (mediaController.isSeries.value)
+                    snapshotData: (globals.isSeries)
                         ? snapshot.data as List
                         : snapshot.data as Map<String, dynamic>,
                     arguments: widget.arguments);
