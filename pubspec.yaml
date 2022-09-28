@@ -43,6 +43,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_spinkit: ^5.1.0
+  font_awesome_flutter: ^10.2.1
   get: ^4.6.5
   get_storage: ^2.0.3
   getwidget: ^3.0.1
@@ -53,10 +54,10 @@ dependencies:
   video_player: ^2.4.7
 
 dev_dependencies:
+  flutter_launcher_icons: ^0.10.0
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: ^0.10.0
 
 flutter_icons:
   android: true

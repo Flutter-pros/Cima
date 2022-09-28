@@ -70,6 +70,7 @@ class MediaController extends GetxController {
   RxBool isSearchEnabled = false.obs;
   //! the bellw two methods are used to enable the previous button in the homepage screen to avoid filling the screens stack .
   RxBool isSeries = false.obs;
+  RxInt changecolorinlisttile = (-1).obs;
   void goPrevious() {
     if (media.length > 1) {
       (media.length - 1 > targettedMediaState.value)
